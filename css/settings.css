@@ -1,0 +1,52 @@
+h5{
+    font-family: '3Dventure';
+    color: rgb(0, 0, 0);
+}
+
+h6{
+    font-family: '3Dventure';
+    color: rgb(0, 0, 0);
+    margin: 10%;
+}
+
+div.modal-body img{
+    margin-left: 10%;
+}
+
+.modal-body{
+    background-color: gray;
+}
+
+.modal-content{
+    background-color:  lightgray;
+}
+
+
+div.modal-footer button{
+    height: 3em;
+    width: 10em;
+    border-radius: 13px;
+    border-color: gray;
+    border-style: double;
+    font-family: '3Dventure';
+    font-size: small;
+    color: gray;
+}
+
+
+div.modal-footer button.botonG-modal{
+    height: 5em;
+    background-color: rgb(40, 89, 212);
+    border-color: white;
+    color: white;
+}
+
+div.modal-footer button:hover{
+    border-color: wheat;
+    background-color:  gray;
+    color: lightgray;
+}
+
+div.modal-footer button.botonG-modal:hover{
+    background-color: rgb(0, 47, 167);
+}
