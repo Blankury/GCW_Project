@@ -25,7 +25,7 @@
         }
         .Boton{
             height: 50px;
-            width: 170px;
+            width: 230px;
             border-radius: 13px;
             border-color: rgb(253, 238, 219);
             background-color:  transparent;
@@ -61,6 +61,13 @@
         a{
             font-size: 15px;
         }
+        .inputUsername{
+            font-family: '8bit'; 
+            width: 250px;
+        }
+        p{
+            color: aliceblue; font-family: '8bit';
+        }
     </style>
 
 </head>
@@ -70,34 +77,49 @@
 
     <div class="text-center">
 
-        <a class="BotonFont">PUNTUACIONES</a><br><br>
-        <p style="color: aliceblue; font-family: '8bit'; ">Esta tabla solo muestra las partidas individuales.</p><br>
+        <a class="BotonFont">PARTIDA TERMINADA</a><br><br>
+        <p>La partida multijugador se ha terminado.</p><br>
+  
+        <br>
 
-        <!--Columnas de la tabla de score-->
-        <div class="row" style="font-family: '3Dventure'; color: aliceblue; font-size: 13px;">
-            <div class="col-1"></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>Posición</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>Usuario</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>Fecha</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>Nivel</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>Puntos</p></div>
-            <div class="col-1"></div>
-        </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-3 py-1" style="border-style:double; border-color:aliceblue;"><p>Jugadores</p></div>
+                <div class="col-2 py-1" style="border-style:double; border-color:aliceblue;"><p>Puntos</p></div>
+                <div class="col-3 py-1" style="border-style:double; border-color:aliceblue;"><p>Accion</p></div>
+                <div class="col-2"></div>
+            </div>
 
-        <!--Columnas que se generan de la BD-->
-        <div class="row" style="font-family: '8bit'; color: aliceblue;">
-            <div class="col-1"></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>1</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>bdt_elena</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>10/10/2022</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>City</p></div>
-            <div class="col-2 text-center py-2" style=" border-style: double; border-color: aliceblue;"><p>100</p></div>
-            <div class="col-1"></div>
-        </div>
-
-        <br><br>
-
-        <a href="index.html" class="BotonFont"><button class="Boton">Return</button></a><br><br>
+        <form action="score.html" method="GET">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-3 py-4" style="border-style:double; border-color:aliceblue;">
+                    <div class="row">
+                        <label><input class="inputUsername" type="text" required placeholder="Jugador 1"></label>   
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label><input class="inputUsername" type="text" required placeholder="Jugador 2"></label>   
+                    </div>
+                </div>
+                <div class="col-2 py-4" style="border-style:double; border-color:aliceblue;">
+                    <div class="row">
+                        <p>30 puntos</p>   
+                    </div>
+                    <br>
+                    <div class="row">
+                        <p>30 puntos</p>   
+                    </div>
+                </div>
+                <div class="col-3 py-5" style="border-style:double; border-color:aliceblue;"><input class="Boton" type="submit" value="Subir puntuacion"></div>
+                <div class="col-2"></div>
+            </div>
+        </form>  
+        
+        <br>
+        <a href="partida.html" class="BotonFont"><button class="Boton">Repetir</button></a><br><br>
+        <a href="index.html" class="BotonFont"><button class="Boton">Ir al menu</button></a><br><br>
+        
 
     </div>
 
