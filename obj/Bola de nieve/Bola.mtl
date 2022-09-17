@@ -124,15 +124,6 @@ map_Kd autos-6.png
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 0.06
-newmtl escudo_palette
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd escudo.png
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 0.06
 newmtl lambert2SG
 illum 4
 Kd 0.15 0.50 0.06
@@ -145,15 +136,6 @@ Kd 0.08 0.64 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
-newmtl lampara_palette
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd lampara.png
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 0.06
 newmtl palette
 illum 4
 Kd 0.00 0.00 0.00
