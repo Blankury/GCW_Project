@@ -1,0 +1,24 @@
+{
+  "name": "gcw_project",
+  "description": "\"# GCW_Project\"",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "game-scene.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blankury/GCW_Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Blankury/GCW_Project/issues"
+  },
+  "homepage": "https://github.com/Blankury/GCW_Project#readme",
+  "keywords": [],
+  "dependencies": {
+    "three": "^0.145.0"
+  }
+}
