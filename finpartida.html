@@ -68,6 +68,9 @@
         p{
             color: aliceblue; font-family: '8bit';
         }
+        span{
+            color: aliceblue; font-family: '8bit';
+        }
     </style>
 
 </head>
@@ -79,8 +82,9 @@
 
         <a class="BotonFont">NIVEL COMPLETADO</a><br><br>
         <p>¡Felicidades! Has llegado al final del nivel.</p><br>
-        <p>80 PUNTOS</p>
-  
+        <span id ="puntuacion_recibida">80</span>
+        <span>  PUNTOS </span>
+
         <br><br>
 
             <div class="row">
@@ -91,11 +95,11 @@
                 <div class="col-2"></div>
             </div>
 
-        <form action="score.html" method="GET">
+        <form action="score.html" method="POST">
             <div class="row">
                 <div class="col-2"></div>
-                <div class="col-3 py-4" style="border-style:double; border-color:aliceblue;"><label><input class="inputUsername" type="text" required placeholder="Username"></label></div>
-                <div class="col-3 py-4" style="border-style:double; border-color:aliceblue;"><input class="Boton" type="submit" value="Subir puntuacion"></div>
+                <div class="col-3 py-4" style="border-style:double; border-color:aliceblue;"><label><input class="inputUsername" type="text" id="nombreUsuario" required placeholder="Username"></label></div>
+                <div class="col-3 py-4" style="border-style:double; border-color:aliceblue;"><input class="Boton" type="submit" value="Subir puntuacion" onclick="saveDB()"></div>
                 <div class="col-2 py-2" style="border-style:double; border-color:aliceblue;"><button type="button" style="background:transparent; border-style: none; " onclick="shareScore()"><img src="./img/facebook.png" height="70" width="70"></button></div>
                 <div class="col-2"></div>
             </div>
@@ -116,5 +120,6 @@
 </body>
     <script src="./js/jquery-3.6.0.min.js">    </script> 
     <script src="./js/facebook.js">    </script> 
+    <script src="./js/Save_Get.js">    </script> 
 
 </html>
