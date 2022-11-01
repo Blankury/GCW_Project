@@ -1,52 +1,59 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
 import { Squirrel } from "./squirrel.js";
 
-
+// Escena
 const scene = new THREE.Scene();
-const game = document.getElementById("game-scene");
-var width = 1920, height = 1080;
+scene.background = new THREE.Color( 0x484e5c);
 
+const game = document.getElementById("game-scene");
 
 const squirrel = new Squirrel();
 
+// Variables
+var width = 1920, height = 1080;
+const keys = {};
+var wheelY = 0;
+var deltaTime;	
+var changeCam = false;
+var isWorldReady = []
 
-scene.background = new THREE.Color( 0x484e5c);
 
+// Reloj
+var clock = new THREE.Clock();
+
+
+// Camara
 const size = 30;
 const near = -100;
 const far = 100;
 const camera = new THREE.OrthographicCamera(-size, size, size, -size, near, far);
 camera.zoom = 2;
 camera.position.set(0, 0, 0);
-camera.rotation.x = THREE.MathUtils.degToRad(120);	//120 
-camera.rotation.y = THREE.MathUtils.degToRad(20);	//30	//20
-camera.rotation.z = THREE.MathUtils.degToRad(35);	//45	//35
+camera.rotation.x = THREE.MathUtils.degToRad(-45);	//-45
+camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
+camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
+//
 
+// Renderer
+const renderer = new THREE.WebGLRenderer({precision: "mediump" });
+renderer.setClearColor(new THREE.Color(0, 0, 0));
+renderer.setSize( game.clientWidth, game.clientHeight);
+
+const canvas = renderer.domElement;
 
 window.addEventListener('resize', function(){
 	width = game.clientWidth;
 	height = game.clientHeight;
-	renderer.setPixelRatio(width / length);
+	//renderer.setPixelRatio(width / length);
 	renderer.setSize(width, height);
-	camera.aspect = width / height;
+	camera.aspect = canvas.clientWidth / canvas.clientHeight;
 	camera.updateProjectionMatrix();
 });
-
-export const keys = {};
-var wheelY = 0;
-var clock;
-clock = new THREE.Clock();
-var deltaTime;	
-var changeCam = false;
-
-const renderer = new THREE.WebGLRenderer({precision: "mediump" });
-renderer.setClearColor(new THREE.Color(0, 0, 0));
-renderer.setSize( game.clientWidth, game.clientHeight);
 
 console.log("Esto es el renderer");
 console.log(renderer);
 game.appendChild( renderer.domElement );
 
+console.log(THREE);
 
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
 const material = new THREE.MeshPhongMaterial( { 
@@ -54,30 +61,38 @@ const material = new THREE.MeshPhongMaterial( {
 	specular: new THREE.Color(1, 1, 1),
 	shininess: 500	
 });
-//color: 0x873e23 
+
 const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+//cube.position.y = 1;
+scene.add(cube);
+
+// loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
+//      scene.add(object);
+// 	 isWorldReady[0] = true;
+// });
 
 cube.add(camera);
-//camera.position.z = 5;
+cube.position.y = 0.5;
 
 var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 0.91, 0.43), 1.0);
 scene.add(ambientLight);
 
 var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
-directionalLight.position.set(-1, -1, 0);
+directionalLight.position.set(1, 1, 0);
 scene.add(directionalLight);
 
 // Grid guia
-var grid = new THREE.GridHelper(50, 20, 0x000000, 0xffffff);
-grid.position.y = 1;
+var grid = new THREE.GridHelper(50, 25, 0x000000, 0xffffff);
+//grid.position.x = 0.5;
+//grid.position.z = 0.5;
+
 scene.add(grid);
 
 //console.log(game);
 console.log(scene);
 console.log(camera);
 
-// Teclas
+// Eventos de teclas
 function onKeyDown(event) {
 	keys[String.fromCharCode(event.keyCode)] = true;
 	//changeCam = true;
@@ -110,12 +125,12 @@ function animate() {
 
 	if (keys["W"]) {
 		if(!squirrel.moving){
-		updown = 1;
+		updown = -1;
 		squirrel.moving = true;
 		}
 	} else if (keys["S"]) {
 		if(!squirrel.moving){
-		updown = -1;
+		updown = 1;
 		squirrel.moving = true;
 		}
 	}
@@ -137,20 +152,19 @@ function animate() {
 
 	if (keys[" "]) {
 		if (!changeCam) {
-			camera.rotation.x = THREE.MathUtils.degToRad(90);
+			camera.rotation.x = THREE.MathUtils.degToRad(-90);
 			camera.rotation.y = THREE.MathUtils.degToRad(0);
 			camera.rotation.z = THREE.MathUtils.degToRad(0);
 			changeCam = true;
 		} else {
-			camera.rotation.x = THREE.MathUtils.degToRad(120);
-			camera.rotation.y = THREE.MathUtils.degToRad(20);
-			camera.rotation.z = THREE.MathUtils.degToRad(35);
+			camera.rotation.x = THREE.MathUtils.degToRad(-45);
+			camera.rotation.y = THREE.MathUtils.degToRad(10);
+			camera.rotation.z = THREE.MathUtils.degToRad(10);
 			changeCam = false;
 		}
 		
 	}
-
-	console.log(keys);
+	//console.log(keys);
 
 	if (pitch != chpitch)
 		console.log(camera);
@@ -163,13 +177,11 @@ function animate() {
 
 	if (camera.zoom >= 0.8 && camera.zoom <= 4.5){
 		camera.updateProjectionMatrix();
-		//camera.zoom = 0.1;
 	}else if(camera.zoom <= 0.8){
 		camera.zoom = 0.8;
 	}else{
 		camera.zoom = 4.5;
 	}
-	
 	
 	wheelY = 0;
 	chpitch = pitch;
@@ -177,6 +189,24 @@ function animate() {
 	//camera.setRotationFromEuler(new THREE.Vector3(45,0,0));
 	//camera.translateZ(forward * deltaTime);
 	
+	//if (isWorldReady[0])
 	renderer.render( scene, camera );
+
 }
 animate();
+
+
+// function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
+//     var mtlLoader = new MTLLoader();
+//     mtlLoader.setPath(path);
+//     mtlLoader.load(mtlFile, (materials) => {
+        
+//         var objLoader = new OBJLoader();
+//         objLoader.setMaterials(materials);
+//         objLoader.setPath(path);
+//         objLoader.load(objFile, (object) => {
+//             onLoadCallback(object);
+//         });
+
+//     });
+// }

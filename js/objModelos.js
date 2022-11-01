@@ -1,15 +1,16 @@
+//import * as THREE from '../node_modules/three/build/three.module.js';
+// import {MTLLoader} from 'https://cdn.jsdelivr.net/npm/three@0.117.1/examples/jsm/loaders/MTLLoader.js';
+// import {OBJLoader} from 'https://cdn.jsdelivr.net/npm/three@0.117.1/examples/jsm/loaders/OBJLoader.js';
 
-loadOBJWithMTL("obj/Player_1", "ardilla_1.obj", "ardilla_1.mtl", (object) => {
+import {MTLLoader} from '../node_modules/three/examples/jsm/loaders/MTLLoader.js';
+import {OBJLoader} from '../node_modules/three/examples/jsm/loaders/OBJLoader.js';
 
-    scene.add(object);
-});
-
-export function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
-    var mtlLoader = new THREE.MTLLoader();
+export default function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
+    var mtlLoader = new MTLLoader();
     mtlLoader.setPath(path);
     mtlLoader.load(mtlFile, (materials) => {
         
-        var objLoader = new THREE.OBJLoader();
+        var objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
         objLoader.setPath(path);
         objLoader.load(objFile, (object) => {
