@@ -7,6 +7,7 @@ scene.background = new THREE.Color( 0x484e5c);
 const game = document.getElementById("game-scene");
 
 const squirrel = new Squirrel();
+const squirrelP2 = new Squirrel();
 
 // Variables
 var width = 1920, height = 1080;
@@ -53,28 +54,39 @@ console.log("Esto es el renderer");
 console.log(renderer);
 game.appendChild( renderer.domElement );
 
-console.log(THREE);
 
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
 const material = new THREE.MeshPhongMaterial( { 
-	color: new THREE.Color(0.7, 0.5, 0.5),
+	color: new THREE.Color(0xFF8787),
 	specular: new THREE.Color(1, 1, 1),
 	shininess: 500	
 });
 
-const cube = new THREE.Mesh( geometry, material );
-//cube.position.y = 1;
+const material2 = new THREE.MeshPhongMaterial( { 
+	color: new THREE.Color(0xBCE29E),
+	specular: new THREE.Color(1, 1, 1),
+	shininess: 500	
+});
+
+
+const cube = new THREE.Mesh(geometry, material);
+const cube2 = new THREE.Mesh(geometry, material2);
+
+cube.position.x = -2; cube.position.y = 0.5;
+cube2.position.x = 2; cube2.position.y = 0.5;
+
 scene.add(cube);
+scene.add(cube2);
 
 // loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
 //      scene.add(object);
 // 	 isWorldReady[0] = true;
 // });
 
-cube.add(camera);
-cube.position.y = 0.5;
+//cube.add(camera);
 
-var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 0.91, 0.43), 1.0);
+
+var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 scene.add(ambientLight);
 
 var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
@@ -92,15 +104,23 @@ scene.add(grid);
 console.log(scene);
 console.log(camera);
 
+
+
 // Eventos de teclas
 function onKeyDown(event) {
 	keys[String.fromCharCode(event.keyCode)] = true;
-	//changeCam = true;
+
 }
+
 function onKeyUp(event) {
 	delete keys[String.fromCharCode(event.keyCode)];
-	squirrel.moving = false;
-	//changeCam = true;
+	//console.log(event);
+	if (event.key === "ArrowUp" || event.key === "ArrowDown"
+		|| event.key === "ArrowLeft" || event.key === "ArrowRight")
+		squirrelP2.moving = true;
+	if (event.key === "w" || event.key === "s"
+		|| event.key === "a" || event.key === "d")
+		squirrel.moving = true;
 }
 
 onwheel = (event) =>{
@@ -114,38 +134,62 @@ document.addEventListener('keyup', onKeyUp);
 
 function animate() {
 	requestAnimationFrame( animate );
-
 	deltaTime = clock.getDelta();
 
 	var yaw = 0;
 	var sides = 0;
+	var sides_p2 = 0;
 	var updown = 0
+	var updown_p2 = 0
 	var pitch = 0;
 	var chpitch = 0;
 
 	if (keys["W"]) {
-		if(!squirrel.moving){
-		updown = -1;
-		squirrel.moving = true;
+		if (squirrel.moving) {
+			updown = -1;
+			squirrel.update();
 		}
 	} else if (keys["S"]) {
-		if(!squirrel.moving){
-		updown = 1;
-		squirrel.moving = true;
+		if (squirrel.moving) {
+			updown = 1;
+			squirrel.update();
 		}
 	}
-	if (keys["A"] ) {
-		if (!squirrel.moving){
+	if (keys["A"]) {
+		if (squirrel.moving) {
 			sides = -1;
-			squirrel.moving = true;
+			squirrel.update();
 		}
 	} else if (keys["D"]) {
-		if(!squirrel.moving){
+		if (squirrel.moving) {
 			sides = 1;
-			squirrel.moving = true;
+			squirrel.update();
 		}
 	}
-	
+
+	if (keys['&']) {
+		if (squirrelP2.moving) {
+			updown_p2 = -1;
+			squirrelP2.update()
+		}
+	} else if (keys['(']) {
+		if (squirrelP2.moving) {
+			updown_p2 = 1;
+			squirrelP2.update();
+		}
+	}
+	if (keys["%"]) {
+		if (squirrelP2.moving) {
+			sides_p2 = -1;
+			squirrelP2.update();
+		}
+	} else if (keys["'"]) {
+		if (squirrelP2.moving) {
+			sides_p2 = 1;
+			squirrelP2.update();
+		}
+	}
+
 	if (keys["Z"]){
 		camera.zoom = 2;
 	}
@@ -156,7 +200,7 @@ function animate() {
 			camera.rotation.y = THREE.MathUtils.degToRad(0);
 			camera.rotation.z = THREE.MathUtils.degToRad(0);
 			changeCam = true;
-		} else {
+		}else {
 			camera.rotation.x = THREE.MathUtils.degToRad(-45);
 			camera.rotation.y = THREE.MathUtils.degToRad(10);
 			camera.rotation.z = THREE.MathUtils.degToRad(10);
@@ -164,13 +208,16 @@ function animate() {
 		}
 		
 	}
-	//console.log(keys);
 
 	if (pitch != chpitch)
 		console.log(camera);
 	
 	cube.position.x += sides;
 	cube.position.z += updown;
+	cube2.position.x += sides_p2;
+	cube2.position.z += updown_p2;
+
+	//camera.position.x += 0.01;
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
 	camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
 	camera.zoom -=  (wheelY*0.05) * deltaTime;
@@ -189,12 +236,25 @@ function animate() {
 	//camera.setRotationFromEuler(new THREE.Vector3(45,0,0));
 	//camera.translateZ(forward * deltaTime);
 	
+	let puntoM = puntoMedio(cube.position, cube2.position)
+	//console.log(puntoM);
+	camera.position.x = puntoM.x;
+	camera.position.z = puntoM.y;
+	
 	//if (isWorldReady[0])
 	renderer.render( scene, camera );
 
 }
 animate();
 
+
+
+function puntoMedio(pos1, pos2){
+	let newX, newZ;
+	newX = (pos1.x + pos2.x) / 2;
+	newZ = (pos1.z + pos2.z) / 2;
+	return new THREE.Vector2(newX, newZ);
+}
 
 // function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
 //     var mtlLoader = new MTLLoader();

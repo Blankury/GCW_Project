@@ -1,12 +1,12 @@
 export class Squirrel {
     constructor(){
-        this.moving = false;
+        this.moving = true;
 
     }
 
     update(){
-        if(this.moving === false){
-            this.moving = true;
+        if(this.moving === true){
+            this.moving = false;
         }
     }
 
