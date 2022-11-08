@@ -1,4 +1,5 @@
 import { Squirrel } from "./squirrel.js";
+import loadOBJWithMTL from "./objModelos.js";
 
 // Escena
 const scene = new THREE.Scene();
@@ -78,12 +79,66 @@ cube2.position.x = 2; cube2.position.y = 0.5;
 scene.add(cube);
 scene.add(cube2);
 
-// loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
-//      scene.add(object);
-// 	 isWorldReady[0] = true;
-// });
+loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
+	object.scale.x = 0.5;
+	object.scale.y = 0.5;
+	object.scale.z = 0.5;
 
-//cube.add(camera);
+	scene.add(object);
+	isWorldReady[0] = true;
+});
+
+loadOBJWithMTL("obj/Autos/", "autos-0.obj", "autos-0.mtl", (object) => {
+	object.position.x += 3.5;
+	scene.add(object);
+	isWorldReady[1] = true;
+});
+
+loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
+	object.scale.x = 0.5;
+	object.scale.y = 0.5;
+	object.scale.z = 0.5;
+	object.position.x += 3.5;
+	object.position.z += 2;
+	scene.add(object);
+	isWorldReady[2] = true;
+});
+
+loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
+	object.scale.x = 0.5;
+	object.scale.y = 0.5;
+	object.scale.z = 0.5;
+	object.position.x += 5.5;
+	object.position.z += 2;
+	scene.add(object);
+	isWorldReady[3] = true;
+});
+
+loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
+	object.position.x += 7.5;
+	object.position.z += 2;
+	scene.add(object);
+	isWorldReady[4] = true;
+});
+
+loadOBJWithMTL("obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
+	object.position.x += 3.5;
+	object.position.z -= 4;
+	scene.add(object);
+	isWorldReady[5] = true;
+});
+
+loadOBJWithMTL("obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
+	object.position.x += 7.5;
+	scene.add(object);
+	isWorldReady[6] = true;
+});
+
+loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
+	object.position.x += 9.5;
+	scene.add(object);
+	isWorldReady[7] = true;
+});
 
 
 var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
@@ -125,7 +180,6 @@ function onKeyUp(event) {
 
 onwheel = (event) =>{
 	wheelY = event.deltaY;
-	console.log(camera.zoom);
 };
 
 
@@ -209,15 +263,14 @@ function animate() {
 		
 	}
 
-	if (pitch != chpitch)
-		console.log(camera);
+	if (pitch != chpitch){}
+		//console.log(camera);
 	
 	cube.position.x += sides;
 	cube.position.z += updown;
 	cube2.position.x += sides_p2;
 	cube2.position.z += updown_p2;
 
-	//camera.position.x += 0.01;
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
 	camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
 	camera.zoom -=  (wheelY*0.05) * deltaTime;
@@ -233,15 +286,12 @@ function animate() {
 	wheelY = 0;
 	chpitch = pitch;
 	
-	//camera.setRotationFromEuler(new THREE.Vector3(45,0,0));
-	//camera.translateZ(forward * deltaTime);
-	
 	let puntoM = puntoMedio(cube.position, cube2.position)
-	//console.log(puntoM);
+	
 	camera.position.x = puntoM.x;
 	camera.position.z = puntoM.y;
 	
-	//if (isWorldReady[0])
+	if (isWorldReady[0])
 	renderer.render( scene, camera );
 
 }
@@ -255,18 +305,3 @@ function puntoMedio(pos1, pos2){
 	newZ = (pos1.z + pos2.z) / 2;
 	return new THREE.Vector2(newX, newZ);
 }
-
-// function loadOBJWithMTL(path, objFile, mtlFile, onLoadCallback) {
-//     var mtlLoader = new MTLLoader();
-//     mtlLoader.setPath(path);
-//     mtlLoader.load(mtlFile, (materials) => {
-        
-//         var objLoader = new OBJLoader();
-//         objLoader.setMaterials(materials);
-//         objLoader.setPath(path);
-//         objLoader.load(objFile, (object) => {
-//             onLoadCallback(object);
-//         });
-
-//     });
-// }
