@@ -109,7 +109,7 @@ loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 	scene.add(object);
 
 
-	ObjetosConColision.push(object);
+	//ObjetosConColision.push(object);
 
 	isWorldReady[1] = true;
 });
@@ -123,7 +123,7 @@ loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
 
-	ObjetosConColision.push(object);
+	//ObjetosConColision.push(object);
 
 	isWorldReady[1] = true;
 });
@@ -205,7 +205,7 @@ loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
 	scene.add(object);
 
 
-	ObjetosConColision.push(object);
+	//ObjetosConColision.push(object);
 
 	
 	isWorldReady[0] = true;
