@@ -1,0 +1,18 @@
+newmtl rocas_1_palette
+illum 4
+Ka 0.000 0.000 0.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+map_Kd rocas-1.png
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06
+newmtl rocas_2_palette
+illum 4
+Ka 0.000 0.000 0.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+map_Kd rocas-2.png
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06

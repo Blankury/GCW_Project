@@ -16,8 +16,7 @@ const keys = {};
 var wheelY = 0;
 var deltaTime;	
 var changeCam = false;
-var isWorldReady = []
-
+var isWorldReady = [];
 
 // Reloj
 var clock = new THREE.Clock();
@@ -34,6 +33,14 @@ camera.rotation.x = THREE.MathUtils.degToRad(-45);	//-45
 camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
 camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 //
+
+//Colisiones
+/*var RayCaster;
+RayCaster = new THREE.Raycaster();
+var ObjetosConColision = [];
+*/
+
+
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({precision: "mediump" });
@@ -79,18 +86,45 @@ cube2.position.x = 2; cube2.position.y = 0.5;
 scene.add(cube);
 scene.add(cube2);
 
+/*cube.rayos = [
+	new THREE.Vector3(1, 0, 0), 
+	new THREE.Vector3(-1, 0, 0),
+	new THREE.Vector3(0, 0, 1),
+	new THREE.Vector3 (0, 0, -1)
+];
+*/
+
 loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
+	object.position.x -= 3.5;
 
 	scene.add(object);
 	isWorldReady[0] = true;
 });
 
-loadOBJWithMTL("obj/Autos/", "autos-0.obj", "autos-0.mtl", (object) => {
+loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 	object.position.x += 3.5;
 	scene.add(object);
+
+
+	ObjetosConColision.push(object);
+
+	isWorldReady[1] = true;
+});
+
+
+loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
+	object.position.x += 3.5;
+	scene.add(object);
+
+	object.scale.x = 0.5;
+	object.scale.y = 0.5;
+	object.scale.z = 0.5;
+
+	ObjetosConColision.push(object);
+
 	isWorldReady[1] = true;
 });
 
@@ -140,6 +174,71 @@ loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 	isWorldReady[7] = true;
 });
 
+
+
+
+
+loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
+
+	scene.add(object);
+	isWorldReady[0] = true;
+});
+
+
+loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
+
+	scene.add(object);
+	isWorldReady[0] = true;
+});
+
+loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
+
+	scene.add(object);
+
+
+	ObjetosConColision.push(object);
+
+	
+	isWorldReady[0] = true;
+});
+
+
+loadOBJWithMTL("obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
+
+	scene.add(object);
+	isWorldReady[0] = true;
+});
+
+
+loadOBJWithMTL("obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
+
+	scene.add(object);
+	isWorldReady[0] = true;
+});
+
+loadOBJWithMTL("obj/Nivel_1/", "rocas.obj", "rocas.mtl", (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
+
+	scene.add(object);
+	isWorldReady[0] = true;
+});
 
 var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 scene.add(ambientLight);
@@ -200,46 +299,46 @@ function animate() {
 
 	if (keys["W"]) {
 		if (squirrel.moving) {
-			updown = -1;
+			updown = -3;
 			squirrel.update();
 		}
 	} else if (keys["S"]) {
 		if (squirrel.moving) {
-			updown = 1;
+			updown = 3;
 			squirrel.update();
 		}
 	}
 	if (keys["A"]) {
 		if (squirrel.moving) {
-			sides = -1;
+			sides = -3;
 			squirrel.update();
 		}
 	} else if (keys["D"]) {
 		if (squirrel.moving) {
-			sides = 1;
+			sides = 3;
 			squirrel.update();
 		}
 	}
 
 	if (keys['&']) {
 		if (squirrelP2.moving) {
-			updown_p2 = -1;
+			updown_p2 = -3;
 			squirrelP2.update()
 		}
 	} else if (keys['(']) {
 		if (squirrelP2.moving) {
-			updown_p2 = 1;
+			updown_p2 = 3;
 			squirrelP2.update();
 		}
 	}
 	if (keys["%"]) {
 		if (squirrelP2.moving) {
-			sides_p2 = -1;
+			sides_p2 = -3;
 			squirrelP2.update();
 		}
 	} else if (keys["'"]) {
 		if (squirrelP2.moving) {
-			sides_p2 = 1;
+			sides_p2 = 3;
 			squirrelP2.update();
 		}
 	}
@@ -291,8 +390,19 @@ function animate() {
 	camera.position.x = puntoM.x;
 	camera.position.z = puntoM.y;
 	
-	if (isWorldReady[0])
-	renderer.render( scene, camera );
+	if (isWorldReady[0]){
+		renderer.render( scene, camera );
+	/*
+		for (var i; i<cube.rayos.lenght; i++){
+			var rayo = cube.rayos[i];
+			RayCaster.set(cube.position , rayo);
+			
+			var collision = RayCaster.intersectObjects(ObjetosConColision, true);
+			if (collision.lenght > 0 && collision[0].distance < 1){
+				console.log("si hay colision");
+			}
+		}*/
+	}
 
 }
 animate();

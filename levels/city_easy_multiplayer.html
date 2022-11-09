@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Jump N' Survive</title>
+    <style type="text/css">
+        body{
+           background-color:  rgb(40, 89, 212);
+        }
+        @font-face {
+            font-family: '3Dventure';
+            src: url(../font/8-bit-pusab.ttf) format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+        .Boton{
+            height: 50px;
+            width: 170px;
+            border-radius: 13px;
+            border-color: rgb(253, 238, 219);
+            background-color:  transparent;
+            border-style: double;
+            font-family: '3Dventure';
+            font-size: 14px;
+            color: rgb(253, 238, 219);
+        }
+        .Boton:hover{
+            border-color: rgb(253, 238, 219);
+            background-color: rgb(0, 187, 187);
+            
+        }
+        .BotonFont{
+            font-family: '3Dventure';
+            color: rgb(253, 238, 219);
+            text-decoration: none;
+        }
+        .BotonFont:hover{
+            color: rgb(255, 249, 241);
+        }
+        a{
+            font-size: 15px;
+        }
+        .pause-modal{
+            padding: 10px;
+            background-color: transparent;
+        }
+        .pause-modal label{
+            padding: 15px 15px;
+            background-color: transparent;
+            color: aliceblue;
+            border-radius: 13px;
+            cursor: pointer;
+        }
+        #btn-modal{
+            display: none;
+        }
+        .container-modal{
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0; bottom: 0;
+            background-color: transparent;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            background-color: rgba(53, 53, 53, 0.8);
+        }
+        #btn-modal:checked ~.container-modal{
+            display: flex;
+        }
+        .contenido-modal{
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: black;
+            border-radius: 13px;
+            border-style: double;
+            border-color: aliceblue;
+        }
+        .contenido-modal a{
+            margin-bottom: 15px;
+            font-family: '3Dventure';
+            font-size: 15px;
+            text-decoration: none;
+            color: aliceblue;
+        }
+        .contenido-modal a:hover{
+            color:gray;
+        }
+        .contenido-modal .btn-cerrar{
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+        }
+        .contenido-modal .btn-cerrar label{
+          
+            background-color: transparent;
+            color: aliceblue;
+            cursor: pointer;
+            font-family: '3Dventure';
+            font-size: 15px;
+        }
+        .contenido-modal .btn-cerrar label:hover{
+            color: gray;
+        }
+        .cerrar-modal{
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: -1;
+        }
+        @media screen and (max-width:800px) {
+            .contenido-modal{
+                width: 90%;
+            }
+        }
+        
+    </style>
+    <script type="text/javascript" src="../js/three/three.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script> 
+    <script type="text/javascript">
+
+            var scene;
+            var renderer;
+            var camera;
+
+            var clock;
+
+            $(document).ready(function() {
+
+                clock = new THREE.Clock();
+
+                var width = window.innerWidth-30;
+                var height = window.innerHeight-50;
+
+                // Inicializamos el Renderer
+                renderer = new THREE.WebGLRenderer();
+                renderer.setClearColor(new THREE.Color(0, 0, 0));
+                renderer.setSize(width, height);
+
+                // Inicializamos la cámara
+                camera = new THREE.PerspectiveCamera(
+                    75,
+                    width / height,
+                    0.1,
+                    100
+                );
+
+                // Inicializamos la escena
+                scene = new THREE.Scene();
+
+
+                // Para dibujar se necesita
+                // 1.- Geometria: Es un objeto que almacena la info de los vertices, indices y demas
+                // 2.- Material: Es un objeto que almacena la info del material como colores, texturas, iluminacion, etc..
+                // 3.- Mesh: Es un objeto que contine la geometria y el material
+
+                var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+                var material = new THREE.MeshLambertMaterial({
+                    color: new THREE.Color(0.7, 0, 0)
+                });
+
+                var cube = new THREE.Mesh(geometry, material);
+                
+
+                var material2 = new THREE.MeshPhongMaterial({
+                    color: new THREE.Color(0.5, 0.5, 0.5),
+                    specular: new THREE.Color(1, 1, 1),
+                    shininess: 500
+                });
+
+                var cube02 = new THREE.Mesh(geometry, material2);
+
+                scene.add(cube);
+                scene.add(cube02);
+
+                cube.position.x = 2;
+                cube02.position.x = -1;
+
+                camera.position.z = 4;
+
+
+                cube.name = "cubo01";
+                cube02.name = "cubo02";
+
+                // Iluminacion
+                var ambient = new THREE.AmbientLight(
+                    new THREE.Color(1, 1, 1),
+                    1.0
+                );
+
+                var directional = new THREE.DirectionalLight(
+                    new THREE.Color(1, 1, 0),
+                    0.4
+                );
+
+                directional.position.set(0, 0, 1);
+
+                scene.add(ambient);
+                scene.add(directional);
+
+                // Para agregar datos a nuestros objetos
+                cube.userData.vida = 100;
+
+
+                cube02.add(cube);
+
+                // Le indicamos a ThreeJS
+                // donde queremos el canvas
+                $("#scene-section").append(renderer.domElement);
+
+                render();
+            });
+
+
+            function render() {
+
+                var tiempoDelta = clock.getDelta();
+
+                var cubo01 = scene.getObjectByName("cubo01");
+                var cube02 = scene.getObjectByName("cubo02");
+
+
+                cubo01.rotation.y += THREE.Math.degToRad(10 * tiempoDelta);
+                cube02.rotation.y -= THREE.Math.degToRad(100 * tiempoDelta);
+
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(render);
+            }
+
+    </script>
+
+
+
+</head>
+<body>
+
+    <section>
+
+        <div id="scene-section" class="text-center py-3">
+
+            <div style="display: flex; position: fixed;">
+                <div class="pause-modal">
+                    <label for="btn-modal" style="font-family: '3Dventure';">
+                        <img src="https://art.pixilart.com/72b06a59f06e18f.png" height="70" width="70">
+                    </label>
+                </div>
+                <p style="font-family: '3Dventure'; color: white; padding: 40px;">City - Facil - Multijugador</p>
+            </div>
+
+        
+            
+        </div>
+
+    </section>
+
+    <input type="checkbox" id="btn-modal">
+    <div class="container-modal">
+        <div class="contenido-modal">
+            <div class="text-center"><a style="color: aliceblue;">PAUSE</a></div>
+            <div class="btn-cerrar">
+                <label for="btn-modal">Reaundar</label>
+            </div><br>
+            <div><a href="../configurarpartida.html">Salir</a></div>
+        </div>
+        <label for="btn-modal" class="cerrar-modal"></label>
+    </div>
+    
+</body>
+
+</html>

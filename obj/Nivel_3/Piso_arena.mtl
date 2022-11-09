@@ -1,0 +1,18 @@
+newmtl palette
+illum 4
+Ka 0.000 0.000 0.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+map_Kd floor_b.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06
+newmtl pasted__palette1SG
+illum 4
+Ka 0.000 0.000 0.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+map_Kd 1076f1e87d09d16.png
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.06

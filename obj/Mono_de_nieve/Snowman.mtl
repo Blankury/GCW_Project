@@ -1,38 +1,9 @@
-newmtl Bola_palette
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd Bola.png
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 0.06
 newmtl Snowman_palette
 illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
+Ka 0.000 0.000 0.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
 map_Kd Snowman.png
 Ni 1.00
 Ks 0.00 0.00 0.00
 Ns 0.06
-newmtl arbol1_0_palette
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd arbol1-0.png
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 0.06
-newmtl arbol1_1_palette
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd arbol1-1.png
-Ni 1.00
-Ks 0.00 0.00 0.00
-Ns 0.06
-
-
