@@ -1,6 +1,13 @@
 import { Squirrel } from "../js/squirrel.js";
 import loadOBJWithMTL from "../js/objModelos.js";
 
+// Nivel Seleccionado
+var escenario = sessionStorage.getItem('scene');
+var modo = sessionStorage.getItem('mode');
+var dificultad = sessionStorage.getItem('difficulty');
+
+console.log(escenario+ '\n' + modo + '\n'+ dificultad);
+
 // Escena
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0x484e5c);
@@ -20,7 +27,6 @@ var isWorldReady = [];
 
 // Reloj
 var clock = new THREE.Clock();
-
 
 // Camara
 const size = 30;
@@ -58,10 +64,10 @@ window.addEventListener('resize', function(){
 	camera.updateProjectionMatrix();
 });
 
-console.log("Esto es el renderer");
 console.log(renderer);
 game.appendChild( renderer.domElement );
 
+console.log(squirrel);
 
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
 const material = new THREE.MeshPhongMaterial( { 
@@ -77,14 +83,13 @@ const material2 = new THREE.MeshPhongMaterial( {
 });
 
 
-const cube = new THREE.Mesh(geometry, material);
-const cube2 = new THREE.Mesh(geometry, material2);
+//const cube = new THREE.Mesh(geometry, material);
+//const cube2 = new THREE.Mesh(geometry, material2);
 
-cube.position.x = -2; cube.position.y = 0.5;
-cube2.position.x = 2; cube2.position.y = 0.5;
+//cube.position.x = -2; cube.position.y = 0.5;
+//cube2.position.x = 2; cube2.position.y = 0.5;
 
-scene.add(cube);
-scene.add(cube2);
+//scene.add(cube);
 
 /*cube.rayos = [
 	new THREE.Vector3(1, 0, 0), 
@@ -94,51 +99,70 @@ scene.add(cube2);
 ];
 */
 
-loadOBJWithMTL("../obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
+loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
-	object.position.x -= 3.5;
 
+	object.position.y = 0.5;
+
+	squirrel.mesh = object;
 	scene.add(object);
 	isWorldReady[0] = true;
+
+	if (modo === 'Cooperativo')
+		squirrel.mesh.position.x = -2;
 });
 
-loadOBJWithMTL("../obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
+if(modo === 'Cooperativo'){
+	loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
+		object.scale.x = 0.5;
+		object.scale.y = 0.5;
+		object.scale.z = 0.5;
+
+		object.position.x = 2;
+		object.position.y = 0.5;
+
+
+		squirrelP2.mesh = object;
+		scene.add(object);
+	
+		
+	
+		//ObjetosConColision.push(object);
+	
+		isWorldReady[1] = true;
+	});
+
+	
+}
+
+
+
+loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 	object.position.x += 3.5;
 	scene.add(object);
 
 
 	//ObjetosConColision.push(object);
 
-	isWorldReady[1] = true;
+	isWorldReady[2] = true;
 });
 
 
-loadOBJWithMTL("../obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
-	object.position.x += 3.5;
-	scene.add(object);
 
-	object.scale.x = 0.5;
-	object.scale.y = 0.5;
-	object.scale.z = 0.5;
 
-	//ObjetosConColision.push(object);
-
-	isWorldReady[1] = true;
-});
-
-loadOBJWithMTL("../obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
+loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
 	object.position.x += 3.5;
 	object.position.z += 2;
 	scene.add(object);
-	isWorldReady[2] = true;
+	isWorldReady[3] = true;
 });
 
-loadOBJWithMTL("../obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
+loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
@@ -148,27 +172,27 @@ loadOBJWithMTL("../obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 	isWorldReady[3] = true;
 });
 
-loadOBJWithMTL("../obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
+loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
 	object.position.x += 7.5;
 	object.position.z += 2;
 	scene.add(object);
 	isWorldReady[4] = true;
 });
 
-loadOBJWithMTL("../obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
+loadOBJWithMTL("obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
 	object.position.x += 3.5;
 	object.position.z -= 4;
 	scene.add(object);
 	isWorldReady[5] = true;
 });
 
-loadOBJWithMTL("../obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
+loadOBJWithMTL("obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
 	object.position.x += 7.5;
 	scene.add(object);
 	isWorldReady[6] = true;
 });
 
-loadOBJWithMTL("../obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
+loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 	object.position.x += 9.5;
 	scene.add(object);
 	isWorldReady[7] = true;
@@ -178,26 +202,26 @@ loadOBJWithMTL("../obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 
 
 
-loadOBJWithMTL("../obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
 
 	scene.add(object);
-	isWorldReady[0] = true;
+	isWorldReady[9] = true;
 });
 
 
-loadOBJWithMTL("../obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
 
 	scene.add(object);
-	isWorldReady[0] = true;
+	isWorldReady[10] = true;
 });
 
-loadOBJWithMTL("../obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -208,36 +232,36 @@ loadOBJWithMTL("../obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => 
 	//ObjetosConColision.push(object);
 
 	
-	isWorldReady[0] = true;
+	isWorldReady[11] = true;
 });
 
 
-loadOBJWithMTL("../obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
 
 	scene.add(object);
-	isWorldReady[0] = true;
+	isWorldReady[12] = true;
 });
 
 
-loadOBJWithMTL("../obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
 
 	scene.add(object);
-	isWorldReady[0] = true;
+	isWorldReady[13] = true;
 });
 
-loadOBJWithMTL("../obj/Nivel_1/", "rocas.obj", "rocas.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/", "rocas.obj", "rocas.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
 
 	scene.add(object);
-	isWorldReady[0] = true;
+	isWorldReady[14] = true;
 });
 
 var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
@@ -299,23 +323,23 @@ function animate() {
 
 	if (keys["W"]) {
 		if (squirrel.moving) {
-			updown = -3;
+			updown = -2;
 			squirrel.update();
 		}
 	} else if (keys["S"]) {
 		if (squirrel.moving) {
-			updown = 3;
+			updown = 2;
 			squirrel.update();
 		}
 	}
 	if (keys["A"]) {
 		if (squirrel.moving) {
-			sides = -3;
+			sides = -2;
 			squirrel.update();
 		}
 	} else if (keys["D"]) {
 		if (squirrel.moving) {
-			sides = 3;
+			sides = 2;
 			squirrel.update();
 		}
 	}
@@ -365,10 +389,10 @@ function animate() {
 	if (pitch != chpitch){}
 		//console.log(camera);
 	
-	cube.position.x += sides;
-	cube.position.z += updown;
-	cube2.position.x += sides_p2;
-	cube2.position.z += updown_p2;
+	squirrel.mesh.position.x += sides;
+	squirrel.mesh.position.z += updown;
+	squirrelP2.mesh.position.x += sides_p2;
+	squirrelP2.mesh.position.z += updown_p2;
 
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
 	camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
@@ -385,10 +409,16 @@ function animate() {
 	wheelY = 0;
 	chpitch = pitch;
 	
-	let puntoM = puntoMedio(cube.position, cube2.position)
 	
-	camera.position.x = puntoM.x;
-	camera.position.z = puntoM.y;
+	
+	if(modo === 'Cooperativo'){
+		let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position)
+		camera.position.x = puntoM.x;
+		camera.position.z = puntoM.y;
+	} else {
+		camera.position.x = squirrel.mesh.position.x;
+		camera.position.z = squirrel.mesh.position.z;
+	}
 	
 	if (isWorldReady[0]){
 		renderer.render( scene, camera );

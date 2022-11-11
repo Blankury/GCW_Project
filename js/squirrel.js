@@ -1,7 +1,7 @@
 export class Squirrel {
     constructor(){
-        this.moving = true;
-
+        moving = true;
+        vida = 5;
     }
 
     update(){
