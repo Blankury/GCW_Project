@@ -61,7 +61,7 @@
 <body>
 
 <div class="container bg-black" style="border-style:groove; border-color:aliceblue; padding-top: 15px; margin-top:15px; ">
-<form action="partida.html" method="GET">
+<form action="./includes/configurarpartida_include.php" method="GET">
 
     <!--SELECCIONAR NIVEL-->
     <div class="text-center">
@@ -74,7 +74,7 @@
                 </label>
 
                 <label class="selectitem">
-                    <input type="radio" name="selectescenario">
+                    <input type="radio" name="selectescenario" value="City">
                         <div class="radio-btn">
                             <div class=" container py-3"><img src="https://cdn.dribbble.com/users/764115/screenshots/8457186/media/5744bdd8c622ed4105c6b0f5cf390ce4.gif" width="200" height="200"></div>
                             <div  style="padding-bottom: 5px;"><p>City</p></div>
@@ -82,7 +82,7 @@
                     </input>
                 </label>
                 <label class="selectitem">
-                    <input type="radio" name="selectescenario">
+                    <input type="radio" name="selectescenario" value="Snow City">
                         <div class="radio-btn">
                             <div class=" container py-3"><img src="https://i.pinimg.com/originals/81/9f/f8/819ff80b1e4b3eb1bca4043145cf0154.gif"width="200" height="200"></div>
                             <div  style="padding-bottom: 5px;"><p>Snow City</p></div>
@@ -90,7 +90,7 @@
                     </input>
                 </label>
                 <label class="selectitem">
-                    <input type="radio" name="selectescenario">
+                    <input type="radio" name="selectescenario" value ="Beach City Night">
                         <div class="radio-btn">
                             <div class=" container py-3"><img src="https://lh3.googleusercontent.com/L0JokA9ftR9_dihtJI3CVmuWMvah4pYsTgTXHhRFI0imgyWYnTuqYjAjl6L94gGApIebZFESxb3e4leW2T45jz4q7m__exUd9cQx0Q=w600" width="200" height="200"></div>
                             <div  style="padding-bottom: 5px;"><p>Beach City Night</p></div>
@@ -114,7 +114,7 @@
                        
                     
                             <label class="selectitem">
-                                <input type="radio" name="slectmode">
+                                <input type="radio" name="slectmode" value="Individual">
                                     <div class="radio-btn" style="width: 260px; padding-top: 15px;">
                                         <p>Un Jugador</p>
                                     </div>
@@ -122,7 +122,7 @@
                             </label>
                                 <br><br>
                             <label class="selectitem">
-                                <input type="radio" name="slectmode">
+                                <input type="radio" name="slectmode" value="Multijugador">
                                     <div class="radio-btn" style="width: 260px; padding-top: 15px;">
                                         <p>Multijugador</p>
                                     </div>
@@ -134,7 +134,7 @@
                     <a class="BotonFont">DIFICULTAD</a><br><br>
                        
                             <label class="selectitem">
-                                <input type="radio" name="slectdificultad">
+                                <input type="radio" name="slectdificultad" value="Facil">
                                     <div class="radio-btn" style="width: 180px; padding-top: 15px;">
                                         <p>Facil</p>
                                     </div>
@@ -142,7 +142,7 @@
                             </label>
                                 <br><br>
                             <label class="selectitem">
-                                <input type="radio" name="slectdificultad">
+                                <input type="radio" name="slectdificultad" value="Dificil">
                                     <div class="radio-btn" style="width: 180px; padding-top: 15px;">
                                         <p>Dificil</p>
                                     </div>
@@ -156,7 +156,7 @@
 
     <br>
     <div class="text-center">
-        <input type="submit" value="Start" class="Boton"><br><br>
+        <input type="submit" name="submit" value="Start" class="Boton"><br><br>
     </div>
 
 </form>

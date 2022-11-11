@@ -1,5 +1,5 @@
-import { Squirrel } from "./squirrel.js";
-import loadOBJWithMTL from "./objModelos.js";
+import { Squirrel } from "../js/squirrel.js";
+import loadOBJWithMTL from "../js/objModelos.js";
 
 // Escena
 const scene = new THREE.Scene();
@@ -94,7 +94,7 @@ scene.add(cube2);
 ];
 */
 
-loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
+loadOBJWithMTL("../obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
@@ -104,7 +104,7 @@ loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	isWorldReady[0] = true;
 });
 
-loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
+loadOBJWithMTL("../obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 	object.position.x += 3.5;
 	scene.add(object);
 
@@ -115,7 +115,7 @@ loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 });
 
 
-loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
+loadOBJWithMTL("../obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
 	object.position.x += 3.5;
 	scene.add(object);
 
@@ -128,7 +128,7 @@ loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
 	isWorldReady[1] = true;
 });
 
-loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
+loadOBJWithMTL("../obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
@@ -138,7 +138,7 @@ loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 	isWorldReady[2] = true;
 });
 
-loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
+loadOBJWithMTL("../obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
 	object.scale.z = 0.5;
@@ -148,27 +148,27 @@ loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 	isWorldReady[3] = true;
 });
 
-loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
+loadOBJWithMTL("../obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
 	object.position.x += 7.5;
 	object.position.z += 2;
 	scene.add(object);
 	isWorldReady[4] = true;
 });
 
-loadOBJWithMTL("obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
+loadOBJWithMTL("../obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
 	object.position.x += 3.5;
 	object.position.z -= 4;
 	scene.add(object);
 	isWorldReady[5] = true;
 });
 
-loadOBJWithMTL("obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
+loadOBJWithMTL("../obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
 	object.position.x += 7.5;
 	scene.add(object);
 	isWorldReady[6] = true;
 });
 
-loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
+loadOBJWithMTL("../obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 	object.position.x += 9.5;
 	scene.add(object);
 	isWorldReady[7] = true;
@@ -178,7 +178,7 @@ loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 
 
 
-loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
+loadOBJWithMTL("../obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -188,7 +188,7 @@ loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
 });
 
 
-loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
+loadOBJWithMTL("../obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -197,7 +197,7 @@ loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) =>
 	isWorldReady[0] = true;
 });
 
-loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
+loadOBJWithMTL("../obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -212,7 +212,7 @@ loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
 });
 
 
-loadOBJWithMTL("obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
+loadOBJWithMTL("../obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -222,7 +222,7 @@ loadOBJWithMTL("obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
 });
 
 
-loadOBJWithMTL("obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
+loadOBJWithMTL("../obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -231,7 +231,7 @@ loadOBJWithMTL("obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
 	isWorldReady[0] = true;
 });
 
-loadOBJWithMTL("obj/Nivel_1/", "rocas.obj", "rocas.mtl", (object) => {
+loadOBJWithMTL("../obj/Nivel_1/", "rocas.obj", "rocas.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
