@@ -39,14 +39,10 @@ camera.rotation.x = THREE.MathUtils.degToRad(-45);	//-45
 camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
 camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 //
-
 //Colisiones
-/*var RayCaster;
-RayCaster = new THREE.Raycaster();
-var ObjetosConColision = [];
-*/
-
-
+var collisionObjects = [];
+var newmov = "";
+var newmov2 = "";
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({precision: "mediump" });
@@ -120,16 +116,12 @@ if(modo === 'Cooperativo'){
 		object.scale.y = 0.5;
 		object.scale.z = 0.5;
 
-		object.position.x = 2;
+		object.position.x = 10;
 		object.position.y = 0.5;
 
 
 		squirrelP2.mesh = object;
 		scene.add(object);
-	
-		
-	
-		//ObjetosConColision.push(object);
 	
 		isWorldReady[1] = true;
 	});
@@ -143,8 +135,7 @@ loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 	object.position.x += 3.5;
 	scene.add(object);
 
-
-	//ObjetosConColision.push(object);
+	collisionObjects.push(object);
 
 	isWorldReady[2] = true;
 });
@@ -169,7 +160,7 @@ loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 	object.position.x += 5.5;
 	object.position.z += 2;
 	scene.add(object);
-	isWorldReady[3] = true;
+	isWorldReady[8] = true;
 });
 
 loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
@@ -324,45 +315,53 @@ function animate() {
 	if (keys["W"]) {
 		if (squirrel.moving) {
 			updown = -2;
+			newmov = "w";
 			squirrel.update();
 		}
 	} else if (keys["S"]) {
 		if (squirrel.moving) {
 			updown = 2;
+			newmov = "s";
 			squirrel.update();
 		}
 	}
 	if (keys["A"]) {
 		if (squirrel.moving) {
 			sides = -2;
+			newmov = "a";
 			squirrel.update();
 		}
 	} else if (keys["D"]) {
 		if (squirrel.moving) {
 			sides = 2;
+			newmov = "d";
 			squirrel.update();
 		}
 	}
 
 	if (keys['&']) {
 		if (squirrelP2.moving) {
-			updown_p2 = -3;
+			updown_p2 = - 2;
+			newmov2 = "&";
 			squirrelP2.update()
 		}
 	} else if (keys['(']) {
 		if (squirrelP2.moving) {
-			updown_p2 = 3;
+			updown_p2 = 2;
+			newmov2 = "(";
 			squirrelP2.update();
 		}
 	}
 	if (keys["%"]) {
 		if (squirrelP2.moving) {
-			sides_p2 = -3;
+			sides_p2 = -2;
+			newmov2 = "%";
 			squirrelP2.update();
 		}
 	} else if (keys["'"]) {
 		if (squirrelP2.moving) {
-			sides_p2 = 3;
+			sides_p2 = 2;
+			newmov2 = "'";
 			squirrelP2.update();
 		}
 	}
@@ -388,11 +387,48 @@ function animate() {
 
 	if (pitch != chpitch){}
 		//console.log(camera);
+
+
+	if (newmov == "a"){
+		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y -= 1.5708  ;
+	}
+	else if (newmov == "w"){
+		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y -= 3.14159  ;
+	}
+	else if (newmov == "s"){
+		squirrel.mesh.rotation.y = 0  ;
+	}
+	else if (newmov == "d"){
+		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y += 1.5708  ;
+	}
+
+	if (newmov2 == "&"){
+		squirrelP2.mesh.rotation.y = 0  ;
+		squirrelP2.mesh.rotation.y -= 3.14159  ;
+
+	}
+	else if (newmov2 == "("){
+		squirrelP2.mesh.rotation.y = 0  ;
+	}
+	else if (newmov2 == "%"){
+		squirrelP2.mesh.rotation.y = 0  ;
+		squirrelP2.mesh.rotation.y -= 1.5708  ;
+	}
+	else if (newmov2 == "'"){
+		squirrelP2.mesh.rotation.y = 0  ;
+		squirrelP2.mesh.rotation.y += 1.5708  ;
+	}
 	
 	squirrel.mesh.position.x += sides;
 	squirrel.mesh.position.z += updown;
 	squirrelP2.mesh.position.x += sides_p2;
 	squirrelP2.mesh.position.z += updown_p2;
+
+
+
 
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
 	camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
@@ -420,24 +456,64 @@ function animate() {
 		camera.position.z = squirrel.mesh.position.z;
 	}
 	
-	if (isWorldReady[0]){
+	if (isWorldReady[0] ){
 		renderer.render( scene, camera );
-	/*
-		for (var i; i<cube.rayos.lenght; i++){
-			var rayo = cube.rayos[i];
-			RayCaster.set(cube.position , rayo);
-			
-			var collision = RayCaster.intersectObjects(ObjetosConColision, true);
-			if (collision.lenght > 0 && collision[0].distance < 1){
-				console.log("si hay colision");
-			}
-		}*/
-	}
 
+		// Collision
+		for (var i = 0; i < collisionObjects.length; i++) {
+				
+			var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
+			
+			if (collision) {
+				// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
+				//aun no implementado, solo muestra en la consola si choca o no
+				//squirrel.mesh.translateY(-(forward * deltaTime));
+				console.log("colisionando");
+				break;
+			}
+
+		}
+		for (var i = 0; i < collisionObjects.length; i++) {
+				
+			var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
+			
+			if (collision2) {
+				// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
+				//aun no implementado, solo muestra en la consola si choca o no
+				//squirrel.mesh.translateY(-(forward * deltaTime));
+				console.log("colisionando");
+				break;
+			}
+
+		}
+		
+	}
 }
 animate();
 
+function detectCollision(object1, object2){
 
+	for (var i = 0; i < object1.children.length; i++) {
+
+		for (var j = 0; j < object2.children.length; j++) {
+
+			object1.children[i].geometry.computeBoundingBox(); 
+			object2.children[i].geometry.computeBoundingBox();
+			object1.updateMatrixWorld();
+			object2.updateMatrixWorld();
+
+			var box1 = object1.children[i].geometry.boundingBox.clone();
+			box1.applyMatrix4(object1.matrixWorld);
+
+			var box2 = object2.children[i].geometry.boundingBox.clone();
+			box2.applyMatrix4(object2.matrixWorld);
+			if (box1.intersectsBox(box2)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 function puntoMedio(pos1, pos2){
 	let newX, newZ;
