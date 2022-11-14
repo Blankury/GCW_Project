@@ -42,6 +42,9 @@ camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 
 //Colisiones
 var collisionObjects = [];
+
+//Movimientos animados
+var jump = false, jump2 = false, yi = 0.5, vi = 4, ti, ti2;
 var newmov = "";
 var newmov2 = "";
 
@@ -240,12 +243,16 @@ function animate() {
 		if (squirrel.moving) {
 			updown = -2;
 			newmov = "w";
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	} else if (keys["S"]) {
 		if (squirrel.moving) {
 			updown = 2;
 			newmov = "s";
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	}
@@ -253,12 +260,16 @@ function animate() {
 		if (squirrel.moving) {
 			sides = -2;
 			newmov = "a";
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	} else if (keys["D"]) {
 		if (squirrel.moving) {
 			sides = 2;
 			newmov = "d";
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	}
@@ -267,12 +278,16 @@ function animate() {
 		if (squirrelP2.moving) {
 			updown_p2 = - 2;
 			newmov2 = "&";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update()
 		}
 	} else if (keys['(']) {
 		if (squirrelP2.moving) {
 			updown_p2 = 2;
 			newmov2 = "(";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update();
 		}
 	}
@@ -280,12 +295,16 @@ function animate() {
 		if (squirrelP2.moving) {
 			sides_p2 = -2;
 			newmov2 = "%";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update();
 		}
 	} else if (keys["'"]) {
 		if (squirrelP2.moving) {
 			sides_p2 = 2;
 			newmov2 = "'";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update();
 		}
 	}
@@ -373,11 +392,26 @@ function animate() {
 	
 		renderer.render( scene, camera );
 
-
+		if (jump){
+			let t = (Date.now() - ti)/1000;
+			var yDis = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
+			if (yDis < yi ){
+				jump = false;
+			}
+			squirrel.mesh.position.y = yDis;
+		}
 		squirrel.mesh.position.x += sides;
 		squirrel.mesh.position.z += updown;
 
 		if (modo === 'Cooperativo') {
+			if (jump2){
+				let t = (Date.now() - ti2)/1000;
+				var yDis2 = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
+				if (yDis2 < yi ){
+					jump2 = false;
+				}
+				squirrelP2.mesh.position.y = yDis2;
+			}
 			squirrelP2.mesh.position.x += sides_p2;
 			squirrelP2.mesh.position.z += updown_p2;
 		}
