@@ -6,7 +6,7 @@ export class Objeto {
         this.scale = scale;
     }
 
-    load(path, objFile, mtlFile, scene, isLoad) {
+    load(path, objFile, mtlFile, scene, isLoad, slot) {
         var mtlLoader = new THREE.MTLLoader();
         mtlLoader.setPath(path);
         mtlLoader.load(mtlFile, (materials) => {
@@ -27,8 +27,19 @@ export class Objeto {
                 console.log(this.mesh);
                 scene.add(this.mesh);
                 
-                this.loadRandomO(-60, 60, -10, 60, 100, scene);
+                if (slot === 1)
+                    this.loadRandomO(-60, 60, -10, 60, 100, scene);
+                if (slot === 2)
+                    this.loadRandomO(-60, 60, -10, 60, 50, scene);
                 
+                if(slot === 'path')
+                    this.loadinPath(scene, 10, 6);
+                if(slot === 'path2')
+                    this.loadinPath(scene, 17, 3);
+                if(slot === 'path3')
+                    this.loadinPath(scene, 34, 1);
+
+
                 isLoad.push(true);
                 
             });
@@ -46,9 +57,29 @@ export class Objeto {
             let Z = Math.floor(Math.random() * (maxZ - minZ + 1)) + minZ;
 
             let obj = this.mesh.clone();
-            //console.log(obj);
             obj.position.set(X, this.mesh.position.y, Z);
             scene.add(obj);
+        }
+    }
+
+    loadinPath(scene, space, copies) {
+        //this.mesh.position.set(this.mesh.position.x, 0, this.mesh.position.z);
+        var posBef = new THREE.Vector3(0, 0, 0);
+
+        for (let i = 0; i < copies; i++) {
+            let copyPlane = this.mesh.clone();
+
+            copyPlane.position.x -= space - posBef.x;
+            posBef.x = copyPlane.position.x;
+            scene.add(copyPlane);
+        }
+        posBef = new THREE.Vector3(0, 0, 0);
+        for (let i = 0; i < copies; i++) {
+            let copyPlane = this.mesh.clone();
+
+            copyPlane.position.x += space + posBef.x;
+            posBef.x = copyPlane.position.x;
+            scene.add(copyPlane);
         }
     }
 }

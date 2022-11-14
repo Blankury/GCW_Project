@@ -104,7 +104,7 @@ if (escenario === 'City'){
 	var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 	scene.add(ambientLight);
 
-	var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
+	var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 1), 0.6);
 	directionalLight.position.set(1, 1, 0);
 	scene.add(directionalLight);
 
@@ -131,7 +131,17 @@ if (escenario === 'City'){
 	// Modelos
 
 	var arbol = new Objeto(new THREE.Vector3(0, 0, -5), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady);
+	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady, 1);
+
+	var arbusto = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	arbusto.load('obj/Arbusto/', 'arbusto.obj', 'arbusto.mtl', scene, isWorldReady, 2);
+
+
+	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0,3.1,0), new THREE.Vector3(0,0,0));
+	auto.load('obj/Autos/', 'autos-4.obj', 'autos-4.mtl', scene, isWorldReady, 'path');
+
+	var taxi = new Objeto(new THREE.Vector3(0, 0, -40), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	taxi.load('obj/Autos/', 'autos-6.obj', 'autos-6.mtl', scene, isWorldReady, 'path2');
 }
 
 
@@ -155,20 +165,32 @@ if (escenario === 'Snow City'){
 
 	var traffic = new Plano();
 	traffic.loadMaterials('obj/traffic.png', 'obj/trafficA.png');
-	traffic.loadTrafficPaths(scene, 10, isWorldReady);
+	traffic.loadTrafficPaths(scene, 20, isWorldReady);
 	var traffic2 = new Plano();
 	traffic2.plane = traffic.plane.clone();
-	traffic2.loadTrafficPaths(scene, 40, isWorldReady);
+	traffic2.loadTrafficPaths(scene, 30, isWorldReady);
 	var traffic3 = new Plano();
 	traffic3.plane = traffic.plane.clone();
-	traffic3.loadTrafficPaths(scene, 60, isWorldReady);
+	traffic3.loadTrafficPaths(scene, 50, isWorldReady);
 
 
 	// Modelos
-
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
+	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady, 1);
 	//pino.loadRandomO(-60, 60, 0, 60, 80, scene);
+	var roca = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	roca.load('obj/Rocas/', 'rocas-1.obj', 'rocas-1.mtl', scene, isWorldReady, 2);
+
+
+	var quitanieves = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0, 0,0), new THREE.Vector3(0,0,0));
+	quitanieves.load('obj/Quitanieves/', 'quitanieevs-0.obj', 'quitanieevs-0.mtl', scene, isWorldReady, 'path3')
+
+	var auto = new Objeto(new THREE.Vector3(0, 0, -30), new THREE.Vector3(0,3.1,0), new THREE.Vector3(0,0,0));
+	auto.load('obj/Autos/', 'autos-0.obj', 'autos-0.mtl', scene, isWorldReady, 'path')
+
+	var quitanieves = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0,0), new THREE.Vector3(0,0,0));
+	quitanieves.load('obj/Quitanieves/', 'quitanieevs-1.obj', 'quitanieevs-1.mtl', scene, isWorldReady, 'path3')
+
 }
 
 // Nivel 3
@@ -202,9 +224,18 @@ if (escenario === 'Beach City Night'){
 	traffic3.loadTrafficPaths(scene, 80, isWorldReady);
 
 	// Modelos
-
 	var roca = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-	roca.load('obj/Rocas/', 'rocas-0.obj', 'rocas-0.mtl', scene, isWorldReady);
+	roca.load('obj/Rocas/', 'rocas-0.obj', 'rocas-0.mtl', scene, isWorldReady, 2);
+
+	var roca2 = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	roca2.load('obj/Rocas/', 'rocas-1.obj', 'rocas-1.mtl', scene, isWorldReady, 2);
+
+	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2')
+	//auto.loadinPath(scene, 20);
+
+	var coca = new Objeto(new THREE.Vector3(0, 0, -30), new THREE.Vector3(0,3.1,0), new THREE.Vector3(0,0,0));
+	coca.load('obj/Autos/', 'autos-5.obj', 'autos-5.mtl', scene, isWorldReady, 'path3')
 }
 
 
