@@ -41,6 +41,10 @@ camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 //
 //Colisiones
 var collisionObjects = [];
+
+//Movimientos animados
+var jump = false, jump2 = false, yi = 0.5, vi = 4, ti, ti2;
+
 var newmov = "";
 var newmov2 = "";
 
@@ -87,14 +91,6 @@ const material2 = new THREE.MeshPhongMaterial( {
 
 //scene.add(cube);
 
-/*cube.rayos = [
-	new THREE.Vector3(1, 0, 0), 
-	new THREE.Vector3(-1, 0, 0),
-	new THREE.Vector3(0, 0, 1),
-	new THREE.Vector3 (0, 0, -1)
-];
-*/
-
 loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
@@ -125,11 +121,7 @@ if(modo === 'Cooperativo'){
 	
 		isWorldReady[1] = true;
 	});
-
-	
 }
-
-
 
 loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 	object.position.x += 3.5;
@@ -139,9 +131,6 @@ loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 
 	isWorldReady[2] = true;
 });
-
-
-
 
 loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 	object.scale.x = 0.5;
@@ -189,10 +178,6 @@ loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 	isWorldReady[7] = true;
 });
 
-
-
-
-
 loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
@@ -201,7 +186,6 @@ loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
 	scene.add(object);
 	isWorldReady[9] = true;
 });
-
 
 loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
 	object.scale.x = 1;
@@ -212,7 +196,7 @@ loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) =>
 	isWorldReady[10] = true;
 });
 
-loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
+loadOBJWithMTL("obj/Nivel_1/Arboles", "pum.obj", "pum.mtl", (object) => {
 	object.scale.x = 1;
 	object.scale.y = 1;
 	object.scale.z = 1;
@@ -220,22 +204,11 @@ loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
 	scene.add(object);
 
 
-	//ObjetosConColision.push(object);
+	ObjetosConColision.push(object);
 
 	
 	isWorldReady[11] = true;
 });
-
-
-loadOBJWithMTL("obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
-	isWorldReady[12] = true;
-});
-
 
 loadOBJWithMTL("obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
 	object.scale.x = 1;
@@ -272,8 +245,6 @@ scene.add(grid);
 //console.log(game);
 console.log(scene);
 console.log(camera);
-
-
 
 // Eventos de teclas
 function onKeyDown(event) {
@@ -315,26 +286,34 @@ function animate() {
 	if (keys["W"]) {
 		if (squirrel.moving) {
 			updown = -2;
-			newmov = "w";
+			newmov = "w";		
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	} else if (keys["S"]) {
 		if (squirrel.moving) {
 			updown = 2;
-			newmov = "s";
+			newmov = "s";		
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	}
 	if (keys["A"]) {
 		if (squirrel.moving) {
 			sides = -2;
-			newmov = "a";
+			newmov = "a";		
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	} else if (keys["D"]) {
 		if (squirrel.moving) {
 			sides = 2;
-			newmov = "d";
+			newmov = "d";		
+			jump = true;
+			ti = Date.now(); //tiempo en que arranca el salto
 			squirrel.update();
 		}
 	}
@@ -343,12 +322,16 @@ function animate() {
 		if (squirrelP2.moving) {
 			updown_p2 = - 2;
 			newmov2 = "&";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update()
 		}
 	} else if (keys['(']) {
 		if (squirrelP2.moving) {
 			updown_p2 = 2;
 			newmov2 = "(";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update();
 		}
 	}
@@ -356,12 +339,16 @@ function animate() {
 		if (squirrelP2.moving) {
 			sides_p2 = -2;
 			newmov2 = "%";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update();
 		}
 	} else if (keys["'"]) {
 		if (squirrelP2.moving) {
 			sides_p2 = 2;
 			newmov2 = "'";
+			jump2 = true;
+			ti2 = Date.now(); //tiempo en que arranca el salto
 			squirrelP2.update();
 		}
 	}
@@ -387,28 +374,24 @@ function animate() {
 
 	if (pitch != chpitch){}
 		//console.log(camera);
-
-
 	if (newmov == "a"){
 		squirrel.mesh.rotation.y = 0  ;
 		squirrel.mesh.rotation.y -= 1.5708  ;
 	}
 	else if (newmov == "w"){
 		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y -= 3.14159  ;
+		squirrel.mesh.rotation.y -= 3.14159;
 	}
 	else if (newmov == "s"){
-		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y = 0 ;
 	}
 	else if (newmov == "d"){
 		squirrel.mesh.rotation.y = 0  ;
 		squirrel.mesh.rotation.y += 1.5708  ;
 	}
-
 	if (newmov2 == "&"){
 		squirrelP2.mesh.rotation.y = 0  ;
 		squirrelP2.mesh.rotation.y -= 3.14159  ;
-
 	}
 	else if (newmov2 == "("){
 		squirrelP2.mesh.rotation.y = 0  ;
@@ -421,13 +404,33 @@ function animate() {
 		squirrelP2.mesh.rotation.y = 0  ;
 		squirrelP2.mesh.rotation.y += 1.5708  ;
 	}
-	
+	if (jump){
+		let t = (Date.now() - ti)/1000;
+		var yDis = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
+		if (yDis < yi ){
+			jump = false;
+		}
+		squirrel.mesh.position.y = yDis;
+	}
+
 	squirrel.mesh.position.x += sides;
 	squirrel.mesh.position.z += updown;
-	squirrelP2.mesh.position.x += sides_p2;
-	squirrelP2.mesh.position.z += updown_p2;
 
-
+	try {
+		if (jump2){
+			let t = (Date.now() - ti2)/1000;
+			var yDis2 = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
+			if (yDis2 < yi ){
+				jump2 = false;
+			}
+			squirrelP2.mesh.position.y = yDis2;
+		}
+		squirrelP2.mesh.position.x += sides_p2;
+		squirrelP2.mesh.position.z += updown_p2;
+	} catch (error) {
+		console.log("modo de un jugador");
+	}
+	
 
 
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
@@ -444,8 +447,6 @@ function animate() {
 	
 	wheelY = 0;
 	chpitch = pitch;
-	
-	
 	
 	if(modo === 'Cooperativo'){
 		let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position)
@@ -473,19 +474,24 @@ function animate() {
 			}
 
 		}
-		for (var i = 0; i < collisionObjects.length; i++) {
+		try {
+			for (var i = 0; i < collisionObjects.length; i++) {
 				
-			var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
-			
-			if (collision2) {
-				// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
-				//aun no implementado, solo muestra en la consola si choca o no
-				//squirrel.mesh.translateY(-(forward * deltaTime));
-				console.log("colisionando");
-				break;
+				var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
+				
+				if (collision2) {
+					// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
+					//aun no implementado, solo muestra en la consola si choca o no
+					//squirrel.mesh.translateY(-(forward * deltaTime));
+					console.log("colisionando player 2");
+					break;
+				}
+	
 			}
-
+		} catch (error) {
+			
 		}
+		
 		
 	}
 }
