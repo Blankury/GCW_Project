@@ -1,5 +1,6 @@
 export class Objeto {
     constructor(position, rotation, scale){
+        this.mesh = new THREE.Group();
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -24,10 +25,13 @@ export class Objeto {
 
                 this.mesh = object;
                 console.log(this.mesh);
-                scene.add(object);
+                scene.add(this.mesh);
+                
+                this.loadRandomO(-60, 60, -10, 60, 100, scene);
+                
                 isLoad.push(true);
+                
             });
-
         });
     }
 
@@ -41,7 +45,8 @@ export class Objeto {
             let X = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
             let Z = Math.floor(Math.random() * (maxZ - minZ + 1)) + minZ;
 
-            var obj = this.mesh.clone();
+            let obj = this.mesh.clone();
+            //console.log(obj);
             obj.position.set(X, this.mesh.position.y, Z);
             scene.add(obj);
         }

@@ -65,7 +65,6 @@ window.addEventListener('resize', function(){
 });
 game.appendChild( renderer.domElement );
 
-console.log(renderer);
 console.log(squirrel);
 
 loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
@@ -98,8 +97,6 @@ if(modo === 'Cooperativo'){
 	
 		isWorldReady.push(true);
 	});
-
-	
 }
 
 // Nivel 1
@@ -111,13 +108,17 @@ if (escenario === 'City'){
 	directionalLight.position.set(1, 1, 0);
 	scene.add(directionalLight);
 
+	var light = new THREE.PointLight(0xFF7C30, 0.8, 100);
+	light.position.set(50, 50, 0);
+	scene.add(light);
+
 	var plano = new Plano();
 	plano.loadMaterials('obj/pixelgrass.png', null);
 	plano.loadTerrain(scene, isWorldReady);
 
 	var traffic = new Plano();
 	traffic.loadMaterials('obj/traffic.png', 'obj/trafficA.png');
-	traffic.loadTrafficPaths(scene, 10, isWorldReady);
+	traffic.loadTrafficPaths(scene, 20, isWorldReady);
 	var traffic2 = new Plano();
 	traffic2.plane = traffic.plane.clone();
 	traffic2.loadTrafficPaths(scene, 40, isWorldReady);
@@ -125,10 +126,12 @@ if (escenario === 'City'){
 	traffic3.plane = traffic.plane.clone();
 	traffic3.loadTrafficPaths(scene, 60, isWorldReady);
 
-
 	//var rockFloor = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	//rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
+	// Modelos
 
+	var arbol = new Objeto(new THREE.Vector3(0, 0, -5), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady);
 }
 
 
@@ -141,7 +144,7 @@ if (escenario === 'Snow City'){
 	directionalLight.position.set(1, 1, 0);
 	scene.add(directionalLight);
 
-	const light = new THREE.PointLight(0xFF7C30, 0.8, 100);
+	var light = new THREE.PointLight(0xFF7C30, 0.8, 100);
 	light.position.set(50, 50, 0);
 	scene.add(light);
 
@@ -165,9 +168,7 @@ if (escenario === 'Snow City'){
 
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
-	console.log(scene);
-	console.log(pino);
-	//pino.loadRandomO(-50, 50, -10, 50, 10, scene);
+	//pino.loadRandomO(-60, 60, 0, 60, 80, scene);
 }
 
 // Nivel 3
@@ -179,9 +180,31 @@ if (escenario === 'Beach City Night'){
 	directionalLight.position.set(1, 1, 0);
 	scene.add(directionalLight);
 
+	var light = new THREE.PointLight(0xFF7C30, 0.8, 100);
+	light.position.set(50, 50, 0);
+	scene.add(light);
+
 	var plano = new Plano();
 	plano.loadMaterials('obj/arena.png', null);
 	plano.loadTerrain(scene, isWorldReady);
+
+	var traffic = new Plano();
+	traffic.loadMaterials('obj/traffic.png', 'obj/trafficA.png');
+	traffic.loadTrafficPaths(scene, 20, isWorldReady);
+	var traffic2 = new Plano();
+	traffic2.plane = traffic.plane.clone();
+	traffic2.loadTrafficPaths(scene, 30, isWorldReady);
+	var traffic3 = new Plano();
+	traffic3.plane = traffic.plane.clone();
+	traffic3.loadTrafficPaths(scene, 70, isWorldReady);
+	var traffic3 = new Plano();
+	traffic3.plane = traffic.plane.clone();
+	traffic3.loadTrafficPaths(scene, 80, isWorldReady);
+
+	// Modelos
+
+	var roca = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	roca.load('obj/Rocas/', 'rocas-0.obj', 'rocas-0.mtl', scene, isWorldReady);
 }
 
 
@@ -193,8 +216,6 @@ var grid = new THREE.GridHelper(50, 25, 0x000000, 0xffffff);
 //scene.add(grid);
 
 //console.log(game);
-console.log(scene);
-console.log(camera);
 
 
 
@@ -206,7 +227,6 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
 	delete keys[String.fromCharCode(event.keyCode)];
-	//console.log(event);
 	if (event.key === "ArrowUp" || event.key === "ArrowDown"
 		|| event.key === "ArrowLeft" || event.key === "ArrowRight")
 		squirrelP2.moving = true;
@@ -357,7 +377,7 @@ function animate() {
 		squirrelP2.mesh.rotation.y += 1.5708  ;
 	}
 	
-	let sip = isWorldLoaded();
+
 	if(isWorldLoaded() && squirrel !== undefined && squirrelP2 !== undefined){
 
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
@@ -374,7 +394,6 @@ function animate() {
 	
 	wheelY = 0;
 	chpitch = pitch;
-	
 	
 	if (modo === 'Cooperativo') {
 		let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position);
