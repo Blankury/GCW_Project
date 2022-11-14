@@ -102,107 +102,95 @@ if(modo === 'Cooperativo'){
 	
 }
 
-
-
-loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
-	object.position.x += 3.5;
-	scene.add(object);
-
-	collisionObjects.push(object);
-
-	isWorldReady.push(true);
-});
-
-
-
-
-loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
-	object.scale.x = 0.5;
-	object.scale.y = 0.5;
-	object.scale.z = 0.5;
-	object.position.x += 3.5;
-	object.position.z += 2;
-	scene.add(object);
-	isWorldReady.push(true);
-});
-
-loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
-	object.scale.x = 0.5;
-	object.scale.y = 0.5;
-	object.scale.z = 0.5;
-	object.position.x += 5.5;
-	object.position.z += 2;
-	scene.add(object);
-	isWorldReady.push(true);
-});
-
-loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
-	object.position.x += 7.5;
-	object.position.z += 2;
-	scene.add(object);
-	isWorldReady.push(true);
-});
-
-loadOBJWithMTL("obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
-	object.position.x += 3.5;
-	object.position.z -= 4;
-	scene.add(object);
-	isWorldReady.push(true);
-});
-
-loadOBJWithMTL("obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
-	object.position.x += 7.5;
-	scene.add(object);
-	isWorldReady.push(true);
-});
-
-loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
-	object.position.x += 9.5;
-	scene.add(object);
-	isWorldReady.push(true);
-});
-
-
 // Nivel 1
 if (escenario === 'City'){
-var rockFloor = new Objeto(new THREE.Vector3(10, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
-var plano = new Plano('obj/pixelgrass.png', scene, isWorldReady);
-	plano.loadTerrain(scene);
+	var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
+	scene.add(ambientLight);
+
+	var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
+	directionalLight.position.set(1, 1, 0);
+	scene.add(directionalLight);
+
+	var plano = new Plano();
+	plano.loadMaterials('obj/pixelgrass.png', null);
+	plano.loadTerrain(scene, isWorldReady);
+
+	var traffic = new Plano();
+	traffic.loadMaterials('obj/traffic.png', 'obj/trafficA.png');
+	traffic.loadTrafficPaths(scene, 10, isWorldReady);
+	var traffic2 = new Plano();
+	traffic2.plane = traffic.plane.clone();
+	traffic2.loadTrafficPaths(scene, 40, isWorldReady);
+	var traffic3 = new Plano();
+	traffic3.plane = traffic.plane.clone();
+	traffic3.loadTrafficPaths(scene, 60, isWorldReady);
+
+
+	//var rockFloor = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
+	//rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
+
 }
 
 
 // Nivel 2
 if (escenario === 'Snow City'){
-	var plano = new Plano('obj/snow.jpg', scene, isWorldReady);
-	plano.loadTerrain(scene);
+	var ambientLight = new THREE.AmbientLight(new THREE.Color(0x8AC0FF), 0.7);
+	scene.add(ambientLight);
+
+	var directionalLight = new THREE.DirectionalLight(new THREE.Color(1,1,1), 0.3);
+	directionalLight.position.set(1, 1, 0);
+	scene.add(directionalLight);
+
+	const light = new THREE.PointLight(0xFF7C30, 0.8, 100);
+	light.position.set(50, 50, 0);
+	scene.add(light);
+
+	// Terreno
+	var plano = new Plano();
+	plano.loadMaterials('obj/snow.jpg', null);
+	plano.loadTerrain(scene, isWorldReady);
+
+	var traffic = new Plano();
+	traffic.loadMaterials('obj/traffic.png', 'obj/trafficA.png');
+	traffic.loadTrafficPaths(scene, 10, isWorldReady);
+	var traffic2 = new Plano();
+	traffic2.plane = traffic.plane.clone();
+	traffic2.loadTrafficPaths(scene, 40, isWorldReady);
+	var traffic3 = new Plano();
+	traffic3.plane = traffic.plane.clone();
+	traffic3.loadTrafficPaths(scene, 60, isWorldReady);
+
+
+	// Modelos
 
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
+	console.log(scene);
+	console.log(pino);
+	//pino.loadRandomO(-50, 50, -10, 50, 10, scene);
 }
 
 // Nivel 3
 if (escenario === 'Beach City Night'){
-	var plano = new Plano('obj/arena.png', scene, isWorldReady);
-	plano.loadTerrain(scene);
+	var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
+	scene.add(ambientLight);
 
-	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
+	var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
+	directionalLight.position.set(1, 1, 0);
+	scene.add(directionalLight);
+
+	var plano = new Plano();
+	plano.loadMaterials('obj/arena.png', null);
+	plano.loadTerrain(scene, isWorldReady);
 }
 
-var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
-scene.add(ambientLight);
-
-var directionalLight = new THREE.DirectionalLight(new THREE.Color(1, 1, 0), 0.4);
-directionalLight.position.set(1, 1, 0);
-scene.add(directionalLight);
 
 // Grid guia
 var grid = new THREE.GridHelper(50, 25, 0x000000, 0xffffff);
 //grid.position.x = 0.5;
 //grid.position.z = 0.5;
 
-scene.add(grid);
+//scene.add(grid);
 
 //console.log(game);
 console.log(scene);
