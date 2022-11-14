@@ -167,6 +167,8 @@ loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 if (escenario === 'City'){
 var rockFloor = new Objeto(new THREE.Vector3(10, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
+var plano = new Plano('obj/pixelgrass.png', scene, isWorldReady);
+	plano.loadTerrain(scene);
 }
 
 
@@ -177,10 +179,16 @@ if (escenario === 'Snow City'){
 
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
-
-
 }
 
+// Nivel 3
+if (escenario === 'Beach City Night'){
+	var plano = new Plano('obj/arena.png', scene, isWorldReady);
+	plano.loadTerrain(scene);
+
+	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
+}
 
 var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 scene.add(ambientLight);
