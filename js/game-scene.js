@@ -321,38 +321,73 @@ function animate() {
 		}
 	}
 
-	if (keys['&']) {
-		if (squirrelP2.moving) {
-			updown_p2 = - 2;
-			newmov2 = "&";
-			jump2 = true;
-			ti2 = Date.now(); //tiempo en que arranca el salto
-			squirrelP2.update()
-		}
-	} else if (keys['(']) {
-		if (squirrelP2.moving) {
-			updown_p2 = 2;
-			newmov2 = "(";
-			jump2 = true;
-			ti2 = Date.now(); //tiempo en que arranca el salto
-			squirrelP2.update();
-		}
+	if (newmov == "a"){
+		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y -= 1.5708  ;
 	}
-	if (keys["%"]) {
-		if (squirrelP2.moving) {
-			sides_p2 = -2;
-			newmov2 = "%";
-			jump2 = true;
-			ti2 = Date.now(); //tiempo en que arranca el salto
-			squirrelP2.update();
+	else if (newmov == "w"){
+		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y -= 3.14159  ;
+	}
+	else if (newmov == "s"){
+		squirrel.mesh.rotation.y = 0  ;
+	}
+	else if (newmov == "d"){
+		squirrel.mesh.rotation.y = 0  ;
+		squirrel.mesh.rotation.y += 1.5708  ;
+	}
+
+	if (modo === 'Cooperativo') {
+		if (keys['&']) {
+			if (squirrelP2.moving) {
+				updown_p2 = - 2;
+				newmov2 = "&";
+				jump2 = true;
+				ti2 = Date.now(); //tiempo en que arranca el salto
+				squirrelP2.update()
+			}
+		} else if (keys['(']) {
+			if (squirrelP2.moving) {
+				updown_p2 = 2;
+				newmov2 = "(";
+				jump2 = true;
+				ti2 = Date.now(); //tiempo en que arranca el salto
+				squirrelP2.update();
+			}
 		}
-	} else if (keys["'"]) {
-		if (squirrelP2.moving) {
-			sides_p2 = 2;
-			newmov2 = "'";
-			jump2 = true;
-			ti2 = Date.now(); //tiempo en que arranca el salto
-			squirrelP2.update();
+		if (keys["%"]) {
+			if (squirrelP2.moving) {
+				sides_p2 = -2;
+				newmov2 = "%";
+				jump2 = true;
+				ti2 = Date.now(); //tiempo en que arranca el salto
+				squirrelP2.update();
+			}
+		} else if (keys["'"]) {
+			if (squirrelP2.moving) {
+				sides_p2 = 2;
+				newmov2 = "'";
+				jump2 = true;
+				ti2 = Date.now(); //tiempo en que arranca el salto
+				squirrelP2.update();
+			}
+		}
+
+		if (newmov2 == "&") {
+			squirrelP2.mesh.rotation.y = 0;
+			squirrelP2.mesh.rotation.y -= 3.14159;
+
+		}
+		else if (newmov2 == "(") {
+			squirrelP2.mesh.rotation.y = 0;
+		}
+		else if (newmov2 == "%") {
+			squirrelP2.mesh.rotation.y = 0;
+			squirrelP2.mesh.rotation.y -= 1.5708;
+		}
+		else if (newmov2 == "'") {
+			squirrelP2.mesh.rotation.y = 0;
+			squirrelP2.mesh.rotation.y += 1.5708;
 		}
 	}
 
@@ -375,40 +410,7 @@ function animate() {
 		
 	}
 
-	if (newmov == "a"){
-		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y -= 1.5708  ;
-	}
-	else if (newmov == "w"){
-		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y -= 3.14159  ;
-	}
-	else if (newmov == "s"){
-		squirrel.mesh.rotation.y = 0  ;
-	}
-	else if (newmov == "d"){
-		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y += 1.5708  ;
-	}
-
-	if (newmov2 == "&"){
-		squirrelP2.mesh.rotation.y = 0  ;
-		squirrelP2.mesh.rotation.y -= 3.14159  ;
-
-	}
-	else if (newmov2 == "("){
-		squirrelP2.mesh.rotation.y = 0  ;
-	}
-	else if (newmov2 == "%"){
-		squirrelP2.mesh.rotation.y = 0  ;
-		squirrelP2.mesh.rotation.y -= 1.5708  ;
-	}
-	else if (newmov2 == "'"){
-		squirrelP2.mesh.rotation.y = 0  ;
-		squirrelP2.mesh.rotation.y += 1.5708  ;
-	}
 	
-
 	if(isWorldLoaded() && squirrel !== undefined && squirrelP2 !== undefined){
 
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
