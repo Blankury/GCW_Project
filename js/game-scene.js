@@ -170,7 +170,7 @@ rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorl
 // Nivel 2
 if (escenario === 'Snow City'){
 	var plano = new Plano('obj/snow.jpg', scene, isWorldReady);
-
+	plano.loadTerrain(scene);
 
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
