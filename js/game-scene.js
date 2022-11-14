@@ -1,5 +1,6 @@
 import { Squirrel } from "../js/squirrel.js";
-import loadOBJWithMTL from "../js/objModelos.js";
+import loadOBJWithMTL, { Objeto } from "../js/objModelos.js";
+import Plano from "./plano.js";
 
 // Nivel Seleccionado
 var escenario = sessionStorage.getItem('scene');
@@ -38,7 +39,7 @@ camera.position.set(0, 0, 0);
 camera.rotation.x = THREE.MathUtils.degToRad(-45);	//-45
 camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
 camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
-//
+
 //Colisiones
 var collisionObjects = [];
 var newmov = "";
@@ -59,41 +60,10 @@ window.addEventListener('resize', function(){
 	camera.aspect = canvas.clientWidth / canvas.clientHeight;
 	camera.updateProjectionMatrix();
 });
-
-console.log(renderer);
 game.appendChild( renderer.domElement );
 
+console.log(renderer);
 console.log(squirrel);
-
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshPhongMaterial( { 
-	color: new THREE.Color(0xFF8787),
-	specular: new THREE.Color(1, 1, 1),
-	shininess: 500	
-});
-
-const material2 = new THREE.MeshPhongMaterial( { 
-	color: new THREE.Color(0xBCE29E),
-	specular: new THREE.Color(1, 1, 1),
-	shininess: 500	
-});
-
-
-//const cube = new THREE.Mesh(geometry, material);
-//const cube2 = new THREE.Mesh(geometry, material2);
-
-//cube.position.x = -2; cube.position.y = 0.5;
-//cube2.position.x = 2; cube2.position.y = 0.5;
-
-//scene.add(cube);
-
-/*cube.rayos = [
-	new THREE.Vector3(1, 0, 0), 
-	new THREE.Vector3(-1, 0, 0),
-	new THREE.Vector3(0, 0, 1),
-	new THREE.Vector3 (0, 0, -1)
-];
-*/
 
 loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
@@ -104,7 +74,7 @@ loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 
 	squirrel.mesh = object;
 	scene.add(object);
-	isWorldReady[0] = true;
+	isWorldReady.push(true);
 
 	if (modo === 'Cooperativo')
 		squirrel.mesh.position.x = -2;
@@ -123,7 +93,7 @@ if(modo === 'Cooperativo'){
 		squirrelP2.mesh = object;
 		scene.add(object);
 	
-		isWorldReady[1] = true;
+		isWorldReady.push(true);
 	});
 
 	
@@ -137,7 +107,7 @@ loadOBJWithMTL("obj/Mono_de_nieve/", "Snowman.obj", "Snowman.mtl", (object) => {
 
 	collisionObjects.push(object);
 
-	isWorldReady[2] = true;
+	isWorldReady.push(true);
 });
 
 
@@ -150,7 +120,7 @@ loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 	object.position.x += 3.5;
 	object.position.z += 2;
 	scene.add(object);
-	isWorldReady[3] = true;
+	isWorldReady.push(true);
 });
 
 loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
@@ -160,100 +130,54 @@ loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 	object.position.x += 5.5;
 	object.position.z += 2;
 	scene.add(object);
-	isWorldReady[8] = true;
+	isWorldReady.push(true);
 });
 
 loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
 	object.position.x += 7.5;
 	object.position.z += 2;
 	scene.add(object);
-	isWorldReady[4] = true;
+	isWorldReady.push(true);
 });
 
 loadOBJWithMTL("obj/Quitanieves/", "quitanieevs-0.obj", "quitanieevs-0.mtl", (object) => {
 	object.position.x += 3.5;
 	object.position.z -= 4;
 	scene.add(object);
-	isWorldReady[5] = true;
+	isWorldReady.push(true);
 });
 
 loadOBJWithMTL("obj/Rocas/", "rocas-0.obj", "rocas-0.mtl", (object) => {
 	object.position.x += 7.5;
 	scene.add(object);
-	isWorldReady[6] = true;
+	isWorldReady.push(true);
 });
 
 loadOBJWithMTL("obj/Tronco/", "Troncoobj.obj", "Troncoobj.mtl", (object) => {
 	object.position.x += 9.5;
 	scene.add(object);
-	isWorldReady[7] = true;
+	isWorldReady.push(true);
 });
 
 
+// Nivel 1
+if (escenario === 'City'){
+var rockFloor = new Objeto(new THREE.Vector3(10, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
+}
 
 
-
-loadOBJWithMTL("obj/Nivel_1/", "Suelo_rock.obj", "Suelo_rock.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
-	isWorldReady[9] = true;
-});
+// Nivel 2
+if (escenario === 'Snow City'){
+	var plano = new Plano('obj/snow.jpg', scene, isWorldReady);
 
 
-loadOBJWithMTL("obj/Nivel_1/", "Suelo_grass.obj", "Suelo_grass.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
-	isWorldReady[10] = true;
-});
-
-loadOBJWithMTL("obj/Nivel_1/", "Arbustoss.obj", "Arbustoss.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
+	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	pino.load('obj/Pino/', 'pino-1.obj', 'pino-1.mtl', scene, isWorldReady);
 
 
-	//ObjetosConColision.push(object);
+}
 
-	
-	isWorldReady[11] = true;
-});
-
-
-loadOBJWithMTL("obj/Nivel_1/", "Arboles.obj", "Arboles.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
-	isWorldReady[12] = true;
-});
-
-
-loadOBJWithMTL("obj/Nivel_1/", "lamparas.obj", "lamparas.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
-	isWorldReady[13] = true;
-});
-
-loadOBJWithMTL("obj/Nivel_1/", "rocas.obj", "rocas.mtl", (object) => {
-	object.scale.x = 1;
-	object.scale.y = 1;
-	object.scale.z = 1;
-
-	scene.add(object);
-	isWorldReady[14] = true;
-});
 
 var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 scene.add(ambientLight);
@@ -385,10 +309,6 @@ function animate() {
 		
 	}
 
-	if (pitch != chpitch){}
-		//console.log(camera);
-
-
 	if (newmov == "a"){
 		squirrel.mesh.rotation.y = 0  ;
 		squirrel.mesh.rotation.y -= 1.5708  ;
@@ -422,13 +342,8 @@ function animate() {
 		squirrelP2.mesh.rotation.y += 1.5708  ;
 	}
 	
-	squirrel.mesh.position.x += sides;
-	squirrel.mesh.position.z += updown;
-	squirrelP2.mesh.position.x += sides_p2;
-	squirrelP2.mesh.position.z += updown_p2;
-
-
-
+	let sip = isWorldLoaded();
+	if(isWorldLoaded() && squirrel !== undefined && squirrelP2 !== undefined){
 
 	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
 	camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
@@ -446,18 +361,27 @@ function animate() {
 	chpitch = pitch;
 	
 	
-	
-	if(modo === 'Cooperativo'){
-		let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position)
+	if (modo === 'Cooperativo') {
+		let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position);
 		camera.position.x = puntoM.x;
 		camera.position.z = puntoM.y;
 	} else {
 		camera.position.x = squirrel.mesh.position.x;
 		camera.position.z = squirrel.mesh.position.z;
 	}
+
 	
-	if (isWorldReady[0] ){
 		renderer.render( scene, camera );
+
+
+		squirrel.mesh.position.x += sides;
+		squirrel.mesh.position.z += updown;
+
+		if (modo === 'Cooperativo') {
+			squirrelP2.mesh.position.x += sides_p2;
+			squirrelP2.mesh.position.z += updown_p2;
+		}
+
 
 		// Collision
 		for (var i = 0; i < collisionObjects.length; i++) {
@@ -473,23 +397,24 @@ function animate() {
 			}
 
 		}
-		for (var i = 0; i < collisionObjects.length; i++) {
+		// for (var i = 0; i < collisionObjects.length; i++) {
 				
-			var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
+		// 	var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
 			
-			if (collision2) {
-				// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
-				//aun no implementado, solo muestra en la consola si choca o no
-				//squirrel.mesh.translateY(-(forward * deltaTime));
-				console.log("colisionando");
-				break;
-			}
+		// 	if (collision2) {
+		// 		// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
+		// 		//aun no implementado, solo muestra en la consola si choca o no
+		// 		//squirrel.mesh.translateY(-(forward * deltaTime));
+		// 		console.log("colisionando");
+		// 		break;
+		// 	}
 
-		}
-		
+		// }
 	}
 }
-animate();
+	animate();
+
+
 
 function detectCollision(object1, object2){
 
@@ -520,4 +445,15 @@ function puntoMedio(pos1, pos2){
 	newX = (pos1.x + pos2.x) / 2;
 	newZ = (pos1.z + pos2.z) / 2;
 	return new THREE.Vector2(newX, newZ);
+}
+
+function isWorldLoaded(){
+	let aja;
+	for(let i = 0; i < isWorldReady.length; i++){
+		if(isWorldReady[i])
+			aja = true;
+		else
+			aja = false;
+	}
+	return aja;
 }
