@@ -11,9 +11,18 @@ console.log(escenario+ '\n' + modo + '\n'+ dificultad);
 
 // Escena
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0x484e5c);
+scene.background = new THREE.Color(0x484e5c);
 
 const game = document.getElementById("game-scene");
+const pause = document.getElementById('btnPause');
+const play = document.getElementById('btnPlay');
+var isPause = false;
+pause.addEventListener('click', () => {
+	isPause = true;
+});
+play.addEventListener('click', () => {
+	isPause = false;
+})
 
 const squirrel = new Squirrel();
 const squirrelP2 = new Squirrel();
@@ -26,6 +35,7 @@ var deltaTime;
 var changeCam = false;
 var isWorldReady = [];
 var worldSize = 64; 
+
 
 // Reloj
 var clock = new THREE.Clock();
@@ -282,6 +292,7 @@ function animate() {
 	requestAnimationFrame( animate );
 	deltaTime = clock.getDelta();
 
+	if(!isPause){
 	var yaw = 0;
 	var sides = 0;
 	var sides_p2 = 0;
@@ -444,7 +455,7 @@ function animate() {
 			camera.position.z = squirrel.mesh.position.z;
 		}
 
-
+		
 		renderer.render(scene, camera);
 
 		if (jump) {
@@ -527,8 +538,9 @@ function animate() {
 
 		// }
 	}
+	}
 }
-	animate();
+animate();
 
 
 
