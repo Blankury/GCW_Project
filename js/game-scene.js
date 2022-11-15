@@ -1,5 +1,5 @@
 import { Squirrel } from "../js/squirrel.js";
-import loadOBJWithMTL, { Objeto, collisionObjects } from "../js/objModelos.js";
+import loadOBJWithMTL, { Objeto, collisionObjects, puntos, monedas, llantas, escudos, autos} from "../js/objModelos.js";
 import Plano from "./plano.js";
 
 // Nivel Seleccionado
@@ -139,8 +139,10 @@ if (escenario === 'City'){
 	//var rockFloor = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	//rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
 	// Modelos
+
+
 	var pts = new Objeto(new THREE.Vector3(10, 0, 10), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-	pts.load('obj/Puntos/', 'Puntos.obj', 'Puntos.mtl', scene, isWorldReady, 3);
+	pts.load('obj/Puntos/', 'Puntos.obj', 'Puntos.mtl', scene, isWorldReady, 5);
 
 	var arbol = new Objeto(new THREE.Vector3(0, 0, -5), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady, 1);
@@ -246,7 +248,7 @@ if (escenario === 'Beach City Night'){
 	roca2.load('obj/Rocas/', 'rocas-1.obj', 'rocas-1.mtl', scene, isWorldReady, 2);
 
 	var palmera = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
-	palmera.load('obj/Palmera/', 'palmera.obj', 'palmera.mtl', scene, isWorldReady, 3);
+	palmera.load('obj/Palmera/', 'palmera.obj', 'palmera.mtl', scene, isWorldReady, 1);
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2')
@@ -512,9 +514,45 @@ function animate() {
 			coca.update(worldSize);
 		}
 		
-		
+		//Daño
+		for (var i = 0; i < autos.length; i++) {
 
-		// Collision
+			var collision1 = detectCollision(squirrel.mesh, autos[i]);
+			var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
+			
+			if (collision1) {
+				squirrel.mesh.position.z -= updown -4;
+				if (dificultad === "Dificil") squirrel.updateVida(5); else squirrel.updateVida(1);
+				console.log("vida player 1: " + squirrel.GetVida());
+				break;
+			}else if (collision2){
+				squirrelP2.mesh.position.z -= updown_p2 - 4;
+				if (dificultad === "Dificil") squirrelP2.updateVida(5); else squirrelP2.updateVida(1);
+				console.log("vida player 2: "  + squirrelP2.GetVida());
+				break;
+			}
+		}
+
+		//PowerUps
+		for (var i = 0; i < puntos.length; i++) {
+
+			var collision1 = detectCollision(squirrel.mesh, puntos[i]);
+			var collision2 = detectCollision(squirrelP2.mesh, puntos[i]);
+
+			if (collision1) {
+				squirrel.updatePuntuacion();
+				console.log("puntacion aumentada: "+ squirrel.GetPuntuacion());
+				console.log(pts);
+				scene.remove(pts.mesh)
+				break;
+			}else if (collision2){
+				squirrelP2.updatePuntuacion();
+				console.log("jugador dos puntuacion aumentada");
+				break;
+			}
+		}
+
+		//Colisiones
 		for (var i = 0; i < collisionObjects.length; i++) {
 
 			var collision = detectCollision(squirrel.mesh, collisionObjects[i]);

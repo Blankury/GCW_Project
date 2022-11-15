@@ -1,4 +1,4 @@
-export var collisionObjects = [], puntos = [], monedas = [], llantas = [], escudos = [];
+export var collisionObjects = [], puntos = [], monedas = [], llantas = [], escudos = [], autos = [];
 
 export class Objeto {
     constructor(position, rotation, scale){
@@ -32,11 +32,15 @@ export class Objeto {
                 //console.log(this.mesh);
                 
                 if (slot === 1)
-                    this.loadRandomO(-60, 60, -10, 60, 100, scene);
+                    this.loadRandomO(-60, 60, -10, 60, 100, scene, slot);
                 if (slot === 2)
-                    this.loadRandomO(-60, 60, -10, 60, 50, scene);
-                if (slot === 3)
-                    this.loadRandomO(-60, 60, -10, 30, 8, scene);
+                    this.loadRandomO(-60, 60, -10, 60, 50, scene, slot);
+                if (slot === 5)
+                    this.loadRandomO(-60, 60, -10, 30, 8, scene, slot);
+                if (slot === 6)
+                this.loadRandomO(-60, 60, -10, 30, 8, scene, slot);
+                if (slot === 7)
+                this.loadRandomO(-60, 60, -10, 30, 8, scene, slot);
                 
                 if(slot === 'path')
                     this.loadPath(scene, 10, 6);
@@ -52,7 +56,9 @@ export class Objeto {
         });
     }
 
-    loadRandomO(minX, maxX, minZ, maxZ, numCopies, scene){
+    loadRandomO(minX, maxX, minZ, maxZ, numCopies, scene, slot){
+
+        
         minX = Math.ceil(minX);
         maxX = Math.floor(maxX);
         minZ = Math.ceil(minZ);
@@ -65,7 +71,24 @@ export class Objeto {
             let obj = this.mesh.clone();
             obj.position.set(X, this.mesh.position.y, Z);
 
-            collisionObjects.push(obj);
+            if (slot === 5){
+                puntos.push(obj);
+            } 
+            else if (slot === 6){
+                monedas.push(obj);
+            } 
+            else if (slot === 7){
+                llantas.push(obj);
+            }
+            else if (slot === 8){
+                escudos.push(obj);
+            }
+            else if (slot === 9){
+                autos.push(obj);
+            }  
+            else{
+                collisionObjects.push(obj);
+            }
 
             scene.add(obj);
         }
@@ -93,6 +116,7 @@ export class Objeto {
             //this.mesh.add(copyPlane);
         }
         this.copies.forEach(e => {
+            autos.push(e);
             scene.add(e);
         });
         
@@ -117,6 +141,10 @@ export class Objeto {
                 e.position.x = worldSize;
             }
         });
+    }
+
+
+    Remover(scene, pts){
     }
 }
 

@@ -16,8 +16,19 @@ export class Squirrel {
         this.monedas += 1;
     }
 
-    updatePuntaje(){
+    updatePuntuacion(){
         this.puntos += 5;
     }
 
+    updateVida(daño){
+        this.vida -= daño;
+    }
+
+    GetPuntuacion(){
+        return this.puntos;
+    }
+
+    GetVida(){
+        return this.vida;
+    }
 }
