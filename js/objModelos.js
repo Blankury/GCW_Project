@@ -145,6 +145,11 @@ export class Objeto {
 
 
     Remover(scene, pts){
+        //this.copies.forEach(e => {
+          //  autos.push(e);
+            //scene.add(e);
+       // });
+
     }
 }
 

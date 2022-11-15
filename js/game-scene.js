@@ -35,7 +35,7 @@ var deltaTime;
 var changeCam = false;
 var isWorldReady = [];
 var worldSize = 64; 
-
+var clicklevel=false;
 
 // Reloj
 var clock = new THREE.Clock();
@@ -52,6 +52,76 @@ camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
 camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 
 //var allcollisionObjects = [];
+
+//Musica
+const startButton = document.getElementById( 'startButton' );
+
+//funcion musica nivel 1
+function init() {
+
+	const overlay = document.getElementById( 'overlay' );
+	overlay.remove();
+			
+	const listener = new THREE.AudioListener();
+	scene.add( listener );
+
+	const audioElement = document.getElementById( 'song1' );
+	audioElement.play();
+	clicklevel=true;
+	console.log('reproduciendo audio');
+
+	const positionalAudio = new THREE.PositionalAudio( listener );
+	positionalAudio.setMediaElementSource( audioElement );
+	positionalAudio.setRefDistance( 1 );
+	positionalAudio.setVolume(0.5);
+	positionalAudio.setDirectionalCone( 180, 230, 0.1 );
+
+}
+//funcion musica nivel 2
+function init2() {
+
+	const overlay = document.getElementById( 'overlay' );
+	overlay.remove();
+
+			
+	const listener = new THREE.AudioListener();
+	scene.add( listener );
+
+	const audioElement = document.getElementById( 'song2' );
+	audioElement.play();
+	clicklevel=true;
+	console.log('reproduciendo audio');
+
+	const positionalAudio = new THREE.PositionalAudio( listener );
+	positionalAudio.setMediaElementSource( audioElement );
+	positionalAudio.setRefDistance( 1 );
+	positionalAudio.setVolume(0.5);
+	positionalAudio.setDirectionalCone( 180, 230, 0.1 );
+
+}
+//funcion musica nivel 3
+function init3() {
+
+	const overlay = document.getElementById( 'overlay' );
+	overlay.remove();
+
+			
+	const listener = new THREE.AudioListener();
+	scene.add( listener );
+
+	const audioElement = document.getElementById( 'song3' );
+	audioElement.play();
+	clicklevel=true;
+	console.log('reproduciendo audio');
+
+	const positionalAudio = new THREE.PositionalAudio( listener );
+	positionalAudio.setMediaElementSource( audioElement );
+	positionalAudio.setRefDistance( 1 );
+	positionalAudio.setVolume(0.5);
+	positionalAudio.setDirectionalCone( 180, 230, 0.1 );
+
+}
+
 
 //Movimientos animados
 var jump = false, jump2 = false, yi = 0.5, vi = 4, ti, ti2;
@@ -140,6 +210,8 @@ if (escenario === 'City'){
 	//rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
 	// Modelos
 
+	//Reproducir musica
+	startButton.addEventListener( 'click', init );
 
 	var pts = new Objeto(new THREE.Vector3(10, 0, 10), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	pts.load('obj/Puntos/', 'Puntos.obj', 'Puntos.mtl', scene, isWorldReady, 5);
@@ -187,6 +259,8 @@ if (escenario === 'Snow City'){
 	traffic3.plane = traffic.plane.clone();
 	traffic3.loadTrafficPaths(scene, 50, isWorldReady);
 
+	//Reproducir musica
+	startButton.addEventListener( 'click', init );
 
 	// Modelos
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
@@ -235,6 +309,9 @@ if (escenario === 'Beach City Night'){
 	var traffic3 = new Plano();
 	traffic3.plane = traffic.plane.clone();
 	traffic3.loadTrafficPaths(scene, 80, isWorldReady);
+
+	//Reproducir musica
+	startButton.addEventListener( 'click', init );
 
 	// Modelos
 
@@ -298,287 +375,304 @@ function animate() {
 	requestAnimationFrame( animate );
 	deltaTime = clock.getDelta();
 
-	if(!isPause){
-	var yaw = 0;
-	var sides = 0;
-	var sides_p2 = 0;
-	var updown = 0
-	var updown_p2 = 0
-	var pitch = 0;
-	var chpitch = 0;
-
-	if (keys["W"]) {
-		if (squirrel.moving) {
-			updown = -2;
-			newmov = "w";
-			jump = true;
-			ti = Date.now(); //tiempo en que arranca el salto
-			squirrel.update();
-		}
-	} else if (keys["S"]) {
-		if (squirrel.moving) {
-			updown = 2;
-			newmov = "s";
-			jump = true;
-			ti = Date.now(); //tiempo en que arranca el salto
-			squirrel.update();
-		}
-	}
-	if (keys["A"]) {
-		if (squirrel.moving) {
-			sides = -2;
-			newmov = "a";
-			jump = true;
-			ti = Date.now(); //tiempo en que arranca el salto
-			squirrel.update();
-		}
-	} else if (keys["D"]) {
-		if (squirrel.moving) {
-			sides = 2;
-			newmov = "d";
-			jump = true;
-			ti = Date.now(); //tiempo en que arranca el salto
-			squirrel.update();
-		}
-	}
-
-	if (newmov == "a"){
-		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y -= 1.5708  ;
-	}
-	else if (newmov == "w"){
-		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y -= 3.14159  ;
-	}
-	else if (newmov == "s"){
-		squirrel.mesh.rotation.y = 0  ;
-	}
-	else if (newmov == "d"){
-		squirrel.mesh.rotation.y = 0  ;
-		squirrel.mesh.rotation.y += 1.5708  ;
-	}
-
-	if (modo === 'Cooperativo') {
-		if (keys['&']) {
-			if (squirrelP2.moving) {
-				updown_p2 = - 2;
-				newmov2 = "&";
-				jump2 = true;
-				ti2 = Date.now(); //tiempo en que arranca el salto
-				squirrelP2.update()
-			}
-		} else if (keys['(']) {
-			if (squirrelP2.moving) {
-				updown_p2 = 2;
-				newmov2 = "(";
-				jump2 = true;
-				ti2 = Date.now(); //tiempo en que arranca el salto
-				squirrelP2.update();
-			}
-		}
-		if (keys["%"]) {
-			if (squirrelP2.moving) {
-				sides_p2 = -2;
-				newmov2 = "%";
-				jump2 = true;
-				ti2 = Date.now(); //tiempo en que arranca el salto
-				squirrelP2.update();
-			}
-		} else if (keys["'"]) {
-			if (squirrelP2.moving) {
-				sides_p2 = 2;
-				newmov2 = "'";
-				jump2 = true;
-				ti2 = Date.now(); //tiempo en que arranca el salto
-				squirrelP2.update();
-			}
-		}
-
-		if (newmov2 == "&") {
-			squirrelP2.mesh.rotation.y = 0;
-			squirrelP2.mesh.rotation.y -= 3.14159;
-
-		}
-		else if (newmov2 == "(") {
-			squirrelP2.mesh.rotation.y = 0;
-		}
-		else if (newmov2 == "%") {
-			squirrelP2.mesh.rotation.y = 0;
-			squirrelP2.mesh.rotation.y -= 1.5708;
-		}
-		else if (newmov2 == "'") {
-			squirrelP2.mesh.rotation.y = 0;
-			squirrelP2.mesh.rotation.y += 1.5708;
-		}
-	}
-
-	if (keys["Z"]){
-		camera.zoom = 2;
-	}
-
-	if (keys[" "]) {
-		if (!changeCam) {
-			camera.rotation.x = THREE.MathUtils.degToRad(-90);
-			camera.rotation.y = THREE.MathUtils.degToRad(0);
-			camera.rotation.z = THREE.MathUtils.degToRad(0);
-			changeCam = true;
-		}else {
-			camera.rotation.x = THREE.MathUtils.degToRad(-45);
-			camera.rotation.y = THREE.MathUtils.degToRad(10);
-			camera.rotation.z = THREE.MathUtils.degToRad(10);
-			changeCam = false;
-		}
-		
-	}
-
-	if(keys["C"]){
-		console.log(squirrel.mesh.position);
-	}
 	
-	if(isWorldLoaded() && squirrel !== undefined && squirrelP2 !== undefined){
+	if(clicklevel==true){
 
-		camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
-		camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
-		camera.zoom -= (wheelY * 0.05) * deltaTime;
+		if(!isPause){
+			var yaw = 0;
+			var sides = 0;
+			var sides_p2 = 0;
+			var updown = 0
+			var updown_p2 = 0
+			var pitch = 0;
+			var chpitch = 0;
 
-		if (camera.zoom >= 0.8 && camera.zoom <= 4.5) {
-			camera.updateProjectionMatrix();
-		} else if (camera.zoom <= 0.8) {
-			camera.zoom = 0.8;
-		} else {
-			camera.zoom = 4.5;
-		}
-
-		wheelY = 0;
-		chpitch = pitch;
-
-		if (modo === 'Cooperativo') {
-			let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position);
-			camera.position.x = puntoM.x;
-			camera.position.z = puntoM.y;
-		} else {
-			camera.position.x = squirrel.mesh.position.x;
-			camera.position.z = squirrel.mesh.position.z;
-		}
-
-		
-		renderer.render(scene, camera);
-
-		if (jump) {
-			let t = (Date.now() - ti) / 1000;
-			var yDis = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
-			if (yDis < yi) {
-				jump = false;
-			}
-			squirrel.mesh.position.y = yDis;
-		}
-		squirrel.mesh.position.x += sides;
-		squirrel.mesh.position.z += updown;
-
-		if (modo === 'Cooperativo') {
-			if (jump2) {
-				let t = (Date.now() - ti2) / 1000;
-				var yDis2 = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
-				if (yDis2 < yi) {
-					jump2 = false;
+			if (keys["W"]) {
+				if (squirrel.moving) {
+					updown = -2;
+					newmov = "w";
+					jump = true;
+					ti = Date.now(); //tiempo en que arranca el salto
+					squirrel.update();
 				}
-				squirrelP2.mesh.position.y = yDis2;
+			} else if (keys["S"]) {
+				if (squirrel.moving) {
+					updown = 2;
+					newmov = "s";
+					jump = true;
+					ti = Date.now(); //tiempo en que arranca el salto
+					squirrel.update();
+				}
 			}
-			squirrelP2.mesh.position.x += sides_p2;
-			squirrelP2.mesh.position.z += updown_p2;
-		}
+			if (keys["A"]) {
+				if (squirrel.moving) {
+					sides = -2;
+					newmov = "a";
+					jump = true;
+					ti = Date.now(); //tiempo en que arranca el salto
+					squirrel.update();
+				}
+			} else if (keys["D"]) {
+				if (squirrel.moving) {
+					sides = 2;
+					newmov = "d";
+					jump = true;
+					ti = Date.now(); //tiempo en que arranca el salto
+					squirrel.update();
+				}
+			}
 
-		if(escenario === 'City') {
-			auto.vel = -11 * deltaTime;
-			taxi.vel = 22 * deltaTime;
+			if (newmov == "a"){
+				squirrel.mesh.rotation.y = 0  ;
+				squirrel.mesh.rotation.y -= 1.5708  ;
+			}
+			else if (newmov == "w"){
+				squirrel.mesh.rotation.y = 0  ;
+				squirrel.mesh.rotation.y -= 3.14159  ;
+			}
+			else if (newmov == "s"){
+				squirrel.mesh.rotation.y = 0  ;
+			}
+			else if (newmov == "d"){
+				squirrel.mesh.rotation.y = 0  ;
+				squirrel.mesh.rotation.y += 1.5708  ;
+			}
 
-			taxi.update(worldSize);
-			auto.update(worldSize);
-		}
+			if (modo === 'Cooperativo') {
+				if (keys['&']) {
+					if (squirrelP2.moving) {
+						updown_p2 = - 2;
+						newmov2 = "&";
+						jump2 = true;
+						ti2 = Date.now(); //tiempo en que arranca el salto
+						squirrelP2.update()
+					}
+				} else if (keys['(']) {
+					if (squirrelP2.moving) {
+						updown_p2 = 2;
+						newmov2 = "(";
+						jump2 = true;
+						ti2 = Date.now(); //tiempo en que arranca el salto
+						squirrelP2.update();
+					}
+				}
+				if (keys["%"]) {
+					if (squirrelP2.moving) {
+						sides_p2 = -2;
+						newmov2 = "%";
+						jump2 = true;
+						ti2 = Date.now(); //tiempo en que arranca el salto
+						squirrelP2.update();
+					}
+				} else if (keys["'"]) {
+					if (squirrelP2.moving) {
+						sides_p2 = 2;
+						newmov2 = "'";
+						jump2 = true;
+						ti2 = Date.now(); //tiempo en que arranca el salto
+						squirrelP2.update();
+					}
+				}
 
-		if (escenario === 'Snow City'){
-			auto.vel = -(15 * deltaTime);
-			quitanieves.vel = 10 * deltaTime;
-			quitanieves2.vel = 11 * deltaTime;
+				if (newmov2 == "&") {
+					squirrelP2.mesh.rotation.y = 0;
+					squirrelP2.mesh.rotation.y -= 3.14159;
 
-			auto.update(worldSize);
-			quitanieves.update(worldSize);
-			quitanieves2.update(worldSize);
-		}
+				}
+				else if (newmov2 == "(") {
+					squirrelP2.mesh.rotation.y = 0;
+				}
+				else if (newmov2 == "%") {
+					squirrelP2.mesh.rotation.y = 0;
+					squirrelP2.mesh.rotation.y -= 1.5708;
+				}
+				else if (newmov2 == "'") {
+					squirrelP2.mesh.rotation.y = 0;
+					squirrelP2.mesh.rotation.y += 1.5708;
+				}
+			}
 
-		if (escenario === 'Beach City Night') {
-			auto.vel = 15 * deltaTime;
-			coca.vel = -(10 * deltaTime);
+			if (keys["Z"]){
+				camera.zoom = 2;
+			}
 
-			auto.update(worldSize);
-			coca.update(worldSize);
-		}
-		
-		//Daño
-		for (var i = 0; i < autos.length; i++) {
+			if (keys[" "]) {
+				if (!changeCam) {
+					camera.rotation.x = THREE.MathUtils.degToRad(-90);
+					camera.rotation.y = THREE.MathUtils.degToRad(0);
+					camera.rotation.z = THREE.MathUtils.degToRad(0);
+					changeCam = true;
+				}else {
+					camera.rotation.x = THREE.MathUtils.degToRad(-45);
+					camera.rotation.y = THREE.MathUtils.degToRad(10);
+					camera.rotation.z = THREE.MathUtils.degToRad(10);
+					changeCam = false;
+				}
+				
+			}
 
-			var collision1 = detectCollision(squirrel.mesh, autos[i]);
-			var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
+			if(keys["C"]){
+				console.log(squirrel.mesh.position);
+			}
 			
-			if (collision1) {
-				squirrel.mesh.position.z -= updown -4;
-				if (dificultad === "Dificil") squirrel.updateVida(5); else squirrel.updateVida(1);
-				console.log("vida player 1: " + squirrel.GetVida());
-				break;
-			}else if (collision2){
-				squirrelP2.mesh.position.z -= updown_p2 - 4;
-				if (dificultad === "Dificil") squirrelP2.updateVida(5); else squirrelP2.updateVida(1);
-				console.log("vida player 2: "  + squirrelP2.GetVida());
-				break;
-			}
-		}
+			if(isWorldLoaded() && squirrel !== undefined && squirrelP2 !== undefined){
 
-		//PowerUps
-		for (var i = 0; i < puntos.length; i++) {
+				camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
+				camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
+				camera.zoom -= (wheelY * 0.05) * deltaTime;
 
-			var collision1 = detectCollision(squirrel.mesh, puntos[i]);
-			var collision2 = detectCollision(squirrelP2.mesh, puntos[i]);
-
-			if (collision1) {
-				squirrel.updatePuntuacion();
-				console.log("puntacion aumentada: "+ squirrel.GetPuntuacion());
-				console.log(pts);
-				scene.remove(pts.mesh)
-				break;
-			}else if (collision2){
-				squirrelP2.updatePuntuacion();
-				console.log("jugador dos puntuacion aumentada");
-				break;
-			}
-		}
-
-		//Colisiones
-		for (var i = 0; i < collisionObjects.length; i++) {
-
-			var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
-
-			if (collision) {
-				squirrel.mesh.position.x -= sides;
-				squirrel.mesh.position.z -= updown;
-				console.log("colisionando");
-				break;
-			}
-		}
-		if (modo === 'Cooperativo') {
-			for (let i = 0; i < collisionObjects.length; i++) {
-					
-				let collision = detectCollision(squirrelP2.mesh, collisionObjects[i]);
-
-				if (collision) {
-					squirrelP2.mesh.position.x -= sides_p2;
-					squirrelP2.mesh.position.z -= updown_p2;
-					console.log("player 2 colisionando");
-					break;
+				if (camera.zoom >= 0.8 && camera.zoom <= 4.5) {
+					camera.updateProjectionMatrix();
+				} else if (camera.zoom <= 0.8) {
+					camera.zoom = 0.8;
+				} else {
+					camera.zoom = 4.5;
 				}
 
+				wheelY = 0;
+				chpitch = pitch;
+
+				if (modo === 'Cooperativo') {
+					let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position);
+					camera.position.x = puntoM.x;
+					camera.position.z = puntoM.y;
+				} else {
+					camera.position.x = squirrel.mesh.position.x;
+					camera.position.z = squirrel.mesh.position.z;
+				}
+
+				
+				renderer.render(scene, camera);
+
+				if (jump) {
+					let t = (Date.now() - ti) / 1000;
+					var yDis = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
+					if (yDis < yi) {
+						jump = false;
+					}
+					squirrel.mesh.position.y = yDis;
+				}
+				squirrel.mesh.position.x += sides;
+				squirrel.mesh.position.z += updown;
+
+				if (modo === 'Cooperativo') {
+					if (jump2) {
+						let t = (Date.now() - ti2) / 1000;
+						var yDis2 = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
+						if (yDis2 < yi) {
+							jump2 = false;
+						}
+						squirrelP2.mesh.position.y = yDis2;
+					}
+					squirrelP2.mesh.position.x += sides_p2;
+					squirrelP2.mesh.position.z += updown_p2;
+				}
+
+				if(escenario === 'City') {
+					auto.vel = -11 * deltaTime;
+					taxi.vel = 22 * deltaTime;
+
+					taxi.update(worldSize);
+					auto.update(worldSize);
+				}
+
+				if (escenario === 'Snow City'){
+					auto.vel = -(15 * deltaTime);
+					quitanieves.vel = 10 * deltaTime;
+					quitanieves2.vel = 11 * deltaTime;
+
+					auto.update(worldSize);
+					quitanieves.update(worldSize);
+					quitanieves2.update(worldSize);
+				}
+
+				if (escenario === 'Beach City Night') {
+					auto.vel = 15 * deltaTime;
+					coca.vel = -(10 * deltaTime);
+
+					auto.update(worldSize);
+					coca.update(worldSize);
+				}
+				
+				//Daño
+				for (var i = 0; i < autos.length; i++) {
+
+					var collision1 = detectCollision(squirrel.mesh, autos[i]);
+					
+					
+					if (collision1) {
+						squirrel.mesh.position.z -= updown -4;
+						if (dificultad === "Dificil") squirrel.updateVida(5); else squirrel.updateVida(1);
+						console.log("vida player 1: " + squirrel.GetVida());
+						break;
+					}
+					if (modo === 'Cooperativo') {
+						var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
+
+						if (collision2){
+							squirrelP2.mesh.position.z -= updown_p2 - 4;
+							if (dificultad === "Dificil") squirrelP2.updateVida(5); else squirrelP2.updateVida(1);
+							console.log("vida player 2: "  + squirrelP2.GetVida());
+							break;
+						}
+					}
+					
+					
+				}
+
+				//PowerUps
+				for (var i = 0; i < puntos.length; i++) {
+
+					var collision1 = detectCollision(squirrel.mesh, puntos[i]);
+		
+
+					if (collision1) {
+						squirrel.updatePuntuacion();
+						console.log("puntacion aumentada: "+ squirrel.GetPuntuacion());
+						console.log(pts);
+						scene.remove(pts.mesh)
+						break;
+					}
+					if (modo === 'Cooperativo') {
+						var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
+						
+					if (collision2){
+						
+						squirrelP2.updatePuntuacion();
+						console.log("jugador dos puntuacion aumentada");
+						break;
+					}
+					}
+				}
+
+				//Colisiones
+				for (var i = 0; i < collisionObjects.length; i++) {
+
+					var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
+
+					if (collision) {
+						squirrel.mesh.position.x -= sides;
+						squirrel.mesh.position.z -= updown;
+						console.log("colisionando");
+						break;
+					}
+				}
+				if (modo === 'Cooperativo') {
+					for (let i = 0; i < collisionObjects.length; i++) {
+							
+						let collision = detectCollision(squirrelP2.mesh, collisionObjects[i]);
+
+						if (collision) {
+							squirrelP2.mesh.position.x -= sides_p2;
+							squirrelP2.mesh.position.z -= updown_p2;
+							console.log("player 2 colisionando");
+							break;
+						}
+
+					}
+				}
 			}
 		}
-	}
 	}
 }
 animate();
