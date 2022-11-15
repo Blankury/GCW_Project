@@ -4,6 +4,8 @@ export class Objeto {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
+        this.copies = [];
+        this.vel = 0;
     }
 
     load(path, objFile, mtlFile, scene, isLoad, slot) {
@@ -24,20 +26,22 @@ export class Objeto {
                 object.rotation.z = this.rotation.z;
 
                 this.mesh = object;
-                console.log(this.mesh);
                 scene.add(this.mesh);
+                //console.log(this.mesh);
                 
                 if (slot === 1)
                     this.loadRandomO(-60, 60, -10, 60, 100, scene);
                 if (slot === 2)
                     this.loadRandomO(-60, 60, -10, 60, 50, scene);
+                if (slot === 3)
+                    this.loadRandomO(-60, 60, -10, 30, 8, scene);
                 
                 if(slot === 'path')
-                    this.loadinPath(scene, 10, 6);
+                    this.loadPath(scene, 10, 6);
                 if(slot === 'path2')
-                    this.loadinPath(scene, 17, 3);
+                    this.loadPath(scene, 17, 3);
                 if(slot === 'path3')
-                    this.loadinPath(scene, 34, 1);
+                    this.loadPath(scene, 34, 1);
 
 
                 isLoad.push(true);
@@ -62,25 +66,52 @@ export class Objeto {
         }
     }
 
-    loadinPath(scene, space, copies) {
+    loadPath(scene, space, copies) {
         //this.mesh.position.set(this.mesh.position.x, 0, this.mesh.position.z);
         var posBef = new THREE.Vector3(0, 0, 0);
 
         for (let i = 0; i < copies; i++) {
             let copyPlane = this.mesh.clone();
-
             copyPlane.position.x -= space - posBef.x;
             posBef.x = copyPlane.position.x;
-            scene.add(copyPlane);
+
+            this.copies.push(copyPlane);
         }
         posBef = new THREE.Vector3(0, 0, 0);
         for (let i = 0; i < copies; i++) {
             let copyPlane = this.mesh.clone();
-
             copyPlane.position.x += space + posBef.x;
             posBef.x = copyPlane.position.x;
-            scene.add(copyPlane);
+
+            this.copies.push(copyPlane);
+            //scene.add(copyPlane);
+            //this.mesh.add(copyPlane);
         }
+        this.copies.forEach(e => {
+            scene.add(e);
+        });
+        
+        console.log(this);
+    }
+
+    update(worldSize){
+        this.mesh.position.x += this.vel;
+        this.mesh.position.y = this.position.y;
+        this.mesh.position.z = this.position.z;
+        if (this.mesh.position.x > worldSize)
+            this.mesh.position.x = -worldSize;
+        else if (this.mesh.position.x < -worldSize && this.vel < 0)
+            this.mesh.position.x = worldSize;
+        this.copies.forEach(e => {
+            e.position.x += this.vel;
+            e.position.y = this.position.y;
+            e.position.z = this.position.z;
+            if(e.position.x > worldSize){
+                e.position.x = -worldSize;
+            } else if (e.position.x < -worldSize && this.vel < 0){
+                e.position.x = worldSize;
+            }
+        });
     }
 }
 

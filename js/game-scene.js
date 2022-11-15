@@ -25,6 +25,7 @@ var wheelY = 0;
 var deltaTime;	
 var changeCam = false;
 var isWorldReady = [];
+var worldSize = 64; 
 
 // Reloj
 var clock = new THREE.Clock();
@@ -186,10 +187,10 @@ if (escenario === 'Snow City'){
 	quitanieves.load('obj/Quitanieves/', 'quitanieevs-0.obj', 'quitanieevs-0.mtl', scene, isWorldReady, 'path3')
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -30), new THREE.Vector3(0,3.1,0), new THREE.Vector3(0,0,0));
-	auto.load('obj/Autos/', 'autos-0.obj', 'autos-0.mtl', scene, isWorldReady, 'path')
+	auto.load('obj/Autos/', 'autos-0.obj', 'autos-0.mtl', scene, isWorldReady, 'path');
 
-	var quitanieves = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0,0), new THREE.Vector3(0,0,0));
-	quitanieves.load('obj/Quitanieves/', 'quitanieevs-1.obj', 'quitanieevs-1.mtl', scene, isWorldReady, 'path3')
+	var quitanieves2 = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0,0), new THREE.Vector3(0,0,0));
+	quitanieves2.load('obj/Quitanieves/', 'quitanieevs-1.obj', 'quitanieevs-1.mtl', scene, isWorldReady, 'path3')
 
 }
 
@@ -229,6 +230,9 @@ if (escenario === 'Beach City Night'){
 
 	var roca2 = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	roca2.load('obj/Rocas/', 'rocas-1.obj', 'rocas-1.mtl', scene, isWorldReady, 2);
+
+	var palmera = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	palmera.load('obj/Palmera/', 'palmera.obj', 'palmera.mtl', scene, isWorldReady, 3);
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2')
@@ -410,40 +414,43 @@ function animate() {
 		
 	}
 
+	if(keys["C"]){
+		console.log(squirrel.mesh.position);
+	}
 	
 	if(isWorldLoaded() && squirrel !== undefined && squirrelP2 !== undefined){
 
-	camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
-	camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
-	camera.zoom -=  (wheelY*0.05) * deltaTime;
+		camera.rotation.y -= (THREE.MathUtils.degToRad(yaw)) * deltaTime;
+		camera.rotation.x -= (THREE.MathUtils.degToRad(pitch)) * deltaTime;
+		camera.zoom -= (wheelY * 0.05) * deltaTime;
 
-	if (camera.zoom >= 0.8 && camera.zoom <= 4.5){
-		camera.updateProjectionMatrix();
-	}else if(camera.zoom <= 0.8){
-		camera.zoom = 0.8;
-	}else{
-		camera.zoom = 4.5;
-	}
-	
-	wheelY = 0;
-	chpitch = pitch;
-	
-	if (modo === 'Cooperativo') {
-		let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position);
-		camera.position.x = puntoM.x;
-		camera.position.z = puntoM.y;
-	} else {
-		camera.position.x = squirrel.mesh.position.x;
-		camera.position.z = squirrel.mesh.position.z;
-	}
+		if (camera.zoom >= 0.8 && camera.zoom <= 4.5) {
+			camera.updateProjectionMatrix();
+		} else if (camera.zoom <= 0.8) {
+			camera.zoom = 0.8;
+		} else {
+			camera.zoom = 4.5;
+		}
 
-	
-		renderer.render( scene, camera );
+		wheelY = 0;
+		chpitch = pitch;
 
-		if (jump){
-			let t = (Date.now() - ti)/1000;
+		if (modo === 'Cooperativo') {
+			let puntoM = puntoMedio(squirrel.mesh.position, squirrelP2.mesh.position);
+			camera.position.x = puntoM.x;
+			camera.position.z = puntoM.y;
+		} else {
+			camera.position.x = squirrel.mesh.position.x;
+			camera.position.z = squirrel.mesh.position.z;
+		}
+
+
+		renderer.render(scene, camera);
+
+		if (jump) {
+			let t = (Date.now() - ti) / 1000;
 			var yDis = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
-			if (yDis < yi ){
+			if (yDis < yi) {
 				jump = false;
 			}
 			squirrel.mesh.position.y = yDis;
@@ -452,10 +459,10 @@ function animate() {
 		squirrel.mesh.position.z += updown;
 
 		if (modo === 'Cooperativo') {
-			if (jump2){
-				let t = (Date.now() - ti2)/1000;
+			if (jump2) {
+				let t = (Date.now() - ti2) / 1000;
 				var yDis2 = yi + (vi * t) - (2 * 2 * Math.pow(t, 2));
-				if (yDis2 < yi ){
+				if (yDis2 < yi) {
 					jump2 = false;
 				}
 				squirrelP2.mesh.position.y = yDis2;
@@ -464,12 +471,39 @@ function animate() {
 			squirrelP2.mesh.position.z += updown_p2;
 		}
 
+		if(escenario === 'City') {
+			auto.vel = -11 * deltaTime;
+			taxi.vel = 22 * deltaTime;
+
+			taxi.update(worldSize);
+			auto.update(worldSize);
+		}
+
+		if (escenario === 'Snow City'){
+			auto.vel = -(15 * deltaTime);
+			quitanieves.vel = 10 * deltaTime;
+			quitanieves2.vel = 11 * deltaTime;
+
+			auto.update(worldSize);
+			quitanieves.update(worldSize);
+			quitanieves2.update(worldSize);
+		}
+
+		if (escenario === 'Beach City Night') {
+			auto.vel = 15 * deltaTime;
+			coca.vel = -(10 * deltaTime);
+
+			auto.update(worldSize);
+			coca.update(worldSize);
+		}
+		
+		
 
 		// Collision
 		for (var i = 0; i < collisionObjects.length; i++) {
-				
+
 			var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
-			
+
 			if (collision) {
 				// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
 				//aun no implementado, solo muestra en la consola si choca o no
@@ -480,9 +514,9 @@ function animate() {
 
 		}
 		// for (var i = 0; i < collisionObjects.length; i++) {
-				
+
 		// 	var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
-			
+
 		// 	if (collision2) {
 		// 		// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
 		// 		//aun no implementado, solo muestra en la consola si choca o no
