@@ -1,3 +1,5 @@
+export var collisionObjects = [], puntos = [], monedas = [], llantas = [], escudos = [];
+
 export class Objeto {
     constructor(position, rotation, scale){
         this.mesh = new THREE.Group();
@@ -62,6 +64,9 @@ export class Objeto {
 
             let obj = this.mesh.clone();
             obj.position.set(X, this.mesh.position.y, Z);
+
+            collisionObjects.push(obj);
+
             scene.add(obj);
         }
     }

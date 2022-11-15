@@ -1,5 +1,5 @@
 import { Squirrel } from "../js/squirrel.js";
-import loadOBJWithMTL, { Objeto } from "../js/objModelos.js";
+import loadOBJWithMTL, { Objeto, collisionObjects } from "../js/objModelos.js";
 import Plano from "./plano.js";
 
 // Nivel Seleccionado
@@ -51,8 +51,7 @@ camera.rotation.x = THREE.MathUtils.degToRad(-45);	//-45
 camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
 camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 
-//Colisiones
-var collisionObjects = [];
+//var allcollisionObjects = [];
 
 //Movimientos animados
 var jump = false, jump2 = false, yi = 0.5, vi = 4, ti, ti2;
@@ -94,7 +93,7 @@ loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 });
 
 if(modo === 'Cooperativo'){
-	loadOBJWithMTL("obj/Player2/", "ardilla_2.obj", "ardilla_2.mtl", (object) => {
+	loadOBJWithMTL("obj/Player2/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 		object.scale.x = 0.5;
 		object.scale.y = 0.5;
 		object.scale.z = 0.5;
@@ -140,19 +139,21 @@ if (escenario === 'City'){
 	//var rockFloor = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	//rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
 	// Modelos
+	var pts = new Objeto(new THREE.Vector3(10, 0, 10), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	pts.load('obj/Puntos/', 'Puntos.obj', 'Puntos.mtl', scene, isWorldReady, 3);
 
 	var arbol = new Objeto(new THREE.Vector3(0, 0, -5), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady, 1);
-
+	
 	var arbusto = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	arbusto.load('obj/Arbusto/', 'arbusto.obj', 'arbusto.mtl', scene, isWorldReady, 2);
-
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0,3.1,0), new THREE.Vector3(0,0,0));
 	auto.load('obj/Autos/', 'autos-4.obj', 'autos-4.mtl', scene, isWorldReady, 'path');
 
 	var taxi = new Objeto(new THREE.Vector3(0, 0, -40), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	taxi.load('obj/Autos/', 'autos-6.obj', 'autos-6.mtl', scene, isWorldReady, 'path2');
+
 }
 
 
@@ -191,7 +192,6 @@ if (escenario === 'Snow City'){
 	//pino.loadRandomO(-60, 60, 0, 60, 80, scene);
 	var roca = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	roca.load('obj/Rocas/', 'rocas-1.obj', 'rocas-1.mtl', scene, isWorldReady, 2);
-
 
 	var quitanieves = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0, 0,0), new THREE.Vector3(0,0,0));
 	quitanieves.load('obj/Quitanieves/', 'quitanieevs-0.obj', 'quitanieevs-0.mtl', scene, isWorldReady, 'path3')
@@ -235,6 +235,10 @@ if (escenario === 'Beach City Night'){
 	traffic3.loadTrafficPaths(scene, 80, isWorldReady);
 
 	// Modelos
+
+	var palm = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	palm.load('obj/Palmera/', 'palmera.obj', 'palmera.mtl', scene, isWorldReady, 2);
+
 	var roca = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	roca.load('obj/Rocas/', 'rocas-0.obj', 'rocas-0.mtl', scene, isWorldReady, 2);
 
@@ -516,27 +520,26 @@ function animate() {
 			var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
 
 			if (collision) {
-				// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
-				//aun no implementado, solo muestra en la consola si choca o no
-				//squirrel.mesh.translateY(-(forward * deltaTime));
+				squirrel.mesh.position.x -= sides;
+				squirrel.mesh.position.z -= updown;
 				console.log("colisionando");
 				break;
 			}
-
 		}
-		// for (var i = 0; i < collisionObjects.length; i++) {
+		if (modo === 'Cooperativo') {
+			for (let i = 0; i < collisionObjects.length; i++) {
+					
+				let collision = detectCollision(squirrelP2.mesh, collisionObjects[i]);
 
-		// 	var collision2 = detectCollision(squirrelP2.mesh, collisionObjects[i]);
+				if (collision) {
+					squirrelP2.mesh.position.x -= sides_p2;
+					squirrelP2.mesh.position.z -= updown_p2;
+					console.log("player 2 colisionando");
+					break;
+				}
 
-		// 	if (collision2) {
-		// 		// Si esta colisionando entonces le asignamos la ultima posicion conocida antes de colisionar
-		// 		//aun no implementado, solo muestra en la consola si choca o no
-		// 		//squirrel.mesh.translateY(-(forward * deltaTime));
-		// 		console.log("colisionando");
-		// 		break;
-		// 	}
-
-		// }
+			}
+		}
 	}
 	}
 }
