@@ -95,11 +95,11 @@
                 <div class="col-2"></div>
                 <div class="col-3 py-4" style="border-style:double; border-color:aliceblue;">
                     <div class="row">
-                        <label><input class="inputUsername" type="text" required placeholder="Jugador 1"></label>   
+                        <label><input class="inputUsername" type="text" required placeholder="Jugador 1" id="Jugador1"></label>   
                     </div>
                     <br>
                     <div class="row">
-                        <label><input class="inputUsername" type="text" required placeholder="Jugador 2"></label>   
+                        <label><input class="inputUsername" type="text" required placeholder="Jugador 2" id="Jugador2"></label>   
                     </div>
                 </div>
                 <div class="col-2 py-4" style="border-style:double; border-color:aliceblue;">
@@ -113,7 +113,7 @@
                         <span style="font-family: '8bit'; color: white;"> puntos</span>   
                     </div>
                 </div>
-                <div class="col-3 py-5" style="border-style:double; border-color:aliceblue;"><input class="Boton" type="submit" value="Subir puntuacion"></div>
+                <div class="col-3 py-5" style="border-style:double; border-color:aliceblue;"><input class="Boton" type="submit" value="Subir puntuacion" onclick="saveDB()"></div>
                 <div class="col-2"></div>
             </div>
         </form>  

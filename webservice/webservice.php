@@ -5,6 +5,8 @@
 		addScore();
 	else if ($action == "getScores")
 		getScores();
+	else if ($action == "addScoreMulti")
+		addScoreMulti();
 
 	function connect() {
 		$databasehost = "LOCALHOST";
@@ -40,6 +42,34 @@
 			echo "Problema al hacer un query: " . $mysqli->error;								
 		} else {
 			//echo "Todo salio bien";		
+		}
+		mysqli_close($mysqli);
+	}
+
+
+	function addScoreMulti() {
+		$puntos1 = $_POST["puntos1"];
+		$nombre1 = $_POST["nombre1"];
+		$puntos2 = $_POST["puntos2"];
+		$nombre2 = $_POST["nombre2"];
+
+		//$nivel = $_POST["nivel"];
+
+		$mysqli = connect();
+
+		//$result = $mysqli->query("call sp_addScore(".$score.");");	
+		$result1 = $mysqli->query("INSERT into usuarios (nombre, puntuacion, nivel) VALUES ('". $nombre1."', $puntos1, 'invierno')");  
+		$result2 = $mysqli->query("INSERT into usuarios (nombre, puntuacion, nivel) VALUES ('". $nombre2."', $puntos2, 'invierno')");  
+
+		if (!$result) {
+			echo "Problema al hacer un query1:" . $mysqli->error;								
+		} else {
+			//echo "Todo salio bien";		
+		}
+		if (!$result2) {
+			echo "Problema al hacer un query2:" . $mysqli->error;								
+		} else {
+			echo "Todo salio bien";		
 		}
 		mysqli_close($mysqli);
 	}
