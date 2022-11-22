@@ -80,8 +80,8 @@
 
     <div class="text-center">
 
-        <a class="BotonFont">NIVEL COMPLETADO</a><br><br>
-        <p>¡Felicidades! Has llegado al final del nivel.</p><br>
+        <a id="partida_status" class="BotonFont">NIVEL COMPLETADO</a><br><br>
+        <p id="message_status">¡Felicidades! Has llegado al final del nivel.</p><br>
         <span id ="puntuacion_recibida">80</span>
         <span>  PUNTOS </span>
 
@@ -107,8 +107,8 @@
 
         
         <br>
-        <a href="partida.html" class="BotonFont"><button class="Boton">Repetir</button></a><br><br>
-        <a href="index.html" class="BotonFont"><button class="Boton">Ir al menu</button></a><br><br>
+        <a href="partida.html" class="BotonFont"><button onmouseover="selectobjects.play()" class="Boton">Repetir</button></a><br><br>
+        <a href="index.html" class="BotonFont"><button onmouseover="selectobjects.play()" class="Boton">Ir al menu</button></a><br><br>
         
 
     </div>
@@ -118,6 +118,7 @@
 </div>
 
 </body>
+    <script src="js/audio.js"></script>
     <script src="./js/jquery-3.6.0.min.js">    </script> 
     <script src="./js/facebook.js">    </script> 
     <script src="./js/Save_Get.js">    </script> 
