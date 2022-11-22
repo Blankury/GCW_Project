@@ -16,8 +16,8 @@ export class Squirrel {
         this.monedas += 1;
     }
 
-    updatePuntuacion(){
-        this.puntos += 5;
+    updatePuntuacion(setPuntos){
+        this.puntos += setPuntos;
     }
 
     updateVida(daño){

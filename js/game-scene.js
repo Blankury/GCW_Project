@@ -35,7 +35,6 @@ var deltaTime;
 var changeCam = false;
 var isWorldReady = [];
 var worldSize = 64; 
-var clicklevel=false;
 
 // Reloj
 var clock = new THREE.Clock();
@@ -53,81 +52,11 @@ camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 
 //var allcollisionObjects = [];
 
-//Musica
-const startButton = document.getElementById( 'startButton' );
-
-//funcion musica nivel 1
-function init() {
-
-	const overlay = document.getElementById( 'overlay' );
-	overlay.remove();
-			
-	const listener = new THREE.AudioListener();
-	scene.add( listener );
-
-	const audioElement = document.getElementById( 'song1' );
-	audioElement.play();
-	clicklevel=true;
-	console.log('reproduciendo audio');
-
-	const positionalAudio = new THREE.PositionalAudio( listener );
-	positionalAudio.setMediaElementSource( audioElement );
-	positionalAudio.setRefDistance( 1 );
-	positionalAudio.setVolume(0.5);
-	positionalAudio.setDirectionalCone( 180, 230, 0.1 );
-
-}
-//funcion musica nivel 2
-function init2() {
-
-	const overlay = document.getElementById( 'overlay' );
-	overlay.remove();
-
-			
-	const listener = new THREE.AudioListener();
-	scene.add( listener );
-
-	const audioElement = document.getElementById( 'song2' );
-	audioElement.play();
-	clicklevel=true;
-	console.log('reproduciendo audio');
-
-	const positionalAudio = new THREE.PositionalAudio( listener );
-	positionalAudio.setMediaElementSource( audioElement );
-	positionalAudio.setRefDistance( 1 );
-	positionalAudio.setVolume(0.5);
-	positionalAudio.setDirectionalCone( 180, 230, 0.1 );
-
-}
-//funcion musica nivel 3
-function init3() {
-
-	const overlay = document.getElementById( 'overlay' );
-	overlay.remove();
-
-			
-	const listener = new THREE.AudioListener();
-	scene.add( listener );
-
-	const audioElement = document.getElementById( 'song3' );
-	audioElement.play();
-	clicklevel=true;
-	console.log('reproduciendo audio');
-
-	const positionalAudio = new THREE.PositionalAudio( listener );
-	positionalAudio.setMediaElementSource( audioElement );
-	positionalAudio.setRefDistance( 1 );
-	positionalAudio.setVolume(0.5);
-	positionalAudio.setDirectionalCone( 180, 230, 0.1 );
-
-}
-
-
 //Movimientos animados
 var jump = false, jump2 = false, yi = 0.5, vi = 4, ti, ti2;
 var newmov = "";
 var newmov2 = "";
-
+var lastpos = 0;
 // Renderer
 const renderer = new THREE.WebGLRenderer({precision: "mediump" });
 renderer.setClearColor(new THREE.Color(0, 0, 0));
@@ -210,8 +139,6 @@ if (escenario === 'City'){
 	//rockFloor.load('obj/Nivel_1/', 'Suelo_rock.obj', 'Suelo_rock.mtl', scene, isWorldReady);
 	// Modelos
 
-	//Reproducir musica
-	startButton.addEventListener( 'click', init );
 
 	var pts = new Objeto(new THREE.Vector3(10, 0, 10), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
 	pts.load('obj/Puntos/', 'Puntos.obj', 'Puntos.mtl', scene, isWorldReady, 5);
@@ -259,8 +186,6 @@ if (escenario === 'Snow City'){
 	traffic3.plane = traffic.plane.clone();
 	traffic3.loadTrafficPaths(scene, 50, isWorldReady);
 
-	//Reproducir musica
-	startButton.addEventListener( 'click', init );
 
 	// Modelos
 	var pino = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
@@ -310,8 +235,6 @@ if (escenario === 'Beach City Night'){
 	traffic3.plane = traffic.plane.clone();
 	traffic3.loadTrafficPaths(scene, 80, isWorldReady);
 
-	//Reproducir musica
-	startButton.addEventListener( 'click', init );
 
 	// Modelos
 
@@ -375,8 +298,6 @@ function animate() {
 	requestAnimationFrame( animate );
 	deltaTime = clock.getDelta();
 
-	
-	if(clicklevel==true){
 
 		if(!isPause){
 			var yaw = 0;
@@ -386,14 +307,19 @@ function animate() {
 			var updown_p2 = 0
 			var pitch = 0;
 			var chpitch = 0;
+			
 
 			if (keys["W"]) {
 				if (squirrel.moving) {
 					updown = -2;
 					newmov = "w";
 					jump = true;
+					
 					ti = Date.now(); //tiempo en que arranca el salto
 					squirrel.update();
+					//squirrel.updatePuntuacion(5);
+					//console.log(squirrel.GetPuntuacion());
+					console.log(squirrel.GetPuntuacion());
 				}
 			} else if (keys["S"]) {
 				if (squirrel.moving) {
@@ -645,18 +571,30 @@ function animate() {
 					}
 				}
 
+				
 				//Colisiones
 				for (var i = 0; i < collisionObjects.length; i++) {
 
 					var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
 
 					if (collision) {
+						
+						console.log(squirrel.mesh.position.z);
 						squirrel.mesh.position.x -= sides;
 						squirrel.mesh.position.z -= updown;
+					
 						console.log("colisionando");
 						break;
 					}
+					if (lastpos >= squirrel.mesh.position.z)
+					{
+						lastpos = squirrel.mesh.position.z;
+						squirrel.updatePuntuacion(5);
+						console.log('lastpos: ' +lastpos);
+						
+					}
 				}
+				console.log('new pos: ' + squirrel.mesh.position.z);
 				if (modo === 'Cooperativo') {
 					for (let i = 0; i < collisionObjects.length; i++) {
 							
@@ -673,7 +611,7 @@ function animate() {
 				}
 			}
 		}
-	}
+	
 }
 animate();
 

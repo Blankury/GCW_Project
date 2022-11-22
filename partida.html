@@ -22,6 +22,12 @@
             font-weight: normal;
             font-style: normal;
         }
+        @font-face {
+            font-family: '8bit';
+            src: url(./font/dogica.ttf) format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
         .Boton{
             height: 50px;
             width: 170px;
@@ -146,33 +152,33 @@
             background-color: black;
             color: white;
         }
+        .p-ajustes{
+            font-family: '8bit'; 
+            color: white;
+            font-size: 14px;
+        }
     </style>
 
 </head>
-<body>
+<body onload="useSong.play()" onkeyup="jump.play()">
    
     <section id="game-scene" >
 
-
-        <audio loop id="song1" preload="auto" style="display: none">
-            <source src="audio/inicio.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop id="song2" preload="auto" style="display: none">
-            <source src="audio/song2.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop id="song3" preload="auto" style="display: none">
-            <source src="audio/song3.mp3" type="audio/mpeg">
-        </audio>
-
-
-        <div id="overlay">
-            <button id="startButton" class="buttonstart">!Click para empezar!</button>
-        </div>
         
-        <div class="pause-modal" id="btnPause">
+        <div style="display: flex;" class="pause-modal" id="btnPause">
             <label for="btn-modal" style="font-family: '3Dventure';">
                 <img src="https://art.pixilart.com/72b06a59f06e18f.png" height="70" width="70">
             </label>
+            <div style=" margin-left:55vw;  margin-right: 12vw;">
+                <div style=" display: flex;">
+                    <p style=" font-family: '3Dventure'; color: white;">PuntosP1-</p>
+                    <p id="Player1Points" style=" font-family: '3Dventure'; color: white;">0</p>
+                </div> 
+                <div style=" display: flex;">
+                    <p style=" font-family: '3Dventure'; color: white;">PuntosP2-</p>
+                    <p id="Player2Points" style=" font-family: '3Dventure'; color: white;">0</p>
+                </div> 
+            </div>
         </div>
         
     </section>
@@ -184,7 +190,31 @@
             <div onmouseover="selectobjects.play()" class="btn-cerrar" id="btnPlay">
                 <label  for="btn-modal">Reaundar</label>
             </div><br>
-            <div onmouseover="selectobjects.play()"><a href="configurarpartida.html">Salir</a></div>
+         
+            <div onmouseover="selectobjects.play()"><a href="configurarpartida.html">Ajustes</a></div>
+
+            <div  style=" padding: 10px;">
+                    <div class="d-flex flex-row">
+                        <div class="d-flex flex-column justify-content-around">
+                            <img src="img/sound.svg" width="100">
+                            <p class="p-ajustes">Sonido</p>
+                            
+                            <img src="img/music.svg" width="100">
+                            <p class="p-ajustes">Musica</p>
+            
+                            <img src="img/resolution.svg" width="100">
+                            <p class="p-ajustes">Calidad</p>
+                        
+                        </div>
+                        <div class="d-flex flex-column flex-fill justify-content-around">
+                        <input onmousedown="selectobjects.play()" oninput="change_effectsound()" min="0" max="1" value="1" step=".1" type="range" class="form-range" id="soundRange">
+                        <input oninput="change_musicsound()" min="0" max="1" value="1" step=".1" type="range" class="form-range" id="musicRange">
+                        <input type="range" class="form-range" min="0" max="2" id="caliteRange">
+                        </div>
+                    </div>
+            </div>
+
+            <div onmouseover="selectobjects.play()"><a href="configurarpartida.html">Salir</a></div><br>
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
     </div>
