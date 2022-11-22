@@ -293,10 +293,13 @@ onwheel = (event) =>{
 
 document.addEventListener('keydown', onKeyDown);
 document.addEventListener('keyup', onKeyUp);		
-
+//Posicion auxiliar
+var aux=0;
+var aux2=0;
 function animate() {
 	requestAnimationFrame( animate );
 	deltaTime = clock.getDelta();
+	
 
 
 		if(!isPause){
@@ -311,15 +314,20 @@ function animate() {
 
 			if (keys["W"]) {
 				if (squirrel.moving) {
+					
 					updown = -2;
 					newmov = "w";
 					jump = true;
-					
 					ti = Date.now(); //tiempo en que arranca el salto
 					squirrel.update();
-					//squirrel.updatePuntuacion(5);
-					//console.log(squirrel.GetPuntuacion());
-					console.log(squirrel.GetPuntuacion());
+					var actual=squirrel.mesh.position.z;
+					console.log(aux);
+					console.log(actual);
+					if(actual<aux){
+						squirrel.updatePuntuacion(5);
+						console.log(squirrel.GetPuntuacion());
+					}
+					document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
 				}
 			} else if (keys["S"]) {
 				if (squirrel.moving) {
@@ -328,6 +336,14 @@ function animate() {
 					jump = true;
 					ti = Date.now(); //tiempo en que arranca el salto
 					squirrel.update();
+					var actual=squirrel.mesh.position.z;
+					console.log(aux);
+					console.log(actual);
+					if(actual<aux){
+						squirrel.updatePuntuacion(-5);
+						console.log(squirrel.GetPuntuacion());
+					}
+					document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
 				}
 			}
 			if (keys["A"]) {
@@ -372,6 +388,14 @@ function animate() {
 						jump2 = true;
 						ti2 = Date.now(); //tiempo en que arranca el salto
 						squirrelP2.update()
+						var actual2=squirrelP2.mesh.position.z;
+						console.log(aux2);
+						console.log(actual2);
+						if(actual2<aux2){
+							squirrelP2.updatePuntuacion(5);
+							console.log(squirrelP2.GetPuntuacion());
+						}
+						document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
 					}
 				} else if (keys['(']) {
 					if (squirrelP2.moving) {
@@ -380,6 +404,14 @@ function animate() {
 						jump2 = true;
 						ti2 = Date.now(); //tiempo en que arranca el salto
 						squirrelP2.update();
+						var actual2=squirrelP2.mesh.position.z;
+						console.log(aux2);
+						console.log(actual2);
+						if(actual2<aux2){
+							squirrelP2.updatePuntuacion(-5);
+							console.log(squirrelP2.GetPuntuacion());
+						}
+						document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
 					}
 				}
 				if (keys["%"]) {
@@ -528,8 +560,29 @@ function animate() {
 					
 					if (collision1) {
 						squirrel.mesh.position.z -= updown -4;
-						if (dificultad === "Dificil") squirrel.updateVida(5); else squirrel.updateVida(1);
+						if (dificultad === "Dificil") {
+							squirrel.updateVida(5); 
+							squirrel.updatePuntuacion(-20); 
+							document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
+						}
+						else{
+							squirrel.updateVida(1);
+							squirrel.updatePuntuacion(-10); 
+							document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
+						}
 						console.log("vida player 1: " + squirrel.GetVida());
+						//Si pierde
+						if(modo==="Individual"){
+							if(squirrel.GetVida()==0){
+								you_lose();
+							}
+						}
+						if(modo==="Cooperativo"){
+							if(squirrel.GetVida()==0){
+								scene.remove(squirrel.mesh);
+								console.log("c muere");
+							}
+						}
 						break;
 					}
 					if (modo === 'Cooperativo') {
@@ -537,13 +590,28 @@ function animate() {
 
 						if (collision2){
 							squirrelP2.mesh.position.z -= updown_p2 - 4;
-							if (dificultad === "Dificil") squirrelP2.updateVida(5); else squirrelP2.updateVida(1);
+							if (dificultad === "Dificil"){
+								squirrelP2.updateVida(5);
+								squirrelP2.updatePuntuacion(-20); 
+								document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
+							}
+							else{
+								squirrelP2.updateVida(1);
+								squirrelP2.updatePuntuacion(-10); 
+								document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
+							}
 							console.log("vida player 2: "  + squirrelP2.GetVida());
+							if(squirrelP2.GetVida()==0){
+								scene.remove(squirrelP2.mesh);
+								console.log("c muere");
+							}
 							break;
 						}
 					}
 					
-					
+					if(squirrelP2.GetVida()==0&&squirrel.GetVida()==0){
+						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1="+squirrel.GetPuntuacion()+"&puntosP2="+squirrelP2.GetPuntuacion()+"");
+					}
 				}
 
 				//PowerUps
@@ -576,31 +644,26 @@ function animate() {
 				for (var i = 0; i < collisionObjects.length; i++) {
 
 					var collision = detectCollision(squirrel.mesh, collisionObjects[i]);
+					
 
 					if (collision) {
-						
-						console.log(squirrel.mesh.position.z);
+						aux = squirrel.mesh.position.z;
 						squirrel.mesh.position.x -= sides;
 						squirrel.mesh.position.z -= updown;
 					
 						console.log("colisionando");
+						console.log(squirrel.GetPuntuacion());
 						break;
 					}
-					if (lastpos >= squirrel.mesh.position.z)
-					{
-						lastpos = squirrel.mesh.position.z;
-						squirrel.updatePuntuacion(5);
-						console.log('lastpos: ' +lastpos);
-						
-					}
+
 				}
-				console.log('new pos: ' + squirrel.mesh.position.z);
 				if (modo === 'Cooperativo') {
 					for (let i = 0; i < collisionObjects.length; i++) {
 							
 						let collision = detectCollision(squirrelP2.mesh, collisionObjects[i]);
 
 						if (collision) {
+							aux2 = squirrelP2.mesh.position.z;
 							squirrelP2.mesh.position.x -= sides_p2;
 							squirrelP2.mesh.position.z -= updown_p2;
 							console.log("player 2 colisionando");
@@ -657,4 +720,9 @@ function isWorldLoaded(){
 			aja = false;
 	}
 	return aja;
+}
+
+function you_lose(){
+		window.location.href=("./finpartida.html?puntosP1="+squirrel.GetPuntuacion()+"&estado=PERDISTE");
+	
 }
