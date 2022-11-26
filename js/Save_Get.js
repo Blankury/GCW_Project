@@ -1,25 +1,13 @@
 const Player1points = window.location.search;
 const url_paramsP1 = new URLSearchParams(Player1points);
 var puntuacion1 = url_paramsP1.get("puntosP1");
-
-const Player2points = window.location.search;
-const url_paramsP2 = new URLSearchParams(Player2points);
-var puntuacion2 = url_paramsP2.get("puntosP2");
-
-const Player1Status = window.location.search;
-const url_params_status = new URLSearchParams(Player1Status);
-var estado = url_params.get("estado");
-
-const Players= window.location.search;
-const url_params_status_players = new URLSearchParams(Players);
-var estado_players = url_params_players.get("estadoMultijugador");
-
+var estado = url_paramsP1.get("estado");
 
 $(document).ready(function() {
-    $("#puntuacion_recibida").html(puntuacion1);
+    $("#puntuacion_recibidaa").html(puntuacion1);
     if(estado=="PERDISTE"){
-        $("#partida_status").html("NIVEL FALLIDO");
-        $("#message_status").html("No has sobrevivido, suerte para la proxima.");
+        document.getElementById("partida_status").innerHTML="NIVEL FALLIDO";
+        document.getElementById("message_status").innerHTML="No has sobrevivido, suerte para la proxima.";
     }
 });
 
