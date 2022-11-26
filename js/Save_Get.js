@@ -4,8 +4,9 @@ var puntuacion1 = url_paramsP1.get("puntosP1");
 var estado = url_paramsP1.get("estado");
 
 $(document).ready(function() {
-    $("#puntuacion_recibidaa").html(puntuacion1);
+    $("#puntuacion_recibida").html(puntuacion1);
     if(estado=="PERDISTE"){
+        
         document.getElementById("partida_status").innerHTML="NIVEL FALLIDO";
         document.getElementById("message_status").innerHTML="No has sobrevivido, suerte para la proxima.";
     }
