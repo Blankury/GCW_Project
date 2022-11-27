@@ -67,6 +67,8 @@ renderer.setSize(game.clientWidth, game.clientHeight);
 //Victoria
 var Lotiene1 = false;
 var Lotiene2 = false;
+var colisionaconlabellota1;
+var colisionaconlabellota2;
 
 const canvas = renderer.domElement;
 
@@ -141,7 +143,23 @@ scene.add(particles);
 
 
 
+loadOBJWithMTL("obj/Bellota/", "bellota.obj", "bellota.mtl", (object) => {
+	object.position.z = -70;
+	scene.add(object);
+	colisionaconlabellota1 = object;
+});
 
+if (modo === 'Cooperativo') {
+	loadOBJWithMTL("obj/Bellota/", "bellota.obj", "bellota.mtl", (object) => {
+		object.position.z = -70;
+		object.position.x = 4;
+
+		scene.add(object);
+		colisionaconlabellota2 = object;
+	});
+
+	
+}
 loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
 	object.scale.y = 0.5;
@@ -837,7 +855,7 @@ function animate() {
 
 
 				if (collision1) {
-					updateMonedas();
+					squirrel.updateMonedas();
 					scene.remove(monedas[i]);
 					break;
 				}
@@ -845,7 +863,7 @@ function animate() {
 					var collision2 = detectCollision(squirrelP2.mesh, monedas[i]);
 
 					if (collision2) {
-						updateMonedas();
+						squirrelP2.updateMonedas();
 						scene.remove(monedas[i]);
 						break;
 					}
@@ -914,6 +932,23 @@ function animate() {
 						break;
 					}
 
+				}
+			}
+
+			//BELLOTA
+			var collision = detectCollision(squirrel.mesh, colisionaconlabellota1);
+
+
+			if (collision) {
+				console.log('colisiona con la bellota 1');
+			}
+
+			if (modo === 'Cooperativo') {
+				
+				let collision = detectCollision(squirrelP2.mesh, colisionaconlabellota2);
+
+				if (collision) {
+					console.log('colisiona con la bellota 2');
 				}
 			}
 		}
