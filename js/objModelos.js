@@ -35,32 +35,43 @@ export class Objeto {
                 // City
                 if (slot === 'spawnCity') {
                     // Spawn lot
-                    this.loadRandomO(-65, -10, -16, 65, 80, scene, slot);
-                    this.loadRandomO(10, 65, -16, 65, 80, scene, slot);
+                    this.loadRandomO(-65, -10, -16, 65, 40, scene, slot);
+                    this.loadRandomO(10, 65, -16, 65, 50, scene, slot);
                     this.loadRandomO(-8, 8, 15, 65, 20, scene, slot);
                     // Path Spaces
                     this.loadRandomO(-65, 65, -23, -38, 10, scene, slot);
                     this.loadRandomO(-65, 65, -43, -58, 25, scene, slot);
                     //this.loadRandomO(-65, 65, -64, -130, 100, scene, slot);
-                    this.loadRandomO(-65, -5, -64, -124, 80, scene, slot);
-                    this.loadRandomO(5, 65, -64, -124, 80, scene, slot);
+                    this.loadRandomO(-65, -5, -64, -124, 50, scene, slot);
+                    this.loadRandomO(5, 65, -64, -124, 60, scene, slot);
                     this.loadRandomO(-8, 8, -90, -124, 10, scene, slot);
                 }
                 if (slot === 'spawnDec')
-                    this.loadRandRotObj(-10, 10, -16, 16, 5, scene)
-
+                    this.loadRandRotObj(-10, 10, -16, 16, 5, scene);
+                if (slot === 5){
+                    this.loadRandomO(-65, -10, -16, 65, 10, scene, slot);
+                    this.loadRandomO(10, 65, -16, 65, 5, scene, slot);
+                    this.loadRandomO(-8, 8, 15, 65, 2, scene, slot);
+                    // Path Spaces
+                    this.loadRandomO(-65, 65, -23, -38, 5, scene, slot);
+                    this.loadRandomO(-65, 65, -43, -58, 5, scene, slot);
+                    //this.loadRandomO(-65, 65, -64, -130, 100, scene, slot);
+                    this.loadRandomO(-65, -5, -64, -124, 10, scene, slot);
+                    this.loadRandomO(5, 65, -64, -124, 3, scene, slot);
+                    this.loadRandomO(-8, 8, -90, -124, 10, scene, slot);
+                }
 
                 // Snow City
                 if (slot === 'spawnSnowCity') {
                     // Spawn lot
-                    this.loadRandomO(-65, -10, -16, 65, 80, scene, slot);
-                    this.loadRandomO(10, 65, -16, 65, 80, scene, slot);
+                    this.loadRandomO(-65, -10, -16, 65, 60, scene, slot);
+                    this.loadRandomO(10, 65, -16, 65, 75, scene, slot);
                     this.loadRandomO(-8, 8, 15, 65, 20, scene, slot);
                     // Path Spaces
                     this.loadRandomO(-65, 65, -24, -27, 10, scene, slot);
                     this.loadRandomO(-65, 65, -34, -47, 25, scene, slot);
                     // Last lot
-                    this.loadRandomO(-65, -5, -54, -124, 80, scene, slot);
+                    this.loadRandomO(-65, -5, -54, -124, 60, scene, slot);
                     this.loadRandomO(5, 65, -54, -124, 80, scene, slot);
                     this.loadRandomO(-8, 8, -90, -124, 10, scene, slot);
                 }
@@ -89,16 +100,6 @@ export class Objeto {
                     //this.loadRandomO(-8, 8, -100, -124, 5, scene, slot);
                 }
                 
-
-                if (slot === 2)
-                    this.loadRandomO(-60, 60, -10, 60, 50, scene, slot);
-                if (slot === 5)
-                    this.loadRandomO(-60, 60, -10, 30, 8, scene, slot);
-                if (slot === 6)
-                    this.loadRandomO(-60, 60, -10, 30, 8, scene, slot);
-                if (slot === 7)
-                    this.loadRandomO(-60, 60, -10, 30, 8, scene, slot);
-
                 if (slot === 'path')
                     this.loadPath(scene, 10, 6, true, this.position.z);
                 if (slot === 'path2')
@@ -125,22 +126,9 @@ export class Objeto {
             
             let obj = this.mesh.clone();
             obj.position.set(X, this.mesh.position.y, Z);
-            
-            if (Z < -22 && Z > -68)
+        
+            if ((X < 46 && X > -44)&&(Z < 30 && Z > -70))
                 collisionObjects.push(obj);
-
-            if (slot === 5) {
-                puntos.push(obj);
-            }
-            else if (slot === 6) {
-                monedas.push(obj);
-            }
-            else if (slot === 7) {
-                llantas.push(obj);
-            }
-            else if (slot === 8) {
-                escudos.push(obj);
-            }
             else if (slot === 9) {
                 autos.push(obj);
             }

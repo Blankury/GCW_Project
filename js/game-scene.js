@@ -50,17 +50,23 @@ camera.rotation.x = THREE.MathUtils.degToRad(-45);	//-45
 camera.rotation.y = THREE.MathUtils.degToRad(10);	//20
 camera.rotation.z = THREE.MathUtils.degToRad(10);	//25
 
-//var allcollisionObjects = [];
 
 //Movimientos animados
 var jump = false, jump2 = false, yi = 0.5, vi = 4, ti, ti2;
 var newmov = "";
 var newmov2 = "";
-var lastpos = 0;
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({ precision: "mediump" });
 renderer.setClearColor(new THREE.Color(0, 0, 0));
 renderer.setSize(game.clientWidth, game.clientHeight);
+
+//POWERUPS
+
+
+//Victoria
+var Lotiene1 = false;
+var Lotiene2 = false;
 
 const canvas = renderer.domElement;
 
@@ -75,6 +81,66 @@ window.addEventListener('resize', function () {
 game.appendChild(renderer.domElement);
 
 console.log(squirrel);
+
+
+//Nieve
+let particles;
+let positions = [], velocities = [];
+
+const numSnowflakes = 11000;
+
+const maxRange = 1000, minRange = maxRange/2;
+const minHeight = 150;
+
+const geometry = new THREE.BufferGeometry();
+const textureLoader = new THREE.TextureLoader();
+
+addSnowFlakes();
+
+
+
+function addSnowFlakes(){
+
+
+	for (let i = 0; i < numSnowflakes; i++){
+	positions.push(
+		Math.floor(Math.random() * maxRange - minRange),
+		Math.floor(Math.random() * minRange + minHeight),
+		Math.floor(Math.random() * maxRange - minRange));
+		
+	velocities.push(
+		Math.floor(Math.random() * 6- 3) * 0.1,
+		Math.floor(Math.random() * 5+ 0.12) * 0.18,
+		Math.floor(Math.random() * 6-3) * 0.1);
+	
+	}
+	
+	
+	geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+	
+	geometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocities, 3));
+	
+	
+	
+	
+	
+	
+	
+	const flakeMaterial = new THREE.PointsMaterial({
+	size:4,
+	map: textureLoader.load('img/Particula.png'),
+	blending: THREE.AdditiveBlending,
+	depthTest: false,
+	transparent: true,
+	opacity: 0.7,
+	});
+	
+particles = new THREE.Points(geometry, flakeMaterial);
+scene.add(particles);
+}
+
+
+
 
 loadOBJWithMTL("obj/Player_1/", "Ardilla.obj", "Ardilla.mtl", (object) => {
 	object.scale.x = 0.5;
@@ -110,6 +176,68 @@ if (modo === 'Cooperativo') {
 
 // Nivel 1
 if (escenario === 'City') {
+	loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
+
+
+		
+
+		var pts2 = object.clone();
+		pts2.position.x = 5
+		;
+
+		puntos.push(object);
+		puntos.push(pts2);
+		console.log(puntos.length +'tam');
+		scene.add(puntos[0]);
+		scene.add(puntos[1]);
+
+	});
+
+	loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
+
+		object.position.x = 20;
+		object.position.z = 20;
+		scene.add(object);
+
+		var moneda2 = object.clone();
+		moneda2.position.x = 10
+		;
+		scene.add(moneda2);
+
+		monedas.push(object);
+		monedas.push(moneda2);
+
+	});
+
+	loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
+
+
+		scene.add(object);
+
+		var esc = object.clone();
+		esc.position.z = 5;
+		scene.add(esc);
+
+		escudos.push(object);
+		escudos.push(esc);
+
+	});
+
+	loadOBJWithMTL("obj/Llanta/", "llanta-1.obj", "llanta-1.mtl", (object) => {
+
+
+		scene.add(object);
+
+		var llanta2 = object.clone();
+		llanta2.position.x = 5
+		;
+		scene.add(llanta2);
+
+		llantas.push(object);
+		llantas.push(llanta2);
+
+	});
+
 	var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 	scene.add(ambientLight);
 
@@ -136,8 +264,7 @@ if (escenario === 'City') {
 	traffic3.loadTrafficPaths(scene, 60, isWorldReady);
 
 	// Modelos
-	var pts = new Objeto(new THREE.Vector3(10, 0, 10), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
-	pts.load('obj/Puntos/', 'Puntos.obj', 'Puntos.mtl', scene, isWorldReady, 5);
+	
 
 	var arbol = new Objeto(new THREE.Vector3(0, 0, -5), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady, 'spawnCity');
@@ -162,6 +289,8 @@ if (escenario === 'City') {
 
 // Nivel 2
 if (escenario === 'Snow City') {
+	
+	updateParticles();
 	var ambientLight = new THREE.AmbientLight(new THREE.Color(0x3a2d24), 1);
 	scene.add(ambientLight);
 
@@ -315,10 +444,12 @@ document.addEventListener('keyup', onKeyUp);
 var aux = 0;
 var aux2 = 0;
 function animate() {
+
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
 	//console.log(vs);
 
+	updateParticles();
 	if (!isPause) {
 		var yaw = 0;
 		var sides = 0;
@@ -569,6 +700,8 @@ function animate() {
 				coca.update(worldSize);
 			}
 
+			
+
 			//Daño
 			for (var i = 0; i < autos.length; i++) {
 
@@ -578,11 +711,13 @@ function animate() {
 				if (collision1) {
 					squirrel.mesh.position.z -= updown - 4;
 					if (dificultad === "Dificil") {
+						
 						squirrel.updateVida(5);
 						squirrel.updatePuntuacion(-20);
 						document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
 					}
 					else {
+						
 						squirrel.updateVida(1);
 						squirrel.updatePuntuacion(-10);
 						document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
@@ -631,31 +766,124 @@ function animate() {
 				}
 			}
 
-			//PowerUps
+
+		
+			//PowerUps e Items
 			for (var i = 0; i < puntos.length; i++) {
 
 				var collision1 = detectCollision(squirrel.mesh, puntos[i]);
 
 
 				if (collision1) {
-					squirrel.updatePuntuacion();
+					squirrel.updatePuntuacion(5);
 					console.log("puntacion aumentada: " + squirrel.GetPuntuacion());
-					console.log(pts);
-					scene.remove(pts.mesh)
+
+					scene.remove(puntos[i]);
+					puntos[i].remove();
 					break;
 				}
 				if (modo === 'Cooperativo') {
-					var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
+					var collision2 = detectCollision(squirrelP2.mesh, puntos[i]);
 
 					if (collision2) {
 
 						squirrelP2.updatePuntuacion();
 						console.log("jugador dos puntuacion aumentada");
+						scene.remove(puntos[i]);
+						puntos[i] = 0;
 						break;
 					}
 				}
 			}
+			for (var i = 0; i < escudos.length; i++) {
 
+				var collision1 = detectCollision(squirrel.mesh, escudos[i]);
+
+
+				if (collision1) {
+					scene.remove(escudos[i]);
+					break;
+				}
+				if (modo === 'Cooperativo') {
+					var collision2 = detectCollision(squirrelP2.mesh, escudos[i]);
+
+					if (collision2) {
+						scene.remove(escudos[i]);
+						break;
+					}
+				}
+			}
+			for (var i = 0; i < llantas.length; i++) {
+
+				var collision1 = detectCollision(squirrel.mesh, llantas[i]);
+
+
+				if (collision1) {
+					scene.remove(llantas[i]);
+					break;
+				}
+				if (modo === 'Cooperativo') {
+					var collision2 = detectCollision(squirrelP2.mesh, llantas[i]);
+
+					if (collision2) {
+						scene.remove(llantas[i]);
+						break;
+					}
+				}
+			}
+			for (var i = 0; i < monedas.length; i++) {
+
+				var collision1 = detectCollision(squirrel.mesh, monedas[i]);
+
+
+				if (collision1) {
+					updateMonedas();
+					scene.remove(monedas[i]);
+					break;
+				}
+				if (modo === 'Cooperativo') {
+					var collision2 = detectCollision(squirrelP2.mesh, monedas[i]);
+
+					if (collision2) {
+						updateMonedas();
+						scene.remove(monedas[i]);
+						break;
+					}
+				}
+			}
+			//Colision global
+			if (squirrel.mesh.position.z >= 30 ){
+				squirrel.mesh.position.z -= updown;
+			}
+			if (squirrel.mesh.position.z <= -80 ){
+				squirrel.mesh.position.z -= updown;
+			}
+			if (squirrel.mesh.position.x <= -44){
+				squirrel.mesh.position.x -= sides;
+
+			}
+			if (squirrel.mesh.position.x >= 46){
+				squirrel.mesh.position.x -= sides;
+			}
+
+			if (modo === 'Cooperativo') {
+			
+				if (squirrelP2.mesh.position.z >= 30 ){
+					squirrelP2.mesh.position.z -= updown_p2;
+				}
+				if (squirrelP2.mesh.position.z <= -80 ){
+					squirrelP2.mesh.position.z -= updown_p2;
+				}
+				if (squirrelP2.mesh.position.x <= -44){
+					squirrelP2.mesh.position.x -= sides_p2;
+	
+				}
+				if (squirrelP2.mesh.position.x >= 46){
+					squirrelP2.mesh.position.x -= sides_p2;
+				}
+			
+			}
+			
 			//Colisiones
 			for (var i = 0; i < collisionObjects.length; i++) {
 
@@ -693,7 +921,36 @@ function animate() {
 }
 animate();
 
+function updateParticles(){
+	
 
+for (let i = 0; i< numSnowflakes * 3; i += 3){
+
+
+
+	particles.geometry.attributes.position.array[i] -= particles.geometry.attributes.velocity.array[i];
+	
+	
+	particles.geometry.attributes.position.array[i+1] -= particles.geometry.attributes.velocity.array[i+1];
+	
+	
+	particles.geometry.attributes.position.array[i+2] -= particles.geometry.attributes.velocity.array[i+2];
+	
+	
+	
+		if (particles.geometry.attributes.position.array[i+1] < 0){
+		
+		particles.geometry.attributes.position.array[i] = Math.floor(Math.random()*maxRange - minRange);
+		
+		particles.geometry.attributes.position.array[i+1] = Math.floor(Math.random()*minRange + minHeight);
+		
+		particles.geometry.attributes.position.array[i+2] = Math.floor(Math.random()*maxRange - minRange);
+		}
+	}
+	
+	particles.geometry.attributes.position.needsUpdate = true;
+	
+}
 
 function detectCollision(object1, object2) {
 
