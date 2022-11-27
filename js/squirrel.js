@@ -4,6 +4,7 @@ export class Squirrel {
         this.vida = 5;
         this.puntos = 0;
         this.monedas = 0;
+        this.bellota = false;
     }
 
     update(){
@@ -23,6 +24,9 @@ export class Squirrel {
     updateVida(daño){
         this.vida -= daño;
     }
+    updateBellota(){
+        this.bellota = true;
+    }
 
     GetPuntuacion(){
         return this.puntos;
@@ -30,5 +34,8 @@ export class Squirrel {
 
     GetVida(){
         return this.vida;
+    }
+    GetBellota(){
+        return this.bellota;
     }
 }

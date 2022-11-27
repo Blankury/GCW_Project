@@ -302,6 +302,10 @@ if (escenario === 'City') {
 
 	var taxi = new Objeto(new THREE.Vector3(0, 0, -40), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	taxi.load('obj/Autos/', 'autos-6.obj', 'autos-6.mtl', scene, isWorldReady, 'path2');
+
+	var auto2 = new Objeto(new THREE.Vector3(0, 0, -60), new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0));
+	auto2.load('obj/Autos/', 'autos-0.obj', 'autos-0.mtl', scene, isWorldReady, 'path');
+
 }
 
 
@@ -488,9 +492,17 @@ function animate() {
 				var actual = squirrel.mesh.position.z;
 				//console.log(aux);
 				//console.log(actual);
-				if (actual < aux) {
-					squirrel.updatePuntuacion(5);
-					//console.log(squirrel.GetPuntuacion());
+				if(!squirrel.GetBellota()){
+					if (actual < aux) {
+						squirrel.updatePuntuacion(5);
+						//console.log(squirrel.GetPuntuacion());
+					}
+				}
+				else{
+					if (actual < aux) {
+						squirrel.updatePuntuacion(-5);
+						//console.log(squirrel.GetPuntuacion());
+					}
 				}
 				document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
 			}
@@ -502,9 +514,17 @@ function animate() {
 				ti = Date.now(); //tiempo en que arranca el salto
 				squirrel.update();
 				var actual = squirrel.mesh.position.z;
-				if (actual < aux) {
-					squirrel.updatePuntuacion(-5);
-					//console.log(squirrel.GetPuntuacion());
+				if(!squirrel.GetBellota()){
+					if (actual < aux) {
+						squirrel.updatePuntuacion(-5);
+						//console.log(squirrel.GetPuntuacion());
+					}
+				}
+				else{
+					if (actual < aux) {
+						squirrel.updatePuntuacion(5);
+						//console.log(squirrel.GetPuntuacion());
+					}
 				}
 				document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
 			}
@@ -554,9 +574,17 @@ function animate() {
 					var actual2 = squirrelP2.mesh.position.z;
 					//console.log(aux2);
 					//console.log(actual2);
-					if (actual2 < aux2) {
-						squirrelP2.updatePuntuacion(5);
-						//console.log(squirrelP2.GetPuntuacion());
+					if(!squirrelP2.GetBellota()){
+						if (actual2 < aux2) {
+							squirrelP2.updatePuntuacion(5);
+							//console.log(squirrel.GetPuntuacion());
+						}
+					}
+					else{
+						if (actual2 < aux2) {
+							squirrelP2.updatePuntuacion(-5);
+							//console.log(squirrel.GetPuntuacion());
+						}
 					}
 					document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
 				}
@@ -570,9 +598,17 @@ function animate() {
 					var actual2 = squirrelP2.mesh.position.z;
 					//console.log(aux2);
 					//console.log(actual2);
-					if (actual2 < aux2) {
-						squirrelP2.updatePuntuacion(-5);
-						//console.log(squirrelP2.GetPuntuacion());
+					if(!squirrelP2.GetBellota()){
+						if (actual2 < aux2) {
+							squirrelP2.updatePuntuacion(-5);
+							//console.log(squirrel.GetPuntuacion());
+						}
+					}
+					else{
+						if (actual2 < aux2) {
+							squirrelP2.updatePuntuacion(5);
+							//console.log(squirrel.GetPuntuacion());
+						}
 					}
 					document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
 				}
@@ -695,9 +731,11 @@ function animate() {
 			if (escenario === 'City') {
 				auto.vel = -11 * deltaTime;
 				taxi.vel = 22 * deltaTime;
+				auto2.vel = 18 * deltaTime;
 
 				taxi.update(worldSize);
 				auto.update(worldSize);
+				auto2.update(worldSize);
 			}
 
 			if (escenario === 'Snow City') {
@@ -778,6 +816,7 @@ function animate() {
 						break;
 					}
 				}
+				
 
 				if (squirrelP2.GetVida() == 0 && squirrel.GetVida() == 0) {
 					window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
@@ -937,10 +976,13 @@ function animate() {
 
 			//BELLOTA
 			var collision = detectCollision(squirrel.mesh, colisionaconlabellota1);
-
-
+			
+			
 			if (collision) {
 				console.log('colisiona con la bellota 1');
+				scene.remove(colisionaconlabellota1);
+				squirrel.updateBellota();
+				document.getElementById("bellota").src = "./img/bellota.png";
 			}
 
 			if (modo === 'Cooperativo') {
@@ -949,7 +991,30 @@ function animate() {
 
 				if (collision) {
 					console.log('colisiona con la bellota 2');
+					scene.remove(colisionaconlabellota2);
+					squirrelP2.updateBellota();
+					document.getElementById("bellota2").src = "./img/bellota.png";
 				}
+			}
+
+			//VICTORIA
+			if(squirrel.GetBellota()){
+				if(squirrel.mesh.position.z==0){
+					window.location.href = ("./finpartida.html?puntosP1=" + squirrel.GetPuntuacion() + "&estado=GANASTE");
+				}
+			}
+			if(modo==='Cooperativo'){
+				if(squirrel.GetBellota()){
+					if(squirrel.mesh.position.z==0){
+						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
+					}
+				}
+				if(squirrelP2.GetBellota()){
+					if(squirrelP2.mesh.position.z==0){
+						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
+					}
+				}
+				
 			}
 		}
 	}
@@ -1033,3 +1098,4 @@ function you_lose() {
 	window.location.href = ("./finpartida.html?puntosP1=" + squirrel.GetPuntuacion() + "&estado=PERDISTE");
 
 }
+
