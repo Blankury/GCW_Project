@@ -42,17 +42,28 @@ var itemMonedas =[];
 var itemMonedas2 =[];
 var itemEscudo =[];
 var itemEscudo2 =[];
-const minute = .5;
-let time = minute * 30;
+var itemLlanta =[];
+var itemLlanta2 =[];
+var modificarvelocidad=false;
+
+
 const contador = document.getElementById('contador');
 const contador2 = document.getElementById('contador2');
+const llantatime = document.getElementById('contadorneg');
+// Relojes
+var clock = new THREE.Clock();
+var minute = .5;
+var minute2 = .5;
+var time = minute * 30;
+var time2 = minute * 30;
 var duracionMinutos=0;
 var duracionSegundos=0;
 var duracionMinutos2=0;
 var duracionSegundos2=0;
+var minuteNeg = .5;
+var timeNeg = minuteNeg * 30;
+var duracion=0;
 
-// Reloj
-var clock = new THREE.Clock();
 
 // Camara
 const size = 30;
@@ -222,7 +233,7 @@ loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
 
 
 })
-
+//cargar escudos
 loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 
 	var esc = object.clone();
@@ -237,6 +248,23 @@ loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
 
 	scene.add(escudos[0]);
 	scene.add(escudos[1]);
+
+});
+//cargar llantas
+loadOBJWithMTL("obj/Llanta/", "llanta-1.obj", "llanta-1.mtl", (object) => {
+
+	var llanta = object.clone();
+	llanta.position.z = -8;
+	llanta.position.x = -12;
+
+	object.position.z = -65;
+	object.position.x = 13;
+
+	llantas.push(object);
+	llantas.push(llanta);
+
+	scene.add(llantas[0]);
+	scene.add(llantas[1]);
 
 });
 loadOBJWithMTL("obj/Bellota/", "bellota.obj", "bellota.mtl", (object) => {
@@ -768,14 +796,33 @@ function animate() {
 
 			if (escenario === 'City') {
 				if (dificultad === 'Facil'){
-					auto.vel = -5 * deltaTime;
-					taxi.vel = 17 * deltaTime;
-					auto2.vel = 18 * deltaTime;
+					if(duracion==1){
+						if(modificarvelocidad){
+							auto.vel = -15 * deltaTime;
+							taxi.vel = 22 * deltaTime;
+							auto2.vel = 25 * deltaTime;
+						}
+					}
+					else{
+						auto.vel = -5 * deltaTime;
+						taxi.vel = 16 * deltaTime;
+						auto2.vel = 14 * deltaTime;
+					}
 				}
 				else {
-					auto.vel = -11 * deltaTime;
-					taxi.vel = 32 * deltaTime;
-					auto2.vel = 25 * deltaTime;
+					if(duracion==1){
+						if(modificarvelocidad){
+							auto.vel = -22 * deltaTime;
+							taxi.vel = 40 * deltaTime;
+							auto2.vel = 30 * deltaTime;
+						}
+					}
+					else{
+						auto.vel = -11 * deltaTime;
+						taxi.vel = 32 * deltaTime;
+						auto2.vel = 25 * deltaTime;
+					}
+					
 				}
 
 				taxi.update(worldSize);
@@ -785,13 +832,32 @@ function animate() {
 
 			if (escenario === 'Snow City') {
 				if (dificultad === 'Facil'){
-				auto.vel = -15 * deltaTime;
-				quitanieves.vel = 10 * deltaTime;
-				quitanieves2.vel = 11 * deltaTime;
-				} else  {
-					auto.vel = -21 * deltaTime;
-					quitanieves.vel = 55 * deltaTime;
-					quitanieves2.vel = 45 * deltaTime;
+					if(duracion==1){
+						if(modificarvelocidad){
+							auto.vel = -22 * deltaTime;
+							quitanieves.vel = 19 * deltaTime;
+							quitanieves2.vel = 20 * deltaTime;
+						}
+					}
+					else{
+						auto.vel = -15 * deltaTime;
+						quitanieves.vel = 10 * deltaTime;
+						quitanieves2.vel = 11 * deltaTime;
+					}
+				} 
+				else{
+					if(duracion==1){
+						if(modificarvelocidad){
+							auto.vel = -30 * deltaTime;
+							quitanieves.vel = 55 * deltaTime;
+							quitanieves2.vel = 55 * deltaTime;
+						}
+					}
+					else{
+						auto.vel = -21 * deltaTime;
+						quitanieves.vel = 45 * deltaTime;
+						quitanieves2.vel = 45 * deltaTime;
+					}
 				}
 
 				auto.update(worldSize);
@@ -801,15 +867,36 @@ function animate() {
 
 			if (escenario === 'Beach City Night') {
 				if (dificultad === 'Facil'){
-					auto.vel = 15 * deltaTime;
-					coca.vel = -10 * deltaTime;
-					coca2.vel = 17 * deltaTime;
-					auto2.vel = -19 * deltaTime;
-				} else {
+					if(duracion==1){
+						if(modificarvelocidad){
+							auto.vel = 22 * deltaTime;
+							coca.vel = -20 * deltaTime;
+							coca2.vel = 27 * deltaTime;
+							auto2.vel = -30 * deltaTime;		
+						}
+					}
+					else{
+						auto.vel = 15 * deltaTime;
+						coca.vel = -10 * deltaTime;
+						coca2.vel = 17 * deltaTime;
+						auto2.vel = -19 * deltaTime;
+					}
+				} 
+				else {
+					if(duracion==1){
+						if(modificarvelocidad){
+							auto.vel = 40 * deltaTime;
+							coca.vel = -50 * deltaTime;
+							coca2.vel = 38 * deltaTime;
+							auto2.vel = -70 * deltaTime;
+						}
+					}
+					else{
 					auto.vel = 30 * deltaTime;
-					coca.vel = -50 * deltaTime;
-					coca2.vel = 32 * deltaTime;
+					coca.vel = -40 * deltaTime;
+					coca2.vel = 28 * deltaTime;
 					auto2.vel = -51 * deltaTime;
+					}
 				}
 
 				auto.update(worldSize);
@@ -817,8 +904,6 @@ function animate() {
 				coca2.update(worldSize);
 				auto2.update(worldSize);
 			}
-
-			
 
 			//Daño
 			for (var i = 0; i < autos.length; i++) {
@@ -916,7 +1001,6 @@ function animate() {
 						document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
 						itemCollected[i]=false;
 					}
-					
 				}
 				
 				document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
@@ -946,15 +1030,19 @@ function animate() {
 			
 				if (collision1) {
 					itemEscudo[i] = true;
+					console.log ("item escudo colisiona");
 					scene.remove(escudos[i]);
 					escudos[i].clear();
 					break;
 				}
 				else{
 					if(itemEscudo[i]==true){
+						console.log ("inicia contador");
 						setInterval(updateCountdown,1000);
 						duracionMinutos=1; duracionSegundos=1;
 						itemEscudo[i]=false;
+						minute = .5;
+						time = minute * 30;
 					}
 					
 				}
@@ -964,13 +1052,18 @@ function animate() {
 					if (collision2) {
 						itemEscudo2[i] = true;
 						scene.remove(escudos[i]);
+						escudos[i].clear();
 						break;
 					}
 					else{
 						if(itemEscudo2[i]==true){
 							setInterval(updateCountdown2,1000);
+
 							duracionMinutos2=1; duracionSegundos=1;
+
 							itemEscudo2[i]=false;
+							minute2 = .5;
+							time2 = minute2 * 30;
 						}
 						
 					}
@@ -982,15 +1075,41 @@ function animate() {
 
 
 				if (collision1) {
+					itemLlanta[i]=true;
 					scene.remove(llantas[i]);
+					llantas[i].clear();
 					break;
+				}
+				else{
+					if(itemLlanta[i]==true){
+						modificarvelocidad=true;
+						console.log ("inicia contador neg");
+						setInterval(updateTiempoNeg,1000);
+						duracion=1;
+						minuteNeg = .5;
+						timeNeg = minuteNeg * 30;
+						itemLlanta[i]=false;
+					}
 				}
 				if (modo === 'Cooperativo') {
 					var collision2 = detectCollision(squirrelP2.mesh, llantas[i]);
 
 					if (collision2) {
+						itemLlanta2[i]=true;
 						scene.remove(llantas[i]);
+						llantas[i].clear();
 						break;
+					}
+					else{
+						if(itemLlanta2[i]==true){
+							modificarvelocidad=true;
+							console.log ("inicia contador neg");
+							setInterval(updateTiempoNeg,1000);
+							duracion=1;
+							minuteNeg = .5;
+							timeNeg = minuteNeg * 30;
+							itemLlanta2[i]=false;
+						}
 					}
 				}
 			}
@@ -1228,7 +1347,7 @@ function you_lose() {
 
 function updateCountdown(){
 	const minutes = Math.floor(time/60);
-	let seconds = time % 60;
+	var seconds = time % 60;
 
 	seconds=seconds<10? '0' + seconds : seconds;
 	contador.innerHTML= `${minutes}:${seconds}`;
@@ -1239,11 +1358,11 @@ function updateCountdown(){
 	}
 	else{
 		time--;
-	}
+	}	
 }
 function updateCountdown2(){
-	const minutes = Math.floor(time/60);
-	let seconds = time % 60;
+	const minutes = Math.floor(time2/60);
+	let seconds = time2 % 60;
 
 	seconds=seconds<10? '0' + seconds : seconds;
 	contador2.innerHTML= `${minutes}:${seconds}`;
@@ -1253,6 +1372,21 @@ function updateCountdown2(){
 		duracionSegundos2=0;
 	}
 	else{
-		time--;
+		time2--;
 	}
+}
+function updateTiempoNeg(){
+	const minutes = Math.floor(timeNeg/60);
+	var seconds = timeNeg % 60;
+
+	seconds=seconds<10? '0' + seconds : seconds;
+	llantatime.innerHTML= `${minutes}:${seconds}`;
+	
+	if(minutes==0 && seconds==0){
+		duracion=0;
+		modificarvelocidad=false;
+	}
+	else{
+		timeNeg--;
+	}	
 }
