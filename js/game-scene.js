@@ -888,9 +888,9 @@ function animate() {
 
 				if (squirrelP2.GetVida() <= 0 && squirrel.GetVida() <= 0) {
 					let escenariofinal;
-					if (escenario === "Beach City Night"){
+					if (escenario === 'Beach City Night'){
 						escenariofinal="BeachCityNight";
-					} else if (escenario === "Snow City"){
+					} else if (escenario === 'Snow City'){
 						escenariofinal="SnowCity";
 					} else if (escenario === "City"){
 						escenariofinal="City";
