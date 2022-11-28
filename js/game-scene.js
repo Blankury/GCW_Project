@@ -1244,12 +1244,12 @@ function animate() {
 			if(modo==='Cooperativo'){
 				if(squirrel.GetBellota()){
 					if(squirrel.mesh.position.z==0){
-						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
+						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "&Ganador=JUGADOR1");
 					}
 				}
 				if(squirrelP2.GetBellota()){
 					if(squirrelP2.mesh.position.z==0){
-						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
+						window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "&Ganador=JUGADOR2");
 					}
 				}
 				

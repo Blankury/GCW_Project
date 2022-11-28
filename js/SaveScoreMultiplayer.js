@@ -6,11 +6,14 @@ const Player2points = window.location.search;
 const url_paramsP2 = new URLSearchParams(Player2points);
 var puntuacion2 = url_paramsP2.get("puntosP2");
 var nivel = url_paramsP1.get("nivel");
+var quiengano =url_paramsP1.get("Ganador");
 
 $(document).ready(function() {
     $("#puntuacion_recibida_P1").html(puntuacion1);
 
     $("#puntuacion_recibida_P2").html(puntuacion2);
+
+    $("#quiengano").html(quiengano);
 
     $("#save_score").submit(function(event){
         event.preventDefault();
