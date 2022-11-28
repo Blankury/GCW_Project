@@ -1,80 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/three.js" integrity="sha512-jCNgL/m5yf60rVGkaFkSfx1xyDttZd6fsyGQPxd1cfMJLyWCCuYwU8wTp/nnw1DGJHaOUTEK1y8MNGso85AWoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/three.js"
+        integrity="sha512-jCNgL/m5yf60rVGkaFkSfx1xyDttZd6fsyGQPxd1cfMJLyWCCuYwU8wTp/nnw1DGJHaOUTEK1y8MNGso85AWoA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://threejs.org/examples/js/loaders/MTLLoader.js"></script>
     <script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
-    
+
     <title>Jump N' Survive</title>
-    <link rel="icon" type="image/jpg" href="./img/bellota.png"/>
+    <link rel="icon" type="image/jpg" href="./img/bellota.png" />
     <style type="text/css">
-        body{
-           background-color:  rgb(40, 89, 212);
+        body {
+            background-color: rgb(40, 89, 212);
         }
+
         @font-face {
             font-family: '3Dventure';
             src: url(./font/8-bit-pusab.ttf) format("truetype");
             font-weight: normal;
             font-style: normal;
         }
+
         @font-face {
             font-family: '8bit';
             src: url(./font/dogica.ttf) format("truetype");
             font-weight: normal;
             font-style: normal;
         }
-        .Boton{
+
+        .Boton {
             height: 50px;
             width: 170px;
             border-radius: 13px;
             border-color: rgb(253, 238, 219);
-            background-color:  transparent;
+            background-color: transparent;
             border-style: double;
             font-family: '3Dventure';
             font-size: 14px;
             color: rgb(253, 238, 219);
         }
-        .Boton:hover{
+
+        .Boton:hover {
             border-color: rgb(253, 238, 219);
             background-color: rgb(0, 187, 187);
-            
+
         }
-        .BotonFont{
+
+        .BotonFont {
             font-family: '3Dventure';
             color: rgb(253, 238, 219);
             text-decoration: none;
         }
-        .BotonFont:hover{
+
+        .BotonFont:hover {
             color: rgb(255, 249, 241);
         }
-        a{
+
+        a {
             font-size: 15px;
         }
-        .pause-modal{
+
+        .pause-modal {
             padding: 10px;
             background-color: transparent;
             position: absolute;
         }
-        .pause-modal label{
+
+        .pause-modal label {
             padding: 15px 15px;
             background-color: transparent;
             color: aliceblue;
             border-radius: 13px;
             cursor: pointer;
         }
-        #btn-modal{
+
+        #btn-modal {
             display: none;
         }
-        .container-modal{
+
+        .container-modal {
             width: 100%;
             height: 100vh;
             position: fixed;
-            top: 0; bottom: 0;
+            top: 0;
+            bottom: 0;
             background-color: transparent;
             display: none;
             justify-content: center;
@@ -82,10 +98,12 @@
             z-index: 100;
             background-color: rgba(53, 53, 53, 0.8);
         }
-        #btn-modal:checked ~.container-modal{
+
+        #btn-modal:checked~.container-modal {
             display: flex;
         }
-        .contenido-modal{
+
+        .contenido-modal {
             width: 100%;
             max-width: 400px;
             padding: 20px;
@@ -94,45 +112,54 @@
             border-style: double;
             border-color: aliceblue;
         }
-        .contenido-modal a{
+
+        .contenido-modal a {
             margin-bottom: 15px;
             font-family: '3Dventure';
             font-size: 15px;
             text-decoration: none;
             color: aliceblue;
         }
-        .contenido-modal a:hover{
-            color:gray;
+
+        .contenido-modal a:hover {
+            color: gray;
         }
-        .contenido-modal .btn-cerrar{
+
+        .contenido-modal .btn-cerrar {
             width: 100%;
             margin-top: 15px;
             display: flex;
         }
-        .contenido-modal .btn-cerrar label{
-          
+
+        .contenido-modal .btn-cerrar label {
+
             background-color: transparent;
             color: aliceblue;
             cursor: pointer;
             font-family: '3Dventure';
             font-size: 15px;
         }
-        .contenido-modal .btn-cerrar label:hover{
+
+        .contenido-modal .btn-cerrar label:hover {
             color: gray;
         }
-        .cerrar-modal{
+
+        .cerrar-modal {
             width: 100%;
             height: 100vh;
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             z-index: -1;
         }
+
         @media screen and (max-width:800px) {
-            .contenido-modal{
+            .contenido-modal {
                 width: 90%;
             }
         }
-        section{
+
+        section {
             height: 90vh;
             width: 75%;
             margin-top: 5vh;
@@ -141,115 +168,117 @@
             margin-right: 12vw;
             border-color: aliceblue;
             border-style: double;
-            background-size:cover;
+            background-size: cover;
         }
 
-        .buttonstart{
+        .buttonstart {
             height: 90vh;
             width: 75%;
             font-family: '3Dventure';
-            position: fixed;;
+            position: fixed;
+            ;
             background-color: black;
             color: white;
         }
-        .p-ajustes{
-            font-family: '8bit'; 
+
+        .p-ajustes {
+            font-family: '8bit';
             color: white;
             font-size: 14px;
         }
     </style>
 
 </head>
-<body onload="useSong.play()" onkeyup="jump.play()">
-   
-    <section id="game-scene" >
 
-        
+<body onload="useSong.play()" onkeyup="jump.play()">
+
+    <section id="game-scene">
+
+
         <div style="display: flex;" class="pause-modal" id="btnPause">
             <label for="btn-modal" style="font-family: '3Dventure';">
                 <img src="https://art.pixilart.com/72b06a59f06e18f.png" height="70" width="70">
             </label>
-            <!-- <div style=" margin-left:55vw;  margin-right: 12vw;"> -->
-               
-            <!-- </div> -->
-                <!-- </div> -->
-                <img style="padding-left: 10px;" id="bellota" height="50" width="50">
-                <img style="padding-left: 10px;" id="bellota2" height="50" width="50">
-    
-                  <div style="display: flex; position: absolute; top:15vh; right:50%;" class="pause-modal">
-                    <img src="./img/moneda.png" height="50" width="50">
-                    <p id="Player1Monedas" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
-                 </div> 
-    
-                 <div style="display: flex; position: absolute; top:20vh; right:50%;" class="pause-modal">
-                    <img src="./img/moneda.png" height="50" width="50">
-                    <p id="Player2Monedas" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
-                 </div> 
-    
-                 <div style="display: flex; position: absolute; top:25vh; right:50%;" class="pause-modal">
-                    <img src="./img/escudo.png" height="50" width="50">
-                    <p id="contador" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
-                 </div> 
-                 
-                 <div style="display: flex; position: absolute; top:30vh; right:50%;" class="pause-modal">
-                    <img src="./img/escudo.png" height="50" width="50">
-                    <p id="contador2" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
-                 </div> 
         </div>
-        <div style="display: flex; position: absolute; top:0; right:50%;" class="pause-modal">
+        <div style="display: flex; position: absolute; top:0; right: 50%;" class="pause-modal">
             <p style=" font-family: '3Dventure'; color: white;">PuntosP1: </p>
             <p id="Player1Points" style=" font-family: '3Dventure'; color: white;">0</p>
-        </div> 
-        <div style="display: flex; position: absolute; top:0; left:50%;" class="pause-modal ">
+        </div>
+        <div style="display: flex; position: absolute; top:0; left: 50%;" class="pause-modal ">
             <p style=" font-family: '3Dventure'; color: white;">PuntosP2: </p>
             <p id="Player2Points" style=" font-family: '3Dventure'; color: white;">0</p>
-        </div> 
+        </div>
 
+        <img style="position:absolute; top: 60px; left: 25%;" id="bellota" height="50" width="50">
+        <img style="position:absolute; top: 60px; left: 30%;" id="bellota2" height="50" width="50">
+
+        <div style="display: flex; position: absolute; top:20vh; left: auto;" class="pause-modal">
+            <img src="./img/moneda.png" height="50" width="50">
+            <p id="Player1Monedas" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
+        </div>
+
+        <div style="display: flex; position: absolute; top:25vh; left: auto;" class="pause-modal">
+            <img src="./img/moneda.png" height="50" width="50">
+            <p id="Player2Monedas" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
+        </div>
+
+        <div style="display: flex; position: absolute; top:30vh; left: auto;" class="pause-modal">
+            <img src="./img/escudo.png" height="50" width="50">
+            <p id="contador" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
+        </div>
+
+        <div style="display: flex; position: absolute; top:35vh; left: auto;" class="pause-modal">
+            <img src="./img/escudo.png" height="50" width="50">
+            <p id="contador2" style="padding-top: 10px; font-family: '3Dventure'; color: white;">0</p>
+        </div>
+       
     </section>
-    
+
     <input type="checkbox" id="btn-modal">
     <div class="container-modal">
         <div class="contenido-modal">
             <div class="text-center"><a style="color: aliceblue;">PAUSE</a></div>
             <div onmouseover="selectobjects.play()" class="btn-cerrar" id="btnPlay">
-                <label  for="btn-modal">Reaundar</label>
+                <label for="btn-modal">Reaundar</label>
             </div><br>
-         
+
             <div onmouseover="selectobjects.play()"><a href="configurarpartida.html">Ajustes</a></div>
 
-            <div  style=" padding: 10px;">
-                    <div class="d-flex flex-row">
-                        <div class="d-flex flex-column justify-content-around">
-                            <img src="img/sound.svg" width="100">
-                            <p class="p-ajustes">Sonido</p>
-                            
-                            <img src="img/music.svg" width="100">
-                            <p class="p-ajustes">Musica</p>
-            
-                            <img src="img/resolution.svg" width="100">
-                            <p class="p-ajustes">Calidad</p>
-                        
-                        </div>
-                        <div class="d-flex flex-column flex-fill justify-content-around">
-                        <input onmousedown="selectobjects.play()" oninput="change_effectsound()" min="0" max="1" value="1" step=".1" type="range" class="form-range" id="soundRange">
-                        <input oninput="change_musicsound()" min="0" max="1" value="1" step=".1" type="range" class="form-range" id="musicRange">
-                        <input type="range" class="form-range" min="0" max="1" step = "1" id="caliteRange">
-                        </div>
+            <div style=" padding: 10px;">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column justify-content-around">
+                        <img src="img/sound.svg" width="100">
+                        <p class="p-ajustes">Sonido</p>
+
+                        <img src="img/music.svg" width="100">
+                        <p class="p-ajustes">Musica</p>
+
+                        <img src="img/resolution.svg" width="100">
+                        <p class="p-ajustes">Calidad</p>
+
                     </div>
+                    <div class="d-flex flex-column flex-fill justify-content-around">
+                        <input onmousedown="selectobjects.play()" oninput="change_effectsound()" min="0" max="1"
+                            value="1" step=".1" type="range" class="form-range" id="soundRange">
+                        <input oninput="change_musicsound()" min="0" max="1" value="1" step=".1" type="range"
+                            class="form-range" id="musicRange">
+                        <input type="range" class="form-range" min="0" max="1" step="1" id="caliteRange">
+                    </div>
+                </div>
             </div>
 
             <div onmouseover="selectobjects.play()"><a href="configurarpartida.html">Salir</a></div><br>
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
     </div>
-    
+
 </body>
-<script src="./js/jquery-3.6.0.min.js"></script> 
-    <script type="module" src="./js/game-scene.js"></script>
-    <script src="js/audio.js"></script>
-    
-   
-    
+<script src="./js/jquery-3.6.0.min.js"></script>
+<script type="module" src="./js/game-scene.js"></script>
+<script src="js/audio.js"></script>
+
+
+
 </html>
 
 <!--

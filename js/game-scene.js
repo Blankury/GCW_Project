@@ -908,7 +908,7 @@ function animate() {
 				if (collision1) {
 					itemCollected[i] = true;
 					scene.remove(puntos[i]);
-					
+					puntos[i].clear();
 					break;
 				}
 				else{
@@ -948,6 +948,7 @@ function animate() {
 				if (collision1) {
 					itemEscudo[i] = true;
 					scene.remove(escudos[i]);
+					escudos[i].clear();
 					break;
 				}
 				else{
@@ -1002,6 +1003,7 @@ function animate() {
 				if (collision1) {
 					itemMonedas[i]=true;
 					scene.remove(monedas[i]);
+					monedas[i].clear();
 					break;
 				}
 				else{
