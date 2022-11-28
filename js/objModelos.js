@@ -99,6 +99,15 @@ export class Objeto {
                     //this.loadRandomO(5, 65, -84, -124, 8, scene, slot);
                     //this.loadRandomO(-8, 8, -100, -124, 5, scene, slot);
                 }
+                if (slot === 'lights3') {
+                    this.loadPath(scene, 10, 6, false, this.position.z);
+                    this.loadPath(scene, 10, 6, false, -25.5);
+                    this.loadPath(scene, 10, 6, false, -34);
+
+                    this.loadPath(scene, 10, 6, false, -66);
+                    this.loadPath(scene, 10, 6, false, -75);
+                    this.loadPath(scene, 10, 6, false, -84);
+                }
                 
                 if (slot === 'path')
                     this.loadPath(scene, 10, 6, true, this.position.z);

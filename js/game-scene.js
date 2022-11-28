@@ -392,7 +392,6 @@ if (escenario === 'Snow City') {
 	var monoNieve = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	monoNieve.load('obj/Mono_de_nieve/', 'Snowman.obj', 'Snowman.mtl', scene, isWorldReady, 'spawnDec');
 
-
 	var lampara = new Objeto(new THREE.Vector3(0, 0, -17), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	lampara.load('obj/Lampara/', 'lampara.obj', 'lampara.mtl', scene, isWorldReady, 'lights');
 
@@ -464,7 +463,7 @@ if (escenario === 'Beach City Night') {
 	roca3.load('obj/Rocas/', 'rocas-2.obj', 'rocas-2.mtl', scene, isWorldReady, 'spawnBeachCity');
 
 	var lampara = new Objeto(new THREE.Vector3(0, 0, -17), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
-	lampara.load('obj/Lampara/', 'lampara.obj', 'lampara.mtl', scene, isWorldReady, 'lights');
+	lampara.load('obj/Lampara/', 'lampara.obj', 'lampara.mtl', scene, isWorldReady, 'lights3');
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2');
