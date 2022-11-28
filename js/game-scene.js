@@ -200,8 +200,7 @@ if (escenario === 'City') {
 		
 
 		var pts2 = object.clone();
-		pts2.position.x = 5
-		;
+		pts2.position.x = 10;
 
 		puntos.push(object);
 		puntos.push(pts2);
@@ -247,8 +246,7 @@ if (escenario === 'City') {
 		scene.add(object);
 
 		var llanta2 = object.clone();
-		llanta2.position.x = 5
-		;
+		llanta2.position.x = 5;
 		scene.add(llanta2);
 
 		llantas.push(object);
@@ -282,8 +280,6 @@ if (escenario === 'City') {
 	traffic3.loadTrafficPaths(scene, 60, isWorldReady);
 
 	// Modelos
-	
-
 	var arbol = new Objeto(new THREE.Vector3(0, 0, -5), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	arbol.load('obj/Arbol/', 'arbol1-0.obj', 'arbol1-0.mtl', scene, isWorldReady, 'spawnCity');
 	arbol.load('obj/Arbol/', 'arbol1-1.obj', 'arbol1-1.mtl', scene, isWorldReady, 'spawnCity');
@@ -370,7 +366,7 @@ if (escenario === 'Snow City') {
 	auto.load('obj/Autos/', 'autos-0.obj', 'autos-0.mtl', scene, isWorldReady, 'path');
 
 	var quitanieves2 = new Objeto(new THREE.Vector3(0, 0, -50), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
-	quitanieves2.load('obj/Quitanieves/', 'quitanieevs-1.obj', 'quitanieevs-1.mtl', scene, isWorldReady, 'path3')
+	quitanieves2.load('obj/Quitanieves/', 'quitanieevs-1.obj', 'quitanieevs-1.mtl', scene, isWorldReady, 'path2')
 
 }
 
@@ -420,10 +416,16 @@ if (escenario === 'Beach City Night') {
 
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
-	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2')
+	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2');
 
 	var coca = new Objeto(new THREE.Vector3(0, 0, -30), new THREE.Vector3(0, 3.1, 0), new THREE.Vector3(0, 0, 0));
-	coca.load('obj/Autos/', 'autos-5.obj', 'autos-5.mtl', scene, isWorldReady, 'path3')
+	coca.load('obj/Autos/', 'autos-5.obj', 'autos-5.mtl', scene, isWorldReady, 'path3');
+
+	var coca2 = new Objeto(new THREE.Vector3(0, 0, -71), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
+	coca2.load('obj/Autos/', 'autos-5.obj', 'autos-5.mtl', scene, isWorldReady, 'path2');
+
+	var auto2 = new Objeto(new THREE.Vector3(0, 0, -80), new THREE.Vector3(0, 3.1, 0), new THREE.Vector3(0, 0, 0));
+	auto2.load('obj/Autos/', 'autos-4.obj', 'autos-4.mtl', scene, isWorldReady, 'path2');
 }
 
 
@@ -431,11 +433,10 @@ if (escenario === 'Beach City Night') {
 var grid = new THREE.GridHelper(50, 25, 0x000000, 0xffffff);
 //grid.position.x = 0.5;
 //grid.position.z = 0.5;
-
 //scene.add(grid);
 
-//console.log(game);
 
+//console.log(game);
 
 
 // Eventos de teclas
@@ -729,9 +730,16 @@ function animate() {
 			}
 
 			if (escenario === 'City') {
-				auto.vel = -11 * deltaTime;
-				taxi.vel = 22 * deltaTime;
-				auto2.vel = 18 * deltaTime;
+				if (dificultad === 'Facil'){
+					auto.vel = -5 * deltaTime;
+					taxi.vel = 17 * deltaTime;
+					auto2.vel = 18 * deltaTime;
+				}
+				else {
+					auto.vel = -11 * deltaTime;
+					taxi.vel = 32 * deltaTime;
+					auto2.vel = 25 * deltaTime;
+				}
 
 				taxi.update(worldSize);
 				auto.update(worldSize);
@@ -739,9 +747,15 @@ function animate() {
 			}
 
 			if (escenario === 'Snow City') {
-				auto.vel = -(15 * deltaTime);
+				if (dificultad === 'Facil'){
+				auto.vel = -15 * deltaTime;
 				quitanieves.vel = 10 * deltaTime;
 				quitanieves2.vel = 11 * deltaTime;
+				} else  {
+					auto.vel = -21 * deltaTime;
+					quitanieves.vel = 55 * deltaTime;
+					quitanieves2.vel = 45 * deltaTime;
+				}
 
 				auto.update(worldSize);
 				quitanieves.update(worldSize);
@@ -749,11 +763,22 @@ function animate() {
 			}
 
 			if (escenario === 'Beach City Night') {
-				auto.vel = 15 * deltaTime;
-				coca.vel = -(10 * deltaTime);
+				if (dificultad === 'Facil'){
+					auto.vel = 15 * deltaTime;
+					coca.vel = -10 * deltaTime;
+					coca2.vel = 17 * deltaTime;
+					auto2.vel = -19 * deltaTime;
+				} else {
+					auto.vel = 30 * deltaTime;
+					coca.vel = -50 * deltaTime;
+					coca2.vel = 32 * deltaTime;
+					auto2.vel = -51 * deltaTime;
+				}
 
 				auto.update(worldSize);
 				coca.update(worldSize);
+				coca2.update(worldSize);
+				auto2.update(worldSize);
 			}
 
 			
@@ -834,7 +859,7 @@ function animate() {
 				if (collision1) {
 					squirrel.updatePuntuacion(5);
 					console.log("puntacion aumentada: " + squirrel.GetPuntuacion());
-
+					console.log(squirrel);
 					scene.remove(puntos[i]);
 					puntos[i].remove();
 					break;
