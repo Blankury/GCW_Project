@@ -38,4 +38,7 @@ export class Squirrel {
     GetBellota(){
         return this.bellota;
     }
+    GetMoneda(){
+        return this.monedas;
+    }
 }

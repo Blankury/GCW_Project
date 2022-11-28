@@ -35,6 +35,21 @@ var deltaTime;
 var changeCam = false;
 var isWorldReady = [];
 var worldSize = 64;
+//Items
+var itemCollected = [];
+var itemCollected2 = [];
+var itemMonedas =[];
+var itemMonedas2 =[];
+var itemEscudo =[];
+var itemEscudo2 =[];
+const minute = .5;
+let time = minute * 30;
+const contador = document.getElementById('contador');
+const contador2 = document.getElementById('contador2');
+var duracionMinutos=0;
+var duracionSegundos=0;
+var duracionMinutos2=0;
+var duracionSegundos2=0;
 
 // Reloj
 var clock = new THREE.Clock();
@@ -57,10 +72,28 @@ var newmov = "";
 var newmov2 = "";
 
 // Renderer
-const renderer = new THREE.WebGLRenderer({ precision: "mediump" });
+const renderer = new THREE.WebGLRenderer({ precision: "mediump"});
 renderer.setClearColor(new THREE.Color(0, 0, 0));
 renderer.setSize(game.clientWidth, game.clientHeight);
 
+//Rendererquality
+
+const configquality = document.getElementById("caliteRange");
+
+
+function changerender(){
+
+	var valor = configquality.value;
+	if (valor = 0){
+	renderer.antialias = false;
+	}
+	else{
+		
+	renderer.antialias = true;
+	}
+	
+	
+	}
 //POWERUPS
 
 
@@ -142,7 +175,71 @@ scene.add(particles);
 }
 
 
+loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
 
+		
+	var pts2 = object.clone();
+	pts2.position.x = 6;
+	pts2.position.z = -10;
+
+	object.position.x = -6;
+	object.position.z = -28;
+
+	var pts3 = object.clone();
+	pts3.position.x = 1;
+	pts3.position.z = -40;
+
+	var pts4 = object.clone();
+	pts4.position.x = 13;
+	pts4.position.z = -50;
+
+	puntos.push(object);
+	puntos.push(pts2);
+	puntos.push(pts3);
+	puntos.push(pts4);
+
+	console.log(puntos.length +'tam');
+	scene.add(puntos[0]);
+	scene.add(puntos[1]);
+	scene.add(puntos[2]);
+	scene.add(puntos[3]);
+
+});
+//Cargar item monedas
+loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
+
+	var moneda2 = object.clone();
+	moneda2.position.x = 10;
+	moneda2.position.z = -40;
+
+	object.position.x = 0;
+	object.position.z = -24;
+
+	monedas.push(object);
+	monedas.push(moneda2);
+
+	scene.add(monedas[0]);
+	scene.add(monedas[1]);
+
+
+})
+
+loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
+
+	var esc = object.clone();
+	esc.position.z = -40;
+	esc.position.x = 0;
+
+	object.position.z = -70;
+	object.position.x = -15;
+
+	escudos.push(object);
+	escudos.push(esc);
+
+	scene.add(escudos[0]);
+	scene.add(escudos[1]);
+
+});
 loadOBJWithMTL("obj/Bellota/", "bellota.obj", "bellota.mtl", (object) => {
 	object.position.z = -70;
 	scene.add(object);
@@ -194,65 +291,6 @@ if (modo === 'Cooperativo') {
 
 // Nivel 1
 if (escenario === 'City') {
-	loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
-
-
-		
-
-		var pts2 = object.clone();
-		pts2.position.x = 10;
-
-		puntos.push(object);
-		puntos.push(pts2);
-		console.log(puntos.length +'tam');
-		scene.add(puntos[0]);
-		scene.add(puntos[1]);
-
-	});
-
-	loadOBJWithMTL("obj/Monedas/", "moneda.obj", "moneda.mtl", (object) => {
-
-		object.position.x = 20;
-		object.position.z = 20;
-		scene.add(object);
-
-		var moneda2 = object.clone();
-		moneda2.position.x = 10
-		;
-		scene.add(moneda2);
-
-		monedas.push(object);
-		monedas.push(moneda2);
-
-	});
-
-	loadOBJWithMTL("obj/Escudo/", "escudo.obj", "escudo.mtl", (object) => {
-
-
-		scene.add(object);
-
-		var esc = object.clone();
-		esc.position.z = 5;
-		scene.add(esc);
-
-		escudos.push(object);
-		escudos.push(esc);
-
-	});
-
-	loadOBJWithMTL("obj/Llanta/", "llanta-1.obj", "llanta-1.mtl", (object) => {
-
-
-		scene.add(object);
-
-		var llanta2 = object.clone();
-		llanta2.position.x = 5;
-		scene.add(llanta2);
-
-		llantas.push(object);
-		llantas.push(llanta2);
-
-	});
 
 	var ambientLight = new THREE.AmbientLight(new THREE.Color(0xE5EBB2), 0.8);
 	scene.add(ambientLight);
@@ -380,8 +418,20 @@ if (escenario === 'Beach City Night') {
 	scene.add(directionalLight);
 
 	var light = new THREE.PointLight(0xFF7C30, 0.8, 100);
-	light.position.set(50, 50, 0);
+	light.position.set(50, 5, 0);
+	var light2 = light.clone();
+	light2.position.set(10, 5, -26);
+	var light3 = light.clone();
+	light3.position.set(-10, 5, -46);
+	var light4 = light.clone();
+	light4.position.set(-10, 5, -20);
+	var light5 = light.clone();
+	light5.position.set(-30, 5, -25);
 	scene.add(light);
+	scene.add(light2);
+	scene.add(light3);
+	scene.add(light4);
+	scene.add(light5);
 
 	var plano = new Plano();
 	plano.loadMaterials('obj/arena.png', null);
@@ -414,6 +464,8 @@ if (escenario === 'Beach City Night') {
 	var roca3 = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	roca3.load('obj/Rocas/', 'rocas-2.obj', 'rocas-2.mtl', scene, isWorldReady, 'spawnBeachCity');
 
+	var lampara = new Objeto(new THREE.Vector3(0, 0, -17), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
+	lampara.load('obj/Lampara/', 'lampara.obj', 'lampara.mtl', scene, isWorldReady, 'lights');
 
 	var auto = new Objeto(new THREE.Vector3(0, 0, -20), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	auto.load('obj/Autos/', 'autos-2.obj', 'autos-2.mtl', scene, isWorldReady, 'path2');
@@ -786,112 +838,151 @@ function animate() {
 			//Daño
 			for (var i = 0; i < autos.length; i++) {
 
-				var collision1 = detectCollision(squirrel.mesh, autos[i]);
+				if(duracionMinutos==0&&duracionSegundos==0){
+					var collision1 = detectCollision(squirrel.mesh, autos[i]);
 
-
-				if (collision1) {
-					squirrel.mesh.position.z -= updown - 4;
-					if (dificultad === "Dificil") {
-						
-						squirrel.updateVida(5);
-						squirrel.updatePuntuacion(-20);
-						document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
-					}
-					else {
-						
-						squirrel.updateVida(1);
-						squirrel.updatePuntuacion(-10);
-						document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
-					}
-					console.log("vida player 1: " + squirrel.GetVida());
-					//Si pierde
-					if (modo === "Individual") {
-						if (squirrel.GetVida() == 0) {
-							you_lose();
-						}
-					}
-					if (modo === "Cooperativo") {
-						if (squirrel.GetVida() == 0) {
-							scene.remove(squirrel.mesh);
-							console.log("c muere");
-						}
-					}
-					break;
-				}
-				if (modo === 'Cooperativo') {
-					var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
-
-					if (collision2) {
-						squirrelP2.mesh.position.z -= updown_p2 - 4;
+					if (collision1) {
+						squirrel.mesh.position.z -= updown - 4;
 						if (dificultad === "Dificil") {
-							squirrelP2.updateVida(5);
-							squirrelP2.updatePuntuacion(-20);
-							document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
+								
+							squirrel.updateVida(5);
+							squirrel.updatePuntuacion(-20);
+							document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
 						}
 						else {
-							squirrelP2.updateVida(1);
-							squirrelP2.updatePuntuacion(-10);
-							document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
+								
+							squirrel.updateVida(1);
+							squirrel.updatePuntuacion(-10);
+							document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
 						}
-						console.log("vida player 2: " + squirrelP2.GetVida());
-						if (squirrelP2.GetVida() == 0) {
-							scene.remove(squirrelP2.mesh);
-							console.log("c muere");
+						console.log("vida player 1: " + squirrel.GetVida());
+						//Si pierde
+						if (modo === "Individual") {
+							if (squirrel.GetVida() == 0) {
+								you_lose();
+							}
+						}
+						if (modo === "Cooperativo") {
+							if (squirrel.GetVida() == 0) {
+								scene.remove(squirrel.mesh);
+								console.log("c muere");
+							}
 						}
 						break;
 					}
 				}
-				
+					
+				if (modo === 'Cooperativo') {
+
+					if(duracionMinutos2==0&&duracionSegundos2==0){
+							var collision2 = detectCollision(squirrelP2.mesh, autos[i]);
+
+						if (collision2) {
+								squirrelP2.mesh.position.z -= updown_p2 - 4;
+							if (dificultad === "Dificil") {
+								squirrelP2.updateVida(5);
+								squirrelP2.updatePuntuacion(-20);
+								document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
+							}
+							else {
+								squirrelP2.updateVida(1);
+								squirrelP2.updatePuntuacion(-10);
+								document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
+							}
+							console.log("vida player 2: " + squirrelP2.GetVida());
+							if (squirrelP2.GetVida() == 0) {
+								scene.remove(squirrelP2.mesh);
+								console.log("c muere");
+							}
+							break;
+						}
+
+					}
+						
+				}
+					
 
 				if (squirrelP2.GetVida() == 0 && squirrel.GetVida() == 0) {
 					window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
 				}
 			}
 
-
-		
 			//PowerUps e Items
 			for (var i = 0; i < puntos.length; i++) {
 
 				var collision1 = detectCollision(squirrel.mesh, puntos[i]);
-
+				
 
 				if (collision1) {
-					squirrel.updatePuntuacion(5);
-					console.log("puntacion aumentada: " + squirrel.GetPuntuacion());
-					console.log(squirrel);
+					itemCollected[i] = true;
 					scene.remove(puntos[i]);
-					puntos[i].remove();
+					
 					break;
 				}
+				else{
+					if(itemCollected[i]==true){
+						squirrel.updatePuntuacion(5);
+						console.log("puntacion aumentada: " + squirrel.GetPuntuacion());
+						document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
+						itemCollected[i]=false;
+					}
+					
+				}
+				
+				document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
 				if (modo === 'Cooperativo') {
 					var collision2 = detectCollision(squirrelP2.mesh, puntos[i]);
 
 					if (collision2) {
-
-						squirrelP2.updatePuntuacion();
-						console.log("jugador dos puntuacion aumentada");
+						itemCollected2[i] = true;
 						scene.remove(puntos[i]);
-						puntos[i] = 0;
+						
 						break;
 					}
+					else{
+						if(itemCollected2[i]==true){
+							squirrelP2.updatePuntuacion(5);
+							console.log("puntacion aumentada: " + squirrelP2.GetPuntuacion());
+							document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
+							itemCollected2[i]=false;
+						}
+						
+					}
 				}
+				document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
 			}
 			for (var i = 0; i < escudos.length; i++) {
 
 				var collision1 = detectCollision(squirrel.mesh, escudos[i]);
-
-
+			
 				if (collision1) {
+					itemEscudo[i] = true;
 					scene.remove(escudos[i]);
 					break;
+				}
+				else{
+					if(itemEscudo[i]==true){
+						setInterval(updateCountdown,1000);
+						duracionMinutos=1; duracionSegundos=1;
+						itemEscudo[i]=false;
+					}
+					
 				}
 				if (modo === 'Cooperativo') {
 					var collision2 = detectCollision(squirrelP2.mesh, escudos[i]);
 
 					if (collision2) {
+						itemEscudo2[i] = true;
 						scene.remove(escudos[i]);
 						break;
+					}
+					else{
+						if(itemEscudo2[i]==true){
+							setInterval(updateCountdown2,1000);
+							duracionMinutos2=1; duracionSegundos=1;
+							itemEscudo2[i]=false;
+						}
+						
 					}
 				}
 			}
@@ -919,17 +1010,35 @@ function animate() {
 
 
 				if (collision1) {
-					squirrel.updateMonedas();
+					itemMonedas[i]=true;
 					scene.remove(monedas[i]);
 					break;
 				}
+				else{
+					if(itemMonedas[i]==true){
+						squirrel.updateMonedas();
+						console.log("Moneada aumentada: " + squirrel.GetMoneda());
+						document.getElementById("Player1Monedas").innerHTML=squirrel.GetMoneda();
+						itemMonedas[i]=false;
+					}
+					
+				}
 				if (modo === 'Cooperativo') {
 					var collision2 = detectCollision(squirrelP2.mesh, monedas[i]);
-
+		
 					if (collision2) {
-						squirrelP2.updateMonedas();
+						itemMonedas2[i]=true;
 						scene.remove(monedas[i]);
 						break;
+					}
+					else{
+						if(itemMonedas2[i]==true){
+							squirrelP2.updateMonedas();
+							console.log("Moneada aumentada: " + squirrelP2.GetMoneda());
+							document.getElementById("Player2Monedas").innerHTML=squirrelP2.GetMoneda();
+							itemMonedas2[i]=false;
+						}
+						
 					}
 				}
 			}
@@ -1124,3 +1233,33 @@ function you_lose() {
 
 }
 
+function updateCountdown(){
+	const minutes = Math.floor(time/60);
+	let seconds = time % 60;
+
+	seconds=seconds<10? '0' + seconds : seconds;
+	contador.innerHTML= `${minutes}:${seconds}`;
+	
+	if(minutes==0 && seconds==0){
+		duracionMinutos=0;
+		duracionSegundos=0;
+	}
+	else{
+		time--;
+	}
+}
+function updateCountdown2(){
+	const minutes = Math.floor(time/60);
+	let seconds = time % 60;
+
+	seconds=seconds<10? '0' + seconds : seconds;
+	contador2.innerHTML= `${minutes}:${seconds}`;
+	
+	if(minutes==0 && seconds==0){
+		duracionMinutos2=0;
+		duracionSegundos2=0;
+	}
+	else{
+		time--;
+	}
+}

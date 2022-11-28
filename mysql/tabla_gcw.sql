@@ -1,5 +1,3 @@
-create database if not exists JumpNSurvive;
-use JumpNSurvive;
 
 CREATE TABLE usuarios (
   idUser int not null auto_increment primary KEY,
@@ -9,5 +7,4 @@ CREATE TABLE usuarios (
   nivel varchar(40) not null
 );
 
-SELECT * FROM usuarios;
     
