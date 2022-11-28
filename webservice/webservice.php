@@ -31,17 +31,15 @@
 	function addScore() {
 		$puntos = $_POST["puntos"];
 		$nombre = $_POST["nombre"];
-		//$nivel = $_POST["nivel"];
+		$nivel = $_POST["nivel"];
 
 		$mysqli = connect();
-
-		//$result = $mysqli->query("call sp_addScore(".$score.");");	
-		$result = $mysqli->query("INSERT into usuarios (nombre, puntuacion, nivel) VALUES ('". $nombre."', $puntos, 'invierno')");  
+		$result = $mysqli->query("INSERT into usuarios (nombre, puntuacion, nivel) VALUES ('". $nombre."', $puntos, '".$nivel."')");  
 
 		if (!$result) {
 			echo "Problema al hacer un query: " . $mysqli->error;								
 		} else {
-			//echo "Todo salio bien";		
+			echo "Todo salio bien";		
 		}
 		mysqli_close($mysqli);
 	}

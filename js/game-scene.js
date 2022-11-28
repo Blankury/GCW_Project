@@ -198,7 +198,6 @@ loadOBJWithMTL("obj/Puntos/", "Puntos.obj", "Puntos.mtl", (object) => {
 	puntos.push(pts3);
 	puntos.push(pts4);
 
-	console.log(puntos.length +'tam');
 	scene.add(puntos[0]);
 	scene.add(puntos[1]);
 	scene.add(puntos[2]);
@@ -522,7 +521,6 @@ function animate() {
 
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
-	//console.log(vs);
 
 	updateParticles();
 	if (!isPause) {
@@ -543,18 +541,15 @@ function animate() {
 				ti = Date.now(); //tiempo en que arranca el salto
 				squirrel.update();
 				var actual = squirrel.mesh.position.z;
-				//console.log(aux);
-				//console.log(actual);
+				
 				if(!squirrel.GetBellota()){
 					if (actual < aux) {
 						squirrel.updatePuntuacion(5);
-						//console.log(squirrel.GetPuntuacion());
 					}
 				}
 				else{
 					if (actual < aux) {
 						squirrel.updatePuntuacion(-5);
-						//console.log(squirrel.GetPuntuacion());
 					}
 				}
 				document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
@@ -570,13 +565,11 @@ function animate() {
 				if(!squirrel.GetBellota()){
 					if (actual < aux) {
 						squirrel.updatePuntuacion(-5);
-						//console.log(squirrel.GetPuntuacion());
 					}
 				}
 				else{
 					if (actual < aux) {
 						squirrel.updatePuntuacion(5);
-						//console.log(squirrel.GetPuntuacion());
 					}
 				}
 				document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
@@ -625,18 +618,15 @@ function animate() {
 					ti2 = Date.now(); //tiempo en que arranca el salto
 					squirrelP2.update()
 					var actual2 = squirrelP2.mesh.position.z;
-					//console.log(aux2);
-					//console.log(actual2);
+				
 					if(!squirrelP2.GetBellota()){
 						if (actual2 < aux2) {
 							squirrelP2.updatePuntuacion(5);
-							//console.log(squirrel.GetPuntuacion());
 						}
 					}
 					else{
 						if (actual2 < aux2) {
 							squirrelP2.updatePuntuacion(-5);
-							//console.log(squirrel.GetPuntuacion());
 						}
 					}
 					document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
@@ -649,18 +639,14 @@ function animate() {
 					ti2 = Date.now(); //tiempo en que arranca el salto
 					squirrelP2.update();
 					var actual2 = squirrelP2.mesh.position.z;
-					//console.log(aux2);
-					//console.log(actual2);
 					if(!squirrelP2.GetBellota()){
 						if (actual2 < aux2) {
 							squirrelP2.updatePuntuacion(-5);
-							//console.log(squirrel.GetPuntuacion());
 						}
 					}
 					else{
 						if (actual2 < aux2) {
 							squirrelP2.updatePuntuacion(5);
-							//console.log(squirrel.GetPuntuacion());
 						}
 					}
 					document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
@@ -855,7 +841,6 @@ function animate() {
 							squirrel.updatePuntuacion(-10);
 							document.getElementById("Player1Points").innerHTML = squirrel.GetPuntuacion();
 						}
-						console.log("vida player 1: " + squirrel.GetVida());
 						//Si pierde
 						if (modo === "Individual") {
 							if (squirrel.GetVida() == 0) {
@@ -889,7 +874,6 @@ function animate() {
 								squirrelP2.updatePuntuacion(-10);
 								document.getElementById("Player2Points").innerHTML = squirrelP2.GetPuntuacion();
 							}
-							console.log("vida player 2: " + squirrelP2.GetVida());
 							if (squirrelP2.GetVida() == 0) {
 								scene.remove(squirrelP2.mesh);
 								console.log("c muere");
@@ -902,8 +886,16 @@ function animate() {
 				}
 					
 
-				if (squirrelP2.GetVida() == 0 && squirrel.GetVida() == 0) {
-					window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "");
+				if (squirrelP2.GetVida() <= 0 && squirrel.GetVida() <= 0) {
+					let escenariofinal;
+					if (escenario === "Beach City Night"){
+						escenariofinal="BeachCityNight";
+					} else if (escenario === "Snow City"){
+						escenariofinal="SnowCity";
+					} else if (escenario === "City"){
+						escenariofinal="City";
+					}
+					window.location.href = ("./finpartidaMULTIJUGADOR.html?puntosP1=" + squirrel.GetPuntuacion() + "&puntosP2=" + squirrelP2.GetPuntuacion() + "&nivel=" + escenariofinal);
 				}
 			}
 
@@ -922,7 +914,6 @@ function animate() {
 				else{
 					if(itemCollected[i]==true){
 						squirrel.updatePuntuacion(5);
-						console.log("puntacion aumentada: " + squirrel.GetPuntuacion());
 						document.getElementById("Player1Points").innerHTML=squirrel.GetPuntuacion();
 						itemCollected[i]=false;
 					}
@@ -942,7 +933,6 @@ function animate() {
 					else{
 						if(itemCollected2[i]==true){
 							squirrelP2.updatePuntuacion(5);
-							console.log("puntacion aumentada: " + squirrelP2.GetPuntuacion());
 							document.getElementById("Player2Points").innerHTML=squirrelP2.GetPuntuacion();
 							itemCollected2[i]=false;
 						}
@@ -1085,9 +1075,6 @@ function animate() {
 					aux = squirrel.mesh.position.z;
 					squirrel.mesh.position.x -= sides;
 					squirrel.mesh.position.z -= updown;
-
-					//console.log("colisionando");
-					//console.log(squirrel.GetPuntuacion());
 					break;
 				}
 
@@ -1101,7 +1088,6 @@ function animate() {
 						aux2 = squirrelP2.mesh.position.z;
 						squirrelP2.mesh.position.x -= sides_p2;
 						squirrelP2.mesh.position.z -= updown_p2;
-						console.log("player 2 colisionando");
 						break;
 					}
 
@@ -1113,7 +1099,6 @@ function animate() {
 			
 			
 			if (collision) {
-				console.log('colisiona con la bellota 1');
 				scene.remove(colisionaconlabellota1);
 				squirrel.updateBellota();
 				document.getElementById("bellota").src = "./img/bellota.png";
@@ -1124,7 +1109,6 @@ function animate() {
 				let collision = detectCollision(squirrelP2.mesh, colisionaconlabellota2);
 
 				if (collision) {
-					console.log('colisiona con la bellota 2');
 					scene.remove(colisionaconlabellota2);
 					squirrelP2.updateBellota();
 					document.getElementById("bellota2").src = "./img/bellota.png";
@@ -1229,7 +1213,15 @@ function isWorldLoaded() {
 }
 
 function you_lose() {
-	window.location.href = ("./finpartida.html?puntosP1=" + squirrel.GetPuntuacion() + "&estado=PERDISTE");
+	let escenariofinal;
+	if (escenario === "Beach City Night"){
+		escenariofinal="BeachCityNight";
+	} else if (escenario === "Snow City"){
+		escenariofinal="SnowCity";
+	} else if (escenario === "City"){
+		escenariofinal="City";
+	}
+	window.location.href = ("./finpartida.html?puntosP1=" + squirrel.GetPuntuacion() + "&estado=PERDISTE&nivel=" + escenariofinal );
 
 }
 

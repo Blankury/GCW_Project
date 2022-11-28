@@ -182,7 +182,7 @@ export class Objeto {
             let Z = Math.floor(Math.random() * (maxZ - minZ + 1)) + minZ;
 
             let r = Math.floor(Math.random() * 4);
-            console.log(r);
+            //console.log(r);
             let RY;
             switch (r) {
                 case 0:
