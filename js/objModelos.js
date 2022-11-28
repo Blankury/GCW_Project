@@ -174,6 +174,7 @@ export class Objeto {
         this.copies.forEach(e => {
             if (obstacles)
                 autos.push(e);
+               
             scene.add(e);
         });
 

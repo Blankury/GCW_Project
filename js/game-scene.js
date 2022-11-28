@@ -479,7 +479,7 @@ if (escenario === 'Beach City Night') {
 
 	// Modelos
 	var palm = new Objeto(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
-	palm.load('obj/Palmera/', 'palmera.obj', 'palmera.mtl', scene, isWorldReady, 'spawnBeachCity');
+	palm.load('obj/Palmera/', 'palmera_sep.obj', 'palmera.mtl', scene, isWorldReady, 'spawnBeachCity');
 
 	var roca = new Objeto(new THREE.Vector3(5, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0));
 	roca.load('obj/Rocas/', 'rocas-0.obj', 'rocas-0.mtl', scene, isWorldReady, 'spawnBeachCity');
